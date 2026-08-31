@@ -58,7 +58,7 @@ export class PipelineService {
       const faceStart = Date.now();
 
       const formData = new FormData();
-      formData.append('file', imageBuffer, {
+      formData.append('image', imageBuffer, {
         filename: 'input.jpg',
         contentType: mimeType
       });
@@ -92,7 +92,7 @@ export class PipelineService {
         throw new PipelineError(502, 'FACE_ANALYSIS_FAILED', 'faceAnalysis', message);
       }
 
-      const faceData = faceRes.data?.data;
+      const faceData = faceRes.data;
       if (!faceData || !faceData.face_detected || !faceData.embedding) {
         stages.faceAnalysis = 'FAILED';
         PipelineLogger.fail('STAGE 1: FACE ANALYSIS', 'NO_FACE_DETECTED', 'No face detected in input image.');
@@ -100,8 +100,8 @@ export class PipelineService {
       }
 
       const sourceEmbedding: number[] = faceData.embedding;
-      const faceConfidence = faceData.detection_confidence || 0.99;
-      const faceBbox = faceData.bbox || [0, 0, 0, 0];
+      const faceConfidence = faceData.selected_face?.detection_confidence || 0.99;
+      const faceBbox = faceData.selected_face?.bbox || [0, 0, 0, 0];
       stages.faceAnalysis = 'COMPLETED';
       timing.faceAnalysisMs = Date.now() - faceStart;
       PipelineLogger.faceAnalysisSuccess(faceConfidence, faceBbox);
