@@ -8,4 +8,11 @@ export const config = {
   BACKEND_PORT: parseInt(process.env.BACKEND_PORT || '5000', 10),
   FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
   AI_SERVICE_URL: process.env.AI_SERVICE_URL || 'http://localhost:8000',
+
+  // Visual Search Configuration
+  SEARCH_PROVIDER: process.env.SEARCH_PROVIDER || 'serpapi',
+  SEARCH_API_KEY: process.env.SEARCH_API_KEY || '',
+  SEARCH_API_URL: process.env.SEARCH_API_URL || 'https://serpapi.com/search.json',
+  SEARCH_MAX_RESULTS: parseInt(process.env.SEARCH_MAX_RESULTS || '10', 10),
+  SEARCH_TIMEOUT_MS: parseInt(process.env.SEARCH_TIMEOUT_MS || '15000', 10),
 };
