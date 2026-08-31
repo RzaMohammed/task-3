@@ -15,4 +15,9 @@ export const config = {
   SEARCH_API_URL: process.env.SEARCH_API_URL || 'https://serpapi.com/search.json',
   SEARCH_MAX_RESULTS: parseInt(process.env.SEARCH_MAX_RESULTS || '10', 10),
   SEARCH_TIMEOUT_MS: parseInt(process.env.SEARCH_TIMEOUT_MS || '15000', 10),
+
+  // Face Matching Configuration
+  MATCH_THRESHOLD: parseFloat(process.env.MATCH_THRESHOLD || '0.85'),
+  MAX_CONCURRENT_CANDIDATES: parseInt(process.env.MAX_CONCURRENT_CANDIDATES || '3', 10),
+  CANDIDATE_DOWNLOAD_TIMEOUT_MS: parseInt(process.env.CANDIDATE_DOWNLOAD_TIMEOUT_MS || '10000', 10),
 };

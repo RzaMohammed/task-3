@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import multer from 'multer';
 import healthRoutes from './routes/health.routes';
 import searchRoutes from './routes/search.routes';
+import matchingRoutes from './routes/matching.routes';
 import { config } from './config';
 import { AppError } from './utils/errors';
 
@@ -18,6 +19,7 @@ app.use(express.json());
 // API Routes
 app.use('/api', healthRoutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/matching', matchingRoutes);
 
 // Global Multer & Error Middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
@@ -65,6 +67,7 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(`Backend server running on http://localhost:${port}`);
     console.log(`Health check: http://localhost:${port}/api/health`);
     console.log(`Visual search: http://localhost:${port}/api/search/image`);
+    console.log(`Matching: http://localhost:${port}/api/matching/run`);
   });
 }
 
