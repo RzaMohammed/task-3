@@ -47,21 +47,15 @@ describe('Module 4 — Candidate Face Matching Test Suite', () => {
       }
     ];
 
-    const res = await request(app)
-      .post('/api/matching/run')
-      .send({
-        source_embedding: sampleSourceVector,
-        search_results: searchResults
-      });
+    const res = await MatchingService.matchCandidates(sampleSourceVector, searchResults);
 
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(res.body.match_found).toBe(true);
-    expect(res.body.reason).toBe('MATCH_FOUND');
-    expect(res.body.best_match).toBeDefined();
-    expect(res.body.best_match.id).toBe('match-1');
-    expect(res.body.best_match.similarity).toBeGreaterThanOrEqual(0.85);
-    expect(res.body.best_match.similarity_percentage).toBeGreaterThanOrEqual(85.0);
+    expect(res.success).toBe(true);
+    expect(res.match_found).toBe(true);
+    expect(res.reason).toBe('MATCH_FOUND');
+    expect(res.best_match).toBeDefined();
+    expect(res.best_match?.id).toBe('match-1');
+    expect(res.best_match?.similarity).toBeGreaterThanOrEqual(0.85);
+    expect(res.best_match?.similarity_percentage).toBeGreaterThanOrEqual(85.0);
   });
 
   test('Test 2 — Low similarity match (< 0.85) yields NO_CONFIDENT_MATCH', async () => {
@@ -87,18 +81,12 @@ describe('Module 4 — Candidate Face Matching Test Suite', () => {
       }
     ];
 
-    const res = await request(app)
-      .post('/api/matching/run')
-      .send({
-        source_embedding: sampleSourceVector,
-        search_results: searchResults
-      });
+    const res = await MatchingService.matchCandidates(sampleSourceVector, searchResults);
 
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(res.body.match_found).toBe(false);
-    expect(res.body.reason).toBe('NO_CONFIDENT_MATCH');
-    expect(res.body.best_similarity).toBeLessThan(0.85);
+    expect(res.success).toBe(true);
+    expect(res.match_found).toBe(false);
+    expect(res.reason).toBe('NO_CONFIDENT_MATCH');
+    expect(res.best_similarity).toBeLessThan(0.85);
   });
 
   test('Test 3 — Candidate with no face returns NO_FACE status', async () => {
