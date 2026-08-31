@@ -8,6 +8,7 @@ import matchingRoutes from './routes/matching.routes';
 import evidenceRoutes from './routes/evidence.routes';
 import blockchainRoutes from './routes/blockchain.routes';
 import verificationRoutes from './routes/verification.routes';
+import pipelineRoutes from './routes/pipeline.routes';
 import { config } from './config';
 import { AppError } from './utils/errors';
 
@@ -26,6 +27,7 @@ app.use('/api/matching', matchingRoutes);
 app.use('/api/evidence', evidenceRoutes);
 app.use('/api/blockchain', blockchainRoutes);
 app.use('/api/verification', verificationRoutes);
+app.use('/api/pipeline', pipelineRoutes);
 
 // Global Multer & Error Middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
@@ -77,6 +79,7 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(`Evidence: http://localhost:${port}/api/evidence/create`);
     console.log(`Blockchain: http://localhost:${port}/api/blockchain/health`);
     console.log(`Verification: http://localhost:${port}/api/verification/verify`);
+    console.log(`Full Pipeline: http://localhost:${port}/api/pipeline/run`);
   });
 }
 
