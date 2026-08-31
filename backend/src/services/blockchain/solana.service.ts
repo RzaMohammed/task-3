@@ -120,4 +120,16 @@ export class SolanaService {
     logger.info(`[BLOCKCHAIN] Transaction submitted & confirmed: ${signature}`);
     return signature;
   }
+
+  /**
+   * Fetches a parsed transaction from Solana Devnet.
+   */
+  public static async getTransaction(signature: string): Promise<any> {
+    const connection = this.getConnection();
+    const tx = await connection.getParsedTransaction(signature, {
+      maxSupportedTransactionVersion: 0,
+      commitment: 'confirmed'
+    });
+    return tx;
+  }
 }

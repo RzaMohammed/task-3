@@ -22,3 +22,12 @@ export interface StoreEvidenceHashInput {
   evidenceId: string;
   hash: string;
 }
+
+export interface ParsedEvidenceMemo {
+  type: 'FBV';
+  version: string;
+  evidenceId: string;
+  algorithm: 'SHA-256';
+  hash: string;
+  rawMemo: string;
+}

@@ -2,10 +2,12 @@ import { Transaction } from '@solana/web3.js';
 import { SolanaService } from './solana.service';
 import { MemoService } from './memo';
 import { BLOCKCHAIN_CONFIG } from './blockchain.config';
+import { BlockchainParser } from './blockchain-parser';
 import {
   BlockchainHealth,
   BlockchainRecord,
-  StoreEvidenceHashInput
+  StoreEvidenceHashInput,
+  ParsedEvidenceMemo
 } from './blockchain.types';
 import { AppError } from '../../utils/errors';
 import { logger } from '../../utils/logger';
@@ -132,5 +134,72 @@ export class BlockchainService {
       logger.error(`[BLOCKCHAIN] Transaction failed: ${err.message}`);
       throw new AppError(500, 'BLOCKCHAIN_TRANSACTION_FAILED', `Failed to record evidence hash on Solana Devnet: ${err.message}`);
     }
+  }
+
+  /**
+   * Retrieves on-chain SPL Memo evidence record for a given transaction signature.
+   */
+  public static async getEvidenceRecord(transactionSignature: string): Promise<ParsedEvidenceMemo> {
+    if (!transactionSignature || typeof transactionSignature !== 'string' || transactionSignature.trim().length === 0) {
+      throw new AppError(400, 'INVALID_TRANSACTION_SIGNATURE', 'Transaction signature is required.');
+    }
+
+    const cleanSig = transactionSignature.trim();
+    logger.info(`[BLOCKCHAIN] Reading Solana Devnet transaction: ${cleanSig.slice(0, 16)}...`);
+
+    let tx: any = null;
+    try {
+      tx = await SolanaService.getTransaction(cleanSig);
+    } catch (err: any) {
+      if (err.message?.includes('timeout') || err.code === 'ECONNABORTED') {
+        throw new AppError(504, 'BLOCKCHAIN_READ_TIMEOUT', 'Timed out reading Solana Devnet transaction.');
+      }
+      throw new AppError(503, 'BLOCKCHAIN_RPC_UNAVAILABLE', `Failed to connect to Solana RPC: ${err.message}`);
+    }
+
+    if (!tx || !tx.transaction) {
+      logger.warn(`[BLOCKCHAIN] Transaction not found on Devnet: ${cleanSig}`);
+      throw new AppError(404, 'BLOCKCHAIN_RECORD_NOT_FOUND', `Transaction ${cleanSig} was not found on Solana Devnet.`);
+    }
+
+    // Locate SPL Memo instruction
+    const instructions = tx.transaction.message?.instructions || [];
+    let memoText: string | null = null;
+
+    for (const ix of instructions) {
+      // 1. Parsed memo instruction format
+      if (ix.program === 'spl-memo' && typeof ix.parsed === 'string') {
+        memoText = ix.parsed;
+        break;
+      }
+
+      // 2. Target by Memo program ID
+      const programIdStr = ix.programId?.toBase58 ? ix.programId.toBase58() : ix.programId;
+      if (programIdStr === BLOCKCHAIN_CONFIG.MEMO_PROGRAM_ID) {
+        if (typeof ix.parsed === 'string') {
+          memoText = ix.parsed;
+          break;
+        }
+        if (ix.data && typeof ix.data === 'string') {
+          try {
+            const decoded = Buffer.from(ix.data, 'base64').toString('utf-8');
+            if (decoded.startsWith('FBV|')) {
+              memoText = decoded;
+              break;
+            }
+          } catch {
+            memoText = ix.data;
+            break;
+          }
+        }
+      }
+    }
+
+    if (!memoText) {
+      throw new AppError(400, 'INVALID_BLOCKCHAIN_RECORD', 'Transaction does not contain an FBV SPL Memo evidence instruction.');
+    }
+
+    logger.info(`[BLOCKCHAIN] Blockchain record retrieved: ${memoText}`);
+    return BlockchainParser.parseEvidenceMemo(memoText);
   }
 }
