@@ -20,4 +20,11 @@ export const config = {
   MATCH_THRESHOLD: parseFloat(process.env.MATCH_THRESHOLD || '0.85'),
   MAX_CONCURRENT_CANDIDATES: parseInt(process.env.MAX_CONCURRENT_CANDIDATES || '3', 10),
   CANDIDATE_DOWNLOAD_TIMEOUT_MS: parseInt(process.env.CANDIDATE_DOWNLOAD_TIMEOUT_MS || '10000', 10),
+
+  // Blockchain Configuration (Solana Devnet)
+  SOLANA_NETWORK: process.env.SOLANA_NETWORK || 'devnet',
+  SOLANA_RPC_URL: process.env.SOLANA_RPC_URL || 'https://api.devnet.solana.com',
+  SOLANA_PRIVATE_KEY: process.env.SOLANA_PRIVATE_KEY || '',
+  MAX_BLOCKCHAIN_RETRIES: parseInt(process.env.MAX_BLOCKCHAIN_RETRIES || '2', 10),
+  BLOCKCHAIN_TIMEOUT_MS: parseInt(process.env.BLOCKCHAIN_TIMEOUT_MS || '15000', 10),
 };

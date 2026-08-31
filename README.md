@@ -10,170 +10,184 @@ A production-quality monorepo architecture for the **Face Identification & Block
 * [x] **Module 2**: Face Detection & Face Encoding (`InsightFace buffalo_l`, 512-D normalized vector, FastAPI)
 * [x] **Module 3**: Genuine Visual / Social Media Search (`SerpApi Google Lens`, domain classifier, URL validator)
 * [x] **Module 4**: Candidate Face Matching & Genuine Match Selection (Cosine similarity, SSRF guard, threshold ranking)
-* [ ] **Module 5**: SHA-256 Data Fingerprinting & Evidence Packaging
+* [x] **Module 5**: SHA-256 Evidence Fingerprinting & Evidence Packaging (Canonical JSON, SHA-256, tamper verification)
 * [ ] **Module 6**: Solana Devnet Blockchain Storage
 * [ ] **Module 7**: Blockchain Verification & Tamper Detection Engine
 * [ ] **Module 8**: Pipeline UI & Visual Verification Dashboard
 
 ---
 
-## 2. Module 4 — Candidate Face Matching & Genuine Match Selection
+## 2. Module 5 — SHA-256 Evidence Fingerprinting & Evidence Packaging
 
-Module 4 compares the input face embedding against candidate images retrieved from the visual web search to isolate the closest genuine match.
+Module 5 packages the verified post match into a deterministic evidence structure, serializes it with **Canonical JSON**, and computes a 64-character **SHA-256 fingerprint**.
 
 ### 2.1. Processing Architecture
 
 ```text
-Input Face
-    ↓
-InsightFace (512-D Embedding)
-    ↓
-Search Results (Module 3)
-    ↓
-Candidate Image URLs
-    ↓
-In-Memory Candidate Download (SSRF Protected)
-    ↓
-Candidate Face Detection & Embedding (InsightFace buffalo_l)
-    ↓
-Cosine Similarity Calculation
-    ↓
-Descending Rank & Threshold Check (MATCH_THRESHOLD = 0.85)
-    ↓
-Best Match Result (MATCH_FOUND / NO_CONFIDENT_MATCH)
+Best Matching Post (Module 4)
+       ↓
+Extract Evidence Record (No Unstable Fields)
+       ↓
+Canonical JSON Serialization (Recursive Key Sorting)
+       ↓
+Node.js Crypto SHA-256 Hashing
+       ↓
+Fingerprint (64 Hex Characters) + Evidence ID (ev_...)
+       ↓
+Tamper Verification Engine
 ```
 
 ---
 
-### 2.2. Mathematical Foundation: Cosine Similarity
+### 2.2. Deterministic Canonical JSON
 
-Similarity between the source face vector $\mathbf{u}$ and candidate vector $\mathbf{v}$ is calculated via normalized cosine similarity:
+Standard `JSON.stringify` does not guarantee key ordering across platforms. The canonicalizer:
+1. Sorts all object keys recursively in lexicographical order.
+2. Preserves array element order.
+3. Normalizes primitives (`strings`, `numbers`, `booleans`, `null`).
+4. Strips `undefined` values and functions.
+5. Produces compact, deterministic string representations.
 
-$$\text{similarity} = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\|_2 \times \|\mathbf{v}\|_2}$$
-
-* **Range**: Normalized to `0.0` – `1.0` (with percentage representation e.g. `94.2%`).
-* **Vector Safety**: Safely handles zero vectors, non-finite values, and dimension mismatches without division-by-zero errors.
-
-> [!IMPORTANT]
-> **Ethical & Safety Notice**: The output is strictly a **Face Similarity Score** between two biometric representations. It is **NOT** a statistical certainty or proof of personal identity.
-
----
-
-### 2.3. Candidate Status Classification & Safeguards
-
-To prevent false positives, candidates are classified into distinct states:
-
-| Status | Description | Action |
-| :--- | :--- | :--- |
-| `MATCHED` | Single face detected and cosine similarity $\ge 0.85$. | Eligible for best match. |
-| `BELOW_THRESHOLD` | Single face detected but similarity $< 0.85$. | Excluded from match. |
-| `NO_FACE` | Zero faces detected in candidate image. | Skipped. |
-| `MULTIPLE_FACES` | Ambiguous multiple faces detected. | Skipped to avoid false associations. |
-| `IMAGE_DOWNLOAD_FAILED` | Network timeout, 404, or blocked by SSRF filter. | Skipped. |
-| `INVALID_IMAGE` | Corrupted image bytes or unsupported format. | Skipped. |
-
----
-
-### 2.4. SSRF Protections & Privacy
-
-* **SSRF Guard**: Strict rejection of `localhost`, `127.0.0.1`, `::1`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `169.254.169.254`, and non-HTTP protocols.
-* **In-Memory Streaming**: Candidate images are processed strictly in RAM and discarded immediately after inference.
-* **No Biometric Vector Logging**: Numerical 512-D vectors are never printed to logs.
-
----
-
-## 3. Project Architecture & Structure
-
-```text
-face-blockchain-verifier/
-│
-├── frontend/             # React + TypeScript + Vite + Tailwind CSS
-├── backend/              # Node.js + Express API + Visual Search + Matching Engine
-│   └── src/
-│       ├── services/
-│       │   ├── search/   # SerpApi Google Lens visual search
-│       │   └── matching/ # Candidate fetcher, similarity math, InsightFace client
-│       ├── controllers/  # Route handlers
-│       └── routes/       # API endpoints
-├── ai-service/           # Python 3.11+ + FastAPI + InsightFace (buffalo_l)
-├── blockchain/           # (Placeholder for Module 6)
-├── hashing/              # (Placeholder for Module 5)
-├── search/               # Search documentation and resources
-├── tests/                # Jest integration test suites
-└── docs/                 # Documentation & search demo guides
-```
-
----
-
-## 4. API Endpoints
-
-### 4.1. Health Check
-* `GET http://localhost:5000/api/health`
-* `GET http://localhost:8000/health`
-
-### 4.2. Face Detection & Embedding (AI Service)
-* `POST http://localhost:8000/api/face/analyze` (Multipart image upload)
-
-### 4.3. Visual Web Search (Backend)
-* `POST http://localhost:5000/api/search/image` (Multipart image upload)
-
-### 4.4. Candidate Face Matching (Backend)
-* `POST http://localhost:5000/api/matching/run`
+Example Canonical String:
 ```json
-{
-  "source_embedding": [ ... ],
-  "search_results": [
-    {
-      "id": "result-1",
-      "url": "https://www.instagram.com/p/...",
-      "imageUrl": "https://...",
-      "title": "Public Profile",
-      "source": "instagram",
-      "resultType": "social_media"
-    }
-  ]
+{"content":{"description":"Genuine public social media portrait archive.","imageUrl":"https://...","publishedAt":null},"matching":{"similarity":0.9412,"threshold":0.85},"metadata":{},"source":{"platform":"instagram","title":"Lena Forsen - Official Photography","url":"https://..."},"version":"1.0"}
+```
+
+---
+
+### 2.3. Evidence Schema (`version: "1.0"`)
+
+```typescript
+export interface EvidenceRecord {
+  version: '1.0';
+  source: {
+    url: string;
+    platform: string;
+    title: string | null;
+  };
+  content: {
+    description: string | null;
+    imageUrl: string | null;
+    publishedAt: string | null;
+  };
+  matching: {
+    similarity: number;
+    threshold: number;
+  };
+  metadata: Record<string, unknown>;
 }
 ```
 
 ---
 
-## 5. Running the Test Suites
+### 2.4. Deterministic Evidence ID
 
-```bash
-# In backend/
-cd backend
-npx jest ../tests/search.test.ts ../tests/matching.test.ts
+Generated directly from the first 16 characters of the SHA-256 hash:
+$$\text{evidenceId} = \text{"ev\_"} + \text{hash}[0..16]$$
+Example: `ev_4c7c40c588722362`
 
-# In ai-service/
-cd ../ai-service
-.venv\Scripts\pytest tests/test_face_api.py -v
+---
+
+### 2.5. Tamper Detection Proof
+
+Any modification to the evidence (e.g. changing the description, URL, or similarity score) alters the canonical JSON and produces a completely different SHA-256 hash:
+
+```text
+Original Evidence -> Hash A: 4c7c40c588722362b6fb26967e99ba96d989f4a79c825a758a14592740cc5938
+Tampered Evidence -> Hash B: e895fd8c3a3d9336263d5a1879fb05672edfee036b044ca33b06bb4dd17f39c6
+
+Hash A != Hash B -> ✗ TAMPERING DETECTED (verified: false)
 ```
 
 ---
 
-## 6. Environment Variables (`.env`)
+### 2.6. Privacy & Security
 
-```env
-NODE_ENV=development
+* **No Biometrics On-Chain**: Raw face embeddings and raw image binaries are **NOT** included in the evidence record.
+* **No Unstable Fields**: Avoids runtime timestamps and random UUIDs so the same evidence produces the exact same hash reproducibility.
 
-BACKEND_PORT=5000
-FRONTEND_URL=http://localhost:5173
+---
 
-AI_SERVICE_URL=http://localhost:8000
+## 3. API Endpoints
 
-# Visual Search Configuration
-SEARCH_PROVIDER=serpapi
-SEARCH_API_KEY=
-SEARCH_API_URL=https://serpapi.com/search.json
-SEARCH_MAX_RESULTS=10
-SEARCH_TIMEOUT_MS=15000
+### 3.1. Create Evidence & Fingerprint
+```http
+POST /api/evidence/create
+```
+**Request**:
+```json
+{
+  "match": {
+    "url": "https://www.instagram.com/p/C9xZ_example1/",
+    "platform": "instagram",
+    "title": "Lena Forsen - Official Photography",
+    "description": "Genuine public social media portrait archive.",
+    "imageUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+    "publishedAt": null,
+    "similarity": 0.9412,
+    "metadata": {}
+  },
+  "threshold": 0.85
+}
+```
+**Response**:
+```json
+{
+  "success": true,
+  "evidence": {
+    "version": "1.0",
+    "source": {
+      "url": "https://www.instagram.com/p/C9xZ_example1/",
+      "platform": "instagram",
+      "title": "Lena Forsen - Official Photography"
+    },
+    "content": {
+      "description": "Genuine public social media portrait archive.",
+      "imageUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+      "publishedAt": null
+    },
+    "matching": {
+      "similarity": 0.9412,
+      "threshold": 0.85
+    },
+    "metadata": {}
+  },
+  "fingerprint": {
+    "algorithm": "SHA-256",
+    "hash": "4c7c40c588722362b6fb26967e99ba96d989f4a79c825a758a14592740cc5938",
+    "encoding": "hex"
+  },
+  "evidenceId": "ev_4c7c40c588722362"
+}
+```
 
-# Face Matching Configuration
-MATCH_THRESHOLD=0.85
-MAX_CONCURRENT_CANDIDATES=3
-CANDIDATE_DOWNLOAD_TIMEOUT_MS=10000
+### 3.2. Verify Evidence
+```http
+POST /api/evidence/verify
+```
+**Request**:
+```json
+{
+  "evidence": { ... },
+  "expectedHash": "4c7c40c588722362b6fb26967e99ba96d989f4a79c825a758a14592740cc5938"
+}
+```
+**Response**:
+```json
+{
+  "success": true,
+  "verified": true,
+  "currentHash": "4c7c40c588722362b6fb26967e99ba96d989f4a79c825a758a14592740cc5938",
+  "expectedHash": "4c7c40c588722362b6fb26967e99ba96d989f4a79c825a758a14592740cc5938",
+  "algorithm": "SHA-256"
+}
+```
 
-SOLANA_NETWORK=devnet
-SOLANA_RPC_URL=
-SOLANA_PRIVATE_KEY=
+---
+
+## 4. Running the Tests
+
+```bash
+cd backend
+npx jest ../tests/search.test.ts ../tests/matching.test.ts ../tests/hashing.test.ts
 ```
