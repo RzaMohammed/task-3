@@ -14,159 +14,69 @@ A production-quality monorepo architecture for the **Face Identification & Block
 * [x] **Module 6**: Solana Devnet Blockchain Upload & On-Chain Evidence Record (Solana Memo Program, Devnet transaction anchoring)
 * [x] **Module 7**: Blockchain Verification & Tamper Detection Engine (On-chain memo retrieval, independent hash recalculation, tamper detection)
 * [x] **Module 8**: Complete Node.js Backend Pipeline Integration (End-to-end orchestration endpoint, stage logs, timing metrics)
-* [ ] **Module 9**: React Frontend Pipeline Dashboard & Demo Interface
+* [x] **Module 9**: React Frontend Pipeline Dashboard & Demo Interface (Cybersecurity dark UI, progress tracker, Solana Explorer link)
+* [ ] **Module 10**: Final Integration Testing, GitHub README, Demo Preparation & Submission Checklist
 
 ---
 
-## 2. Module 8 — Complete Node.js Backend Pipeline Integration
+## 2. Module 9 — React Frontend Pipeline Dashboard
 
-Module 8 links all preceding subsystems into ONE cohesive, resilient backend pipeline exposed through `POST /api/pipeline/run`.
+Module 9 provides a cybersecurity-themed React + Vite dashboard for real-time visualization of the 6-stage pipeline.
 
-### 2.1. End-to-End Pipeline Architecture
+### 2.1. Frontend Architecture
 
 ```text
-User Image Upload (Multipart)
-       │
-       ▼
-[1/6] FACE ANALYSIS (InsightFace FastAPI Service)
-       │ ─── 0 faces -> Stop (NO_FACE_DETECTED)
-       │ ─── >1 faces -> Stop (MULTIPLE_FACES_DETECTED)
-       ▼ (512-D Normalized Vector)
-[2/6] VISUAL WEB SEARCH (SerpApi / Google Lens Provider)
-       │ ─── 0 results -> Stop (NO_SEARCH_RESULTS)
-       ▼ (Candidate Social URLs & Images)
-[3/6] CANDIDATE MATCHING (InsightFace + Cosine Similarity)
-       │ ─── similarity < 0.85 -> Stop (NO_CONFIDENT_MATCH)
-       ▼ (Best Genuine Match Selected)
-[4/6] EVIDENCE PACKAGING (Canonical JSON + SHA-256 Fingerprint)
-       │
-       ▼ (evidenceId, SHA-256 hash)
-[5/6] SOLANA DEVNET BLOCKCHAIN (SPL Memo Program Anchoring)
-       │ ─── transaction failure -> Stop (BLOCKCHAIN_RECORD_FAILED)
-       ▼ (Transaction Signature)
-[6/6] BLOCKCHAIN VERIFICATION (Solana Memo Fetch + Hash Recalculation)
-       │
-       ▼
-FINAL RESULT (VERIFIED / TAMPERED + Explorer URL + Timings)
+frontend/src/
+├── types/
+│   └── pipeline.ts                  # TypeScript schemas matching backend payload
+├── services/
+│   └── api.ts                       # Axios client connected to VITE_API_BASE_URL
+├── components/
+│   ├── CopyButton.tsx               # Reusable clipboard copy button with tooltip feedback
+│   ├── ImageUploader.tsx            # Drag & drop upload, thumbnail preview, file validator
+│   ├── PipelineProgress.tsx         # 6-stage execution progress tracker with Lucide icons
+│   ├── FaceAnalysisCard.tsx         # Face detection metrics card
+│   ├── MatchCard.tsx                # Best candidate match with similarity score & safe external link
+│   ├── EvidenceCard.tsx             # Canonical JSON SHA-256 fingerprint card with copy actions
+│   ├── BlockchainCard.tsx           # Solana Devnet transaction card with live Explorer link
+│   ├── VerificationCard.tsx         # VERIFIED vs. TAMPERED visual cryptographic comparison
+│   ├── VerificationSummary.tsx      # High-level pipeline completion banner
+│   └── ErrorState.tsx               # Failure state renderer with stage indicator & retry action
+├── pages/
+│   └── PipelinePage.tsx             # Master dashboard layout
+├── App.tsx                          # Application router and navigation shell
+└── index.css                        # Dark cybersecurity styling with Tailwind utilities
 ```
 
 ---
 
-### 2.2. Failure Handling & Safety Rules
+### 2.2. Running the Frontend
 
-1. **No Blockchain Anchoring for Unconfirmed Matches**: If no candidate reaches the similarity threshold (default `0.85`), the pipeline halts with `NO_CONFIDENT_MATCH` before creating evidence or submitting on-chain transactions.
-2. **Zero-Trust Client Hash**: The server never trusts client-provided hashes; the verification stage reads directly from Solana Devnet RPC and recalculates the canonical hash.
-3. **Privacy by Design**: Raw face embeddings (512-D vectors) and raw face images are **never** logged to the console, stored in plaintext databases, or posted on-chain.
-
----
-
-## 3. Main API Endpoint
-
-### Run Full Pipeline
-```http
-POST /api/pipeline/run
-Content-Type: multipart/form-data
-```
-**Parameters**:
-* `image`: Image file buffer (JPEG, PNG, WebP — max 10MB).
-
-#### Example `curl` Command:
 ```bash
-curl -X POST http://localhost:5000/api/pipeline/run \
-  -F "image=@single_face.jpg"
+cd frontend
+npm install
+npm run dev
 ```
-
-#### Success Response (`200 OK`):
-```json
-{
-  "success": true,
-  "pipelineId": "pipe_4c7c40c588722362",
-  "status": "VERIFIED",
-  "pipeline": {
-    "faceAnalysis": "COMPLETED",
-    "webSearch": "COMPLETED",
-    "matching": "COMPLETED",
-    "evidence": "COMPLETED",
-    "blockchain": "COMPLETED",
-    "verification": "COMPLETED"
-  },
-  "face": {
-    "faceDetected": true,
-    "faceCount": 1,
-    "bbox": [100, 100, 200, 200],
-    "detectionConfidence": 0.985
-  },
-  "match": {
-    "found": true,
-    "similarity": 0.9412,
-    "threshold": 0.85
-  },
-  "source": {
-    "url": "https://www.instagram.com/p/C9xZ_example1/",
-    "platform": "instagram",
-    "title": "Lena Forsen - Official Photography",
-    "imageUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2"
-  },
-  "evidence": {
-    "evidenceId": "ev_4c7c40c588722362",
-    "algorithm": "SHA-256",
-    "hash": "4c7c40c588722362b6fb26967e99ba96d989f4a79c825a758a14592740cc5938"
-  },
-  "blockchain": {
-    "network": "devnet",
-    "transactionSignature": "5wKk7pM1zJ8VsampleSignatureXYZ1234567890abcdefghijklmnopqrstuvwxyz",
-    "explorerUrl": "https://explorer.solana.com/tx/5wKk7pM1zJ8V...?cluster=devnet",
-    "recordedAt": "2026-08-31T17:45:00.000Z"
-  },
-  "verification": {
-    "verified": true,
-    "currentHash": "4c7c40c588722362b6fb26967e99ba96d989f4a79c825a758a14592740cc5938",
-    "blockchainHash": "4c7c40c588722362b6fb26967e99ba96d989f4a79c825a758a14592740cc5938"
-  },
-  "timing": {
-    "faceAnalysisMs": 125,
-    "webSearchMs": 350,
-    "matchingMs": 420,
-    "evidenceMs": 5,
-    "blockchainMs": 850,
-    "verificationMs": 320,
-    "totalMs": 2070
-  }
-}
-```
-
-#### Failure Response Example (`400 Bad Request`):
-```json
-{
-  "success": false,
-  "pipelineId": "pipe_d9d32c3ecc33951e",
-  "status": "NO_CONFIDENT_MATCH",
-  "failedStage": "matching",
-  "message": "No candidate exceeded the similarity threshold of 85% (Best: 71.4%).",
-  "details": {
-    "bestSimilarity": 0.714,
-    "threshold": 0.85
-  },
-  "pipeline": {
-    "faceAnalysis": "COMPLETED",
-    "webSearch": "COMPLETED",
-    "matching": "FAILED",
-    "evidence": "PENDING",
-    "blockchain": "PENDING",
-    "verification": "PENDING"
-  },
-  "timing": {
-    "faceAnalysisMs": 120,
-    "webSearchMs": 340,
-    "matchingMs": 410,
-    "totalMs": 870
-  }
-}
-```
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## 4. Running the Tests
+### 2.3. Demo Flow
+
+1. **Image Selection**: Drag and drop a face portrait image (JPG, PNG, WebP — max 10MB) into the dropzone.
+2. **Launch Verification**: Click **`RUN VERIFICATION`** to trigger `POST /api/pipeline/run`.
+3. **Watch Real-Time Stages**:
+   * Stage 1: Face Analysis (InsightFace detection & embedding)
+   * Stage 2: Web Search (Visual search across social platforms)
+   * Stage 3: Face Matching (Cosine similarity comparison)
+   * Stage 4: Evidence Packaging (Canonical JSON + SHA-256)
+   * Stage 5: Solana Devnet Upload (SPL Memo on-chain record)
+   * Stage 6: Blockchain Verification (Independent recalculation & audit)
+4. **Audit Cryptographic Proof**: Inspect the computed hash, on-chain hash, and click **`VIEW ON SOLANA EXPLORER`** to inspect the live transaction on Solana Devnet.
+
+---
+
+## 3. Running All Tests
 
 ```bash
 cd backend

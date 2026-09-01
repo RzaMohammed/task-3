@@ -81,8 +81,7 @@ const STAGE_CONFIGS: StageConfig[] = [
 
 export const PipelineProgress: React.FC<PipelineProgressProps> = ({
   stages,
-  timing,
-  isRunning = false
+  timing
 }) => {
   return (
     <div className="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-5 shadow-lg flex flex-col gap-3">
