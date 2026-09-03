@@ -28,8 +28,11 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
             <span className="text-[10px] font-mono uppercase tracking-wider text-rose-400 font-bold block">
               {failedStage ? `Failed Stage: ${failedStage.toUpperCase()}` : 'Pipeline Halted'}
             </span>
-            <h4 className="text-base font-bold text-slate-100 mt-0.5">
+            <h4 className="text-base font-bold text-slate-100 mt-0.5 flex items-center gap-2">
               {status.replace(/_/g, ' ')}
+              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/30 uppercase">
+                Error
+              </span>
             </h4>
           </div>
         </div>

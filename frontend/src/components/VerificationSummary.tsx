@@ -15,7 +15,7 @@ export const VerificationSummary: React.FC<VerificationSummaryProps> = ({
   transactionSignature
 }) => {
   return (
-    <div className="w-full bg-emerald-950/20 border border-emerald-500/30 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
+    <div className="w-full bg-emerald-950/20 border border-emerald-500/30 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg card-shadow animate-pulse-ring transform transition-transform duration-200 hover:scale-105">
       <div className="flex items-center gap-3">
         <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
           <ShieldCheck className="w-6 h-6" />

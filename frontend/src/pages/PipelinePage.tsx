@@ -243,7 +243,7 @@ export const PipelinePage: React.FC = () => {
     : effectiveResult?.verification.currentHash || '';
 
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col bg-grid-pattern relative">
+    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col bg-grid-pattern relative shadow-2xl card-glow gradient-bg">
       {/* Background ambient glow orbs */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
       <div className="absolute top-32 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -257,7 +257,7 @@ export const PipelinePage: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-sm sm:text-base font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
+                <h1 className="text-sm sm:text-base font-extrabold tracking-tight text-gradient-cyan-purple flex items-center gap-2">
                   Face Identification & Blockchain Verification
                 </h1>
                 <span className="hidden md:inline-flex text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-950/60 text-cyan-300 border border-cyan-800/60 font-semibold">
@@ -272,7 +272,7 @@ export const PipelinePage: React.FC = () => {
 
           {/* Header Right: Solana Devnet Status Pill */}
           <div className="flex items-center gap-2.5">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs shadow-inner">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs shadow-inner" title="Connected to Solana Devnet cluster for blockchain evidence anchoring">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -388,7 +388,7 @@ export const PipelinePage: React.FC = () => {
                 type="button"
                 onClick={handleRunPipeline}
                 disabled={(!selectedFile && !previewUrlOverride) || isRunning}
-                className={`w-full py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl transition-all ${
+                className={`w-full execute-button py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl transition-all ${
                   (!selectedFile && !previewUrlOverride) || isRunning
                     ? 'bg-slate-800/80 text-slate-500 cursor-not-allowed border border-slate-700/50'
                     : 'bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-600 hover:from-cyan-300 hover:to-blue-500 text-slate-950 shadow-cyan-950/40 border border-cyan-300/40 font-extrabold hover:shadow-cyan-500/20'
@@ -403,6 +403,7 @@ export const PipelinePage: React.FC = () => {
                   <>
                     <Play className="w-4 h-4 fill-current" />
                     <span>EXECUTE VERIFICATION PIPELINE</span>
+                    <kbd className="ml-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 border border-white/20 text-white/70">↵</kbd>
                   </>
                 )}
               </button>
@@ -484,7 +485,9 @@ export const PipelinePage: React.FC = () => {
             <span className="font-semibold text-slate-400">
               Face Identification & Solana Devnet Blockchain Verifier
             </span>
+            <span title="Version 1.0.0" className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-cyan-400 border border-slate-700">v1.0.0</span>
           </div>
+          <div className="text-[11px] text-slate-500">© 2026 — Built for Task 3 Shortlisting</div>
           <div className="flex items-center gap-4 text-[11px] font-mono text-slate-400">
             <span>InsightFace Buffalo_L</span>
             <span>•</span>

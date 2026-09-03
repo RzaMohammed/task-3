@@ -1,8 +1,38 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  --primary-cyan: #06b6d4;
+  --primary-purple: #a855f7;
+}
 
-@layer base {
+.card-glow {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-shadow {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: box-shadow 0.2s ease;
+}
+
+.button-focus {
+  outline: 2px solid rgba(6, 182, 212, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+
+.gradient-bg {
+  background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+}
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+  html {
+    scroll-behavior: smooth;
+  }
+  *:focus-visible {
+    outline: 2px solid rgba(6, 182, 212, 0.6);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-color: #030712;
@@ -88,4 +118,33 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
+}
+
+/* Shimmer loading skeleton animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(30, 41, 59, 0.4) 25%,
+    rgba(51, 65, 85, 0.6) 50%,
+    rgba(30, 41, 59, 0.4) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Gradient text utility */
+.text-gradient-cyan-purple {
+  background: linear-gradient(135deg, #06b6d4, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
