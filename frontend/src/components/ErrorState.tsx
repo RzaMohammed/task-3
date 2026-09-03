@@ -18,19 +18,19 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
   onRetry
 }) => {
   return (
-    <div className="bg-rose-950/30 border border-rose-500/40 rounded-xl p-6 shadow-xl flex flex-col gap-4">
+    <div className="bg-[#450a24]/80 border-2 border-[#ff2a85]/60 rounded-2xl p-6 shadow-2xl flex flex-col gap-4">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/30">
+          <div className="p-3 rounded-xl bg-[#ff2a85]/20 text-[#ff2a85] border border-[#ff2a85]/40 shadow-inner">
             <AlertOctagon className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-rose-400 font-bold block">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#ff66a8] font-bold block">
               {failedStage ? `Failed Stage: ${failedStage.toUpperCase()}` : 'Pipeline Halted'}
             </span>
-            <h4 className="text-base font-bold text-slate-100 mt-0.5 flex items-center gap-2">
+            <h4 className="text-base font-bold text-[#fdfbf7] mt-0.5 flex items-center gap-2 font-display">
               {status.replace(/_/g, ' ')}
-              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/30 uppercase">
+              <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-[#ff2a85] text-white font-bold uppercase shadow-sm">
                 Error
               </span>
             </h4>
@@ -40,20 +40,20 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
         <button
           type="button"
           onClick={onRetry}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors shadow-sm"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-black rounded-xl bg-[#ffd60a] hover:bg-[#ffea75] text-[#062e1a] shadow-md transition-all active:scale-95"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Try Again</span>
         </button>
       </div>
 
-      <div className="p-3 rounded-lg bg-slate-950/70 border border-slate-800 text-xs text-slate-300">
+      <div className="p-3.5 rounded-xl bg-[#041f11] border border-[#16623a] text-xs text-[#cbd5c5]">
         <p className="leading-relaxed">{message}</p>
         {details && (
-          <div className="mt-2 pt-2 border-t border-slate-800/80 font-mono text-[11px] text-slate-400 flex flex-wrap gap-3">
+          <div className="mt-2.5 pt-2.5 border-t border-[#16623a] font-mono text-[11px] text-[#cbd5c5] flex flex-wrap gap-3">
             {Object.entries(details).map(([key, val]) => (
               <span key={key}>
-                {key}: <strong className="text-slate-200">{String(val)}</strong>
+                {key}: <strong className="text-[#ffd60a]">{String(val)}</strong>
               </span>
             ))}
           </div>
