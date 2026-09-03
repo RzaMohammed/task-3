@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
-import { UploadCloud, X, CheckCircle2, AlertCircle } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { UploadCloud, X, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
 
 interface ImageUploaderProps {
   selectedFile: File | null;
   onFileSelect: (file: File | null) => void;
+  previewUrlOverride?: string | null;
   disabled?: boolean;
 }
 
@@ -13,12 +14,29 @@ const MAX_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
 export const ImageUploader: React.FC<ImageUploaderProps> = ({
   selectedFile,
   onFileSelect,
+  previewUrlOverride,
   disabled = false
 }) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(previewUrlOverride || null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (previewUrlOverride) {
+      setPreviewUrl(previewUrlOverride);
+      return undefined;
+    }
+    if (selectedFile) {
+      const url = URL.createObjectURL(selectedFile);
+      setPreviewUrl(url);
+      return () => {
+        URL.revokeObjectURL(url);
+      };
+    }
+    setPreviewUrl(null);
+    return undefined;
+  }, [selectedFile, previewUrlOverride]);
 
   const validateAndSetFile = (file: File) => {
     setErrorMessage(null);
@@ -67,9 +85,6 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-    }
     setPreviewUrl(null);
     setErrorMessage(null);
     onFileSelect(null);
@@ -77,6 +92,8 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       fileInputRef.current.value = '';
     }
   };
+
+  const displayUrl = previewUrlOverride || previewUrl;
 
   return (
     <div className="w-full flex flex-col gap-2">
@@ -95,60 +112,70 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => !disabled && fileInputRef.current?.click()}
-        className={`relative flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-xl transition-all cursor-pointer min-h-[240px] ${
+        className={`relative flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl transition-all cursor-pointer min-h-[250px] overflow-hidden ${
           isDragging
-            ? 'border-cyan-400 bg-cyan-500/10'
-            : selectedFile
-            ? 'border-emerald-500/50 bg-slate-900/80'
-            : 'border-slate-800 hover:border-slate-700 bg-slate-900/40 hover:bg-slate-900/60'
+            ? 'border-cyan-400 bg-cyan-500/10 shadow-lg shadow-cyan-950/30'
+            : displayUrl
+            ? 'border-emerald-500/40 bg-slate-900/80 shadow-md'
+            : 'border-slate-800 hover:border-slate-700 bg-slate-950/40 hover:bg-slate-900/50'
         } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
       >
-        {previewUrl && selectedFile ? (
-          <div className="relative w-full flex flex-col items-center gap-3">
-            <div className="relative group w-36 h-36 rounded-lg overflow-hidden border border-slate-700 bg-slate-950 shadow-md">
+        {displayUrl ? (
+          <div className="relative w-full flex flex-col items-center gap-3.5 z-10">
+            <div className="relative group w-36 h-36 rounded-2xl overflow-hidden border-2 border-slate-700 bg-slate-950 shadow-xl">
               <img
-                src={previewUrl}
+                src={displayUrl}
                 alt="Selected face portrait"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <button
                 type="button"
                 onClick={handleRemove}
                 disabled={disabled}
                 title="Remove image"
-                className="absolute top-1 right-1 p-1 bg-slate-950/80 hover:bg-rose-600/90 text-white rounded-full transition-colors"
+                className="absolute top-1.5 right-1.5 p-1.5 bg-slate-950/80 hover:bg-rose-600 text-white rounded-xl backdrop-blur-md transition-colors shadow-md"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-800/40">
+            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/60 shadow-sm">
               <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>Image ready ✓ ({(selectedFile.size / 1024).toFixed(0)} KB)</span>
+              <span>
+                {selectedFile
+                  ? `Portrait loaded (${(selectedFile.size / 1024).toFixed(0)} KB)`
+                  : 'Sample Portrait Loaded ✓'}
+              </span>
             </div>
 
-            <p className="text-xs text-slate-400">Click or drag another image to replace</p>
+            <p className="text-[11px] text-slate-400">
+              Click or drag another image to replace
+            </p>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center text-center gap-3">
-            <div className="p-3 bg-slate-800/60 rounded-full border border-slate-700 text-cyan-400">
-              <UploadCloud className="w-7 h-7" />
+          <div className="flex flex-col items-center justify-center text-center gap-3 z-10">
+            <div className="p-3.5 bg-slate-800/60 rounded-2xl border border-slate-700/80 text-cyan-400 shadow-inner group-hover:scale-110 transition-transform">
+              <UploadCloud className="w-8 h-8" />
             </div>
             <div>
-              <p className="text-sm font-medium text-slate-200">
-                Upload a face image or drag and drop here
+              <p className="text-sm font-semibold text-slate-200">
+                Upload target face portrait
               </p>
               <p className="text-xs text-slate-400 mt-1">
-                Supports JPG, JPEG, PNG, WebP (Max 10 MB)
+                Drag & drop or browse from local disk
               </p>
+            </div>
+            <div className="flex items-center gap-1.5 text-[10px] font-mono text-cyan-400/80 bg-cyan-950/40 px-2.5 py-1 rounded-md border border-cyan-800/40">
+              <Sparkles className="w-3 h-3" />
+              <span>InsightFace 512-D Embedding Ready</span>
             </div>
           </div>
         )}
       </div>
 
       {errorMessage && (
-        <div className="flex items-center gap-2 p-2 text-xs text-rose-400 bg-rose-950/30 border border-rose-900/50 rounded-lg">
-          <AlertCircle className="w-4 h-4 shrink-0" />
+        <div className="flex items-center gap-2 p-2.5 text-xs text-rose-300 bg-rose-950/40 border border-rose-900/60 rounded-xl">
+          <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
           <span>{errorMessage}</span>
         </div>
       )}

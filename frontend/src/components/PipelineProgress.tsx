@@ -9,7 +9,8 @@ import {
   CheckCircle2,
   XCircle,
   Loader2,
-  Circle
+  Circle,
+  Activity
 } from 'lucide-react';
 import { PipelineStages, PipelineTiming } from '../types/pipeline';
 
@@ -24,6 +25,7 @@ interface StageConfig {
   number: string;
   title: string;
   description: string;
+  activeStatusText: string;
   icon: React.ElementType;
   timingKey?: keyof PipelineTiming;
 }
@@ -33,7 +35,8 @@ const STAGE_CONFIGS: StageConfig[] = [
     key: 'faceAnalysis',
     number: '1',
     title: 'FACE ANALYSIS',
-    description: 'InsightFace detection & 512-D embedding',
+    description: 'InsightFace Buffalo_L detection & 512-D embedding',
+    activeStatusText: 'Detecting landmarks & generating 512-D vector...',
     icon: ScanFace,
     timingKey: 'faceAnalysisMs'
   },
@@ -41,7 +44,8 @@ const STAGE_CONFIGS: StageConfig[] = [
     key: 'webSearch',
     number: '2',
     title: 'WEB SEARCH',
-    description: 'Visual web & social media candidate search',
+    description: 'Visual web & social media candidate discovery',
+    activeStatusText: 'Querying visual search engine for matches...',
     icon: Globe,
     timingKey: 'webSearchMs'
   },
@@ -49,7 +53,8 @@ const STAGE_CONFIGS: StageConfig[] = [
     key: 'matching',
     number: '3',
     title: 'FACE MATCHING',
-    description: 'Cosine similarity scoring & threshold filtering',
+    description: 'Cosine similarity scoring (Threshold ≥ 85%)',
+    activeStatusText: 'Evaluating candidate face embeddings...',
     icon: Users,
     timingKey: 'matchingMs'
   },
@@ -57,7 +62,8 @@ const STAGE_CONFIGS: StageConfig[] = [
     key: 'evidence',
     number: '4',
     title: 'EVIDENCE PACKAGE',
-    description: 'Canonical JSON normalization & SHA-256 hash',
+    description: 'Canonical RFC 8785 JSON & SHA-256 fingerprint',
+    activeStatusText: 'Canonicalizing metadata & computing SHA-256...',
     icon: Fingerprint,
     timingKey: 'evidenceMs'
   },
@@ -65,15 +71,17 @@ const STAGE_CONFIGS: StageConfig[] = [
     key: 'blockchain',
     number: '5',
     title: 'SOLANA DEVNET',
-    description: 'On-chain SPL Memo transaction broadcast',
+    description: 'On-chain SPL Memo immutable transaction broadcast',
+    activeStatusText: 'Broadcasting memo proof to Solana Devnet cluster...',
     icon: Blocks,
     timingKey: 'blockchainMs'
   },
   {
     key: 'verification',
     number: '6',
-    title: 'VERIFICATION',
-    description: 'Independent hash recalculation & audit',
+    title: 'CRYPTOGRAPHIC AUDIT',
+    description: 'Independent hash recalculation & provenance audit',
+    activeStatusText: 'Auditing off-chain hash against Solana Devnet...',
     icon: ShieldCheck,
     timingKey: 'verificationMs'
   }
@@ -81,48 +89,85 @@ const STAGE_CONFIGS: StageConfig[] = [
 
 export const PipelineProgress: React.FC<PipelineProgressProps> = ({
   stages,
-  timing
+  timing,
+  isRunning = false
 }) => {
+  // Calculate completed count
+  const completedCount = Object.values(stages).filter((s) => s === 'COMPLETED').length;
+  const isAnyFailed = Object.values(stages).some((s) => s === 'FAILED');
+  const progressPercent = Math.round((completedCount / STAGE_CONFIGS.length) * 100);
+
+  // Active running stage text
+  const activeStage = STAGE_CONFIGS.find((stg) => stages[stg.key] === 'PROCESSING');
+
   return (
-    <div className="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-5 shadow-lg flex flex-col gap-3">
-      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-        <h3 className="text-sm font-semibold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-          Pipeline Execution Stages
-        </h3>
-        {timing?.totalMs !== undefined && timing.totalMs > 0 && (
-          <span className="text-xs font-mono text-slate-400">
-            Total: <span className="text-cyan-400 font-medium">{timing.totalMs} ms</span>
-          </span>
-        )}
+    <div className="w-full glass-panel rounded-2xl p-5 border border-slate-800 shadow-xl flex flex-col gap-4">
+      {/* Header Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div className="flex items-center gap-2">
+          <Activity className="w-4 h-4 text-cyan-400" />
+          <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">
+            Pipeline Execution Stages ({completedCount}/{STAGE_CONFIGS.length})
+          </h3>
+        </div>
+
+        <div className="flex items-center gap-3">
+          {isRunning && activeStage && (
+            <span className="text-xs font-mono text-cyan-300 animate-pulse flex items-center gap-1.5">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+              <span>{activeStage.activeStatusText}</span>
+            </span>
+          )}
+
+          {timing?.totalMs !== undefined && timing.totalMs > 0 && !isRunning && (
+            <span className="text-xs font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
+              Total Time: <span className="text-cyan-400 font-bold">{timing.totalMs} ms</span>
+            </span>
+          )}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
+      {/* Progress Bar */}
+      <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800/80">
+        <div
+          className={`h-full transition-all duration-500 rounded-full ${
+            isAnyFailed
+              ? 'bg-rose-500'
+              : progressPercent === 100
+              ? 'bg-gradient-to-r from-cyan-400 to-emerald-400'
+              : 'bg-gradient-to-r from-cyan-500 to-blue-500'
+          }`}
+          style={{ width: `${progressPercent}%` }}
+        />
+      </div>
+
+      {/* Stage Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {STAGE_CONFIGS.map((stg) => {
           const status = stages[stg.key];
           const Icon = stg.icon;
           const stageDuration = timing && stg.timingKey ? timing[stg.timingKey] : undefined;
 
-          let statusBg = 'bg-slate-950/40 border-slate-800/80 text-slate-400';
-          let iconColor = 'text-slate-500';
+          let cardStyle = 'bg-slate-950/40 border-slate-800/70 text-slate-400';
+          let iconWrapper = 'bg-slate-900 border-slate-800 text-slate-500';
 
           if (status === 'COMPLETED') {
-            statusBg = 'bg-emerald-950/20 border-emerald-800/40 text-emerald-300';
-            iconColor = 'text-emerald-400';
+            cardStyle = 'bg-emerald-950/20 border-emerald-800/40 text-emerald-300 shadow-sm shadow-emerald-950/20';
+            iconWrapper = 'bg-emerald-900/30 border-emerald-700/50 text-emerald-400';
           } else if (status === 'PROCESSING') {
-            statusBg = 'bg-cyan-950/30 border-cyan-700/50 text-cyan-200 animate-pulse';
-            iconColor = 'text-cyan-400';
+            cardStyle = 'bg-cyan-950/40 border-cyan-500/60 text-cyan-200 ring-1 ring-cyan-500/40 shadow-lg shadow-cyan-950/30 animate-pulse';
+            iconWrapper = 'bg-cyan-900/40 border-cyan-400/60 text-cyan-300';
           } else if (status === 'FAILED') {
-            statusBg = 'bg-rose-950/20 border-rose-800/40 text-rose-300';
-            iconColor = 'text-rose-400';
+            cardStyle = 'bg-rose-950/30 border-rose-800/50 text-rose-300 shadow-sm shadow-rose-950/20';
+            iconWrapper = 'bg-rose-900/40 border-rose-700/50 text-rose-400';
           }
 
           return (
             <div
               key={stg.key}
-              className={`flex items-start gap-3 p-3 rounded-lg border transition-all ${statusBg}`}
+              className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${cardStyle}`}
             >
-              <div className={`p-2 rounded-md bg-slate-900 border border-slate-800 ${iconColor} shrink-0 mt-0.5`}>
+              <div className={`p-2 rounded-xl border ${iconWrapper} shrink-0 mt-0.5`}>
                 <Icon className="w-4 h-4" />
               </div>
 
@@ -141,7 +186,7 @@ export const PipelineProgress: React.FC<PipelineProgressProps> = ({
                     <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
                   )}
                   {status === 'PENDING' && (
-                    <Circle className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                    <Circle className="w-3.5 h-3.5 text-slate-700 shrink-0" />
                   )}
                 </div>
 
@@ -150,7 +195,7 @@ export const PipelineProgress: React.FC<PipelineProgressProps> = ({
                 </p>
 
                 {stageDuration !== undefined && stageDuration > 0 && (
-                  <span className="text-[10px] font-mono text-cyan-400/80 mt-1 inline-block">
+                  <span className="text-[10px] font-mono text-cyan-400 font-semibold mt-1 inline-block bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
                     {stageDuration} ms
                   </span>
                 )}
