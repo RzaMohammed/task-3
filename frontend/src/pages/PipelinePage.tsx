@@ -403,6 +403,7 @@ export const PipelinePage: React.FC = () => {
                   <>
                     <Play className="w-4 h-4 fill-current" />
                     <span>EXECUTE VERIFICATION PIPELINE</span>
+                    <kbd className="ml-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 border border-white/20 text-white/70">↵</kbd>
                   </>
                 )}
               </button>
