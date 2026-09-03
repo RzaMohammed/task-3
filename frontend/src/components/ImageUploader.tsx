@@ -96,7 +96,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   const displayUrl = previewUrlOverride || previewUrl;
 
   return (
-    <div className="w-full flex flex-col gap-2">
+    <div className="w-full flex flex-col gap-2 card-glow">
       <input
         ref={fileInputRef}
         type="file"
