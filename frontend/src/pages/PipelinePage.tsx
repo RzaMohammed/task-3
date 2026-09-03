@@ -243,42 +243,52 @@ export const PipelinePage: React.FC = () => {
     : effectiveResult?.verification.currentHash || '';
 
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col bg-grid-pattern relative shadow-2xl card-glow gradient-bg">
-      {/* Background ambient glow orbs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute top-32 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
+    <div className="min-h-screen bg-[#062e1a] text-[#fdfbf7] flex flex-col bg-goa-mesh relative overflow-x-hidden">
+      {/* Ambient Goa Sun & Palm Glows */}
+      <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gradient-to-b from-yellow-400/20 via-amber-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10 animate-sun" />
+      <div className="absolute top-32 left-0 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-60 right-0 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* Header Bar */}
-      <header className="border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-xl sticky top-0 z-50">
+      <header className="border-b border-[#16623a]/80 bg-[#041f11]/85 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/40 text-cyan-400 shadow-md shadow-cyan-950/40">
-              <ShieldCheck className="w-5 h-5" />
+            {/* 2:41PM Studio Badge from Referral */}
+            <div className="px-2.5 py-1 rounded-lg bg-[#ffd60a] text-[#062e1a] font-black text-xs tracking-tight shadow-md flex items-center gap-1 select-none">
+              <span>2:41PM</span>
+              <span className="text-[9px] uppercase tracking-wider font-extrabold opacity-85">STUDIO</span>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-sm sm:text-base font-extrabold tracking-tight text-gradient-cyan-purple flex items-center gap-2">
-                  Face Identification & Blockchain Verification
-                </h1>
-                <span className="hidden md:inline-flex text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-950/60 text-cyan-300 border border-cyan-800/60 font-semibold">
-                  Task 3 Shortlisting
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-400 hidden sm:block">
-                InsightFace Buffalo_L • SerpApi Visual Search • RFC 8785 Canonical SHA-256 • Solana Devnet SPL Memo
-              </p>
+            <div className="flex items-center gap-2 pl-2 border-l border-[#16623a]">
+              <span className="font-display font-bold text-sm tracking-wide text-[#ffd60a] hidden sm:inline-block">
+                HACKER HOUSE
+              </span>
+              <span className="goa-badge-hindi px-2 py-0.5 rounded-lg text-xs font-bold shadow-md">
+                गोवा
+              </span>
+              <span className="hidden md:inline-flex text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#0a3d24] text-[#ffd60a] border border-[#16623a] font-semibold">
+                Task 3 Shortlisting
+              </span>
             </div>
           </div>
 
-          {/* Header Right: Solana Devnet Status Pill */}
-          <div className="flex items-center gap-2.5">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs shadow-inner" title="Connected to Solana Devnet cluster for blockchain evidence anchoring">
+          {/* Header Right: Hype link & Solana Devnet Status Pill */}
+          <div className="flex items-center gap-3">
+            <a
+              href="#demo-sandbox"
+              className="text-xs font-mono font-extrabold tracking-wider text-[#ffd60a] hover:text-[#ffea75] uppercase transition-colors hidden sm:inline-block"
+            >
+              CHECK HYPE
+            </a>
+            <div
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#062e1a] border border-[#16623a] text-xs shadow-inner"
+              title="Connected to Solana Devnet cluster for blockchain evidence anchoring"
+            >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ffd60a] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ffd60a]"></span>
               </span>
-              <span className="font-mono text-purple-300 font-semibold flex items-center gap-1.5 text-[11px]">
-                <Blocks className="w-3.5 h-3.5 text-purple-400" />
+              <span className="font-mono text-[#ffd60a] font-bold flex items-center gap-1.5 text-[11px]">
+                <Blocks className="w-3.5 h-3.5 text-[#ffd60a]" />
                 SOLANA DEVNET
               </span>
               <a
@@ -286,7 +296,7 @@ export const PipelinePage: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="View Solana Devnet Explorer"
-                className="text-slate-400 hover:text-cyan-400 transition-colors"
+                className="text-emerald-400 hover:text-[#ffd60a] transition-colors"
               >
                 <ExternalLink className="w-3 h-3" />
               </a>
@@ -297,6 +307,59 @@ export const PipelinePage: React.FC = () => {
 
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 flex flex-col gap-8">
+        {/* Goa Hacker House Hero Banner from Referral Image */}
+        <section className="relative w-full rounded-3xl bg-gradient-to-b from-[#0a4629] via-[#063721] to-[#041f11] border border-[#16623a] p-6 sm:p-10 shadow-2xl overflow-hidden flex flex-col items-center justify-center text-center">
+          {/* Ambient Sun Backdrop */}
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-[#ffd60a]/20 blur-2xl pointer-events-none" />
+          <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-48 h-48 sm:w-60 sm:h-60 rounded-full bg-gradient-to-b from-[#ffd60a] to-[#eab308] opacity-30 blur-xl pointer-events-none" />
+
+          {/* Top Date & Studio Meta */}
+          <div className="flex items-center justify-between w-full max-w-4xl text-[11px] font-mono text-[#ffd60a] tracking-widest uppercase mb-2">
+            <span className="flex items-center gap-1.5 font-bold">
+              <span className="w-2 h-2 rounded-full bg-[#ffd60a] inline-block animate-pulse" />
+              GOA, INDIA • 28 - 31 OCT 2026
+            </span>
+            <span className="font-bold hidden sm:inline-block">2:41 PM STUDIO</span>
+          </div>
+
+          {/* Main HACKER HOUSE + गोवा Title Display */}
+          <div className="relative my-3 sm:my-5 flex flex-wrap items-center justify-center gap-2 sm:gap-4 select-none">
+            <h1 className="hacker-house-heading text-4xl sm:text-6xl md:text-7xl font-extrabold uppercase tracking-tight">
+              HACKER
+            </h1>
+            <div className="goa-badge-hindi px-3.5 sm:px-5 py-1 rounded-2xl text-2xl sm:text-4xl md:text-5xl font-black text-white shadow-2xl -mt-1 sm:-mt-2 animate-pulse-ring border-2 border-white/20">
+              गोवा
+            </div>
+            <h1 className="hacker-house-heading text-4xl sm:text-6xl md:text-7xl font-extrabold uppercase tracking-tight">
+              HOUSE
+            </h1>
+          </div>
+
+          {/* Subheading & Feature Badges */}
+          <p className="text-xs sm:text-sm text-[#cbd5c5] max-w-2xl font-medium mt-1">
+            Off-chain Biometric Facial Identification &amp; Solana Devnet Blockchain Verification Engine
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-5 text-[11px] font-mono">
+            <span className="px-3 py-1 rounded-full bg-[#0a3d24] text-[#ffd60a] border border-[#16623a] flex items-center gap-1.5 font-semibold shadow-sm">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#ffd60a]" />
+              InsightFace Buffalo_L 512-D
+            </span>
+            <span className="px-3 py-1 rounded-full bg-[#0a3d24] text-emerald-300 border border-[#16623a] flex items-center gap-1.5 font-semibold shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+              SerpApi Visual Search
+            </span>
+            <span className="px-3 py-1 rounded-full bg-[#0a3d24] text-pink-300 border border-[#ff2a85]/40 flex items-center gap-1.5 font-semibold shadow-sm">
+              <Radio className="w-3.5 h-3.5 text-[#ff2a85]" />
+              RFC 8785 Canonical JSON
+            </span>
+            <span className="px-3 py-1 rounded-full bg-[#0a3d24] text-[#ffd60a] border border-[#ffd60a]/40 flex items-center gap-1.5 font-semibold shadow-sm">
+              <Blocks className="w-3.5 h-3.5 text-[#ffd60a]" />
+              Solana SPL Memo v2
+            </span>
+          </div>
+        </section>
+
         {/* Top Control Bar: Demo Sandbox & Presets */}
         <DemoModeControls
           isDemoMode={isDemoMode}
@@ -384,29 +447,31 @@ export const PipelinePage: React.FC = () => {
                 disabled={isRunning}
               />
 
-              <button
-                type="button"
-                onClick={handleRunPipeline}
-                disabled={(!selectedFile && !previewUrlOverride) || isRunning}
-                className={`w-full execute-button py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl transition-all ${
-                  (!selectedFile && !previewUrlOverride) || isRunning
-                    ? 'bg-slate-800/80 text-slate-500 cursor-not-allowed border border-slate-700/50'
-                    : 'bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-600 hover:from-cyan-300 hover:to-blue-500 text-slate-950 shadow-cyan-950/40 border border-cyan-300/40 font-extrabold hover:shadow-cyan-500/20'
-                }`}
-              >
-                {isRunning ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
-                    <span>RUNNING PIPELINE STAGES...</span>
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-4 h-4 fill-current" />
-                    <span>EXECUTE VERIFICATION PIPELINE</span>
-                    <kbd className="ml-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 border border-white/20 text-white/70">↵</kbd>
-                  </>
-                )}
-              </button>
+              <div className="apply-pattern-border w-full">
+                <button
+                  type="button"
+                  onClick={handleRunPipeline}
+                  disabled={(!selectedFile && !previewUrlOverride) || isRunning}
+                  className={`w-full py-3.5 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all uppercase tracking-wider ${
+                    (!selectedFile && !previewUrlOverride) || isRunning
+                      ? 'bg-[#0a3d24] text-[#cbd5c5]/40 cursor-not-allowed border border-[#16623a]'
+                      : 'bg-[#ffd60a] hover:bg-[#ffea75] text-[#062e1a] shadow-lg shadow-yellow-950/40 hover:scale-[1.01] active:scale-[0.99]'
+                  }`}
+                >
+                  {isRunning ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-[#062e1a]" />
+                      <span>RUNNING PIPELINE STAGES...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4 fill-current text-[#062e1a]" />
+                      <span>APPLY &amp; EXECUTE VERIFICATION</span>
+                      <kbd className="ml-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-black/15 border border-black/20 text-[#062e1a]">↵</kbd>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -479,20 +544,24 @@ export const PipelinePage: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/80 py-8 text-center text-xs text-slate-500 mt-12">
+      <footer className="border-t border-[#16623a] bg-[#041f11]/90 py-8 text-center text-xs text-[#cbd5c5] mt-12">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-slate-400">
-              Face Identification & Solana Devnet Blockchain Verifier
+          <div className="flex items-center gap-2.5">
+            <span className="font-bold text-[#ffd60a] font-display text-sm tracking-wide">
+              Hacker House गोवा Edition
             </span>
-            <span title="Version 1.0.0" className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-cyan-400 border border-slate-700">v1.0.0</span>
+            <span title="Goa Hacker House 2026" className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#0a3d24] text-[#ffd60a] border border-[#16623a] font-semibold">
+              28 - 31 OCT 2026
+            </span>
           </div>
-          <div className="text-[11px] text-slate-500">© 2026 — Built for Task 3 Shortlisting</div>
-          <div className="flex items-center gap-4 text-[11px] font-mono text-slate-400">
+          <div className="text-[11px] text-[#a7bda9]">
+            © 2026 — 2:41 PM Studio • Task 3 Shortlisting Biometric Verifier
+          </div>
+          <div className="flex items-center gap-3 text-[11px] font-mono text-[#ffd60a]">
             <span>InsightFace Buffalo_L</span>
-            <span>•</span>
+            <span className="text-[#16623a]">•</span>
             <span>RFC 8785 Canonical JSON</span>
-            <span>•</span>
+            <span className="text-[#16623a]">•</span>
             <span>Solana SPL Memo v2</span>
           </div>
         </div>

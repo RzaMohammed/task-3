@@ -1,102 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  --primary-cyan: #06b6d4;
-  --primary-purple: #a855f7;
+  --goa-forest: #062e1a;
+  --goa-deep: #041f11;
+  --goa-emerald: #084d2a;
+  --goa-card: #0a3d24;
+  --goa-border: #16623a;
+  --goa-sun-yellow: #ffd60a;
+  --goa-sun-hover: #facc15;
+  --goa-neon-pink: #ff2a85;
+  --goa-sand: #fdfbf7;
+  --primary-cyan: #ffd60a;
+  --primary-purple: #ff2a85;
 }
 
-.card-glow {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card-shadow {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: box-shadow 0.2s ease;
-}
-
-.button-focus {
-  outline: 2px solid rgba(6, 182, 212, 0.6);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-
-.gradient-bg {
-  background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
-}
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
+@layer base {
   html {
     scroll-behavior: smooth;
   }
   *:focus-visible {
-    outline: 2px solid rgba(6, 182, 212, 0.6);
+    outline: 2px solid rgba(255, 214, 10, 0.7);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 6px;
   }
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #030712;
-    color: #f8fafc;
+    font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #062e1a;
+    color: #fdfbf7;
     overflow-x: hidden;
   }
   code, pre {
-    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
   }
 }
 
-/* Cyber ambient background grid pattern */
-.bg-grid-pattern {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
+/* Goa Hacker House Display Typography */
+.hacker-house-heading {
+  font-family: 'Playfair Display', 'Cinzel', Georgia, serif;
+  color: #ffd60a;
+  letter-spacing: -0.01em;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 214, 10, 0.25);
 }
 
-/* Glassmorphic card styling */
+/* Signature "गोवा" Devanagari Neon Pink Badge */
+.goa-badge-hindi {
+  font-family: 'Rozha One', 'Yatra One', serif;
+  background-color: #ff2a85;
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(255, 42, 133, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+  transform: rotate(-3deg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.goa-badge-hindi:hover {
+  transform: rotate(0deg) scale(1.06);
+  box-shadow: 0 0 28px rgba(255, 42, 133, 0.85);
+}
+
+/* Referral "APPLY" style ethnic geometric ribbon border */
+.apply-pattern-border {
+  background: repeating-linear-gradient(
+    45deg,
+    #ffd60a 0px,
+    #ffd60a 8px,
+    #ff2a85 8px,
+    #ff2a85 16px,
+    #062e1a 16px,
+    #062e1a 24px,
+    #10b981 24px,
+    #10b981 32px
+  );
+  padding: 3px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px -3px rgba(255, 214, 10, 0.25), 0 0 15px rgba(255, 42, 133, 0.2);
+}
+
+/* Goa Tropical Ambient Mesh Pattern */
+.bg-goa-mesh {
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(255, 214, 10, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 10% 40%, rgba(16, 185, 129, 0.12) 0%, transparent 35%),
+    radial-gradient(circle at 90% 60%, rgba(255, 42, 133, 0.08) 0%, transparent 35%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+}
+
+/* Glassmorphic card styling in deep Goa green */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(51, 65, 85, 0.6);
+  background: rgba(10, 61, 36, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(22, 98, 58, 0.7);
+  box-shadow: 0 10px 30px -8px rgba(4, 31, 17, 0.6);
 }
 
 .glass-panel-glow {
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(10, 61, 36, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(6, 182, 212, 0.25);
-  box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(255, 214, 10, 0.4);
+  box-shadow: 0 0 28px -5px rgba(255, 214, 10, 0.18), 0 12px 35px -8px rgba(4, 31, 17, 0.7);
+}
+
+.card-glow {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 35px -8px rgba(4, 31, 17, 0.8), 0 0 20px -3px rgba(255, 214, 10, 0.15);
+  border-color: rgba(255, 214, 10, 0.45);
+}
+
+.card-shadow {
+  box-shadow: 0 8px 24px rgba(4, 31, 17, 0.5);
+  transition: box-shadow 0.2s ease;
 }
 
 /* Glowing text effects */
-.text-glow-cyan {
-  text-shadow: 0 0 12px rgba(6, 182, 212, 0.6);
+.text-glow-yellow {
+  text-shadow: 0 0 14px rgba(255, 214, 10, 0.7);
 }
 
-.text-glow-purple {
-  text-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+.text-glow-pink {
+  text-shadow: 0 0 14px rgba(255, 42, 133, 0.75);
 }
 
 .text-glow-emerald {
-  text-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+  text-shadow: 0 0 12px rgba(16, 185, 129, 0.65);
 }
 
-.text-glow-rose {
-  text-shadow: 0 0 12px rgba(244, 63, 94, 0.6);
+.text-gradient-gold {
+  background: linear-gradient(135deg, #ffd60a 0%, #ffea75 40%, #eab308 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Animated pulse ring */
+.text-gradient-pink-gold {
+  background: linear-gradient(135deg, #ff2a85 0%, #ffd60a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Pulse ring */
 @keyframes pulse-ring {
   0% {
-    transform: scale(0.95);
-    opacity: 0.8;
+    transform: scale(0.96);
+    opacity: 0.85;
   }
   50% {
-    transform: scale(1.05);
-    opacity: 0.4;
+    transform: scale(1.03);
+    opacity: 0.45;
   }
   100% {
-    transform: scale(0.95);
-    opacity: 0.8;
+    transform: scale(0.96);
+    opacity: 0.85;
   }
 }
 
@@ -104,20 +167,21 @@
   animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Custom Webkit scrollbar for premium dark-mode styling */
+/* Custom Webkit scrollbar for tropical Goa styling */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: #041f11;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #16623a;
   border-radius: 4px;
+  border: 1px solid rgba(255, 214, 10, 0.15);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #ffd60a;
 }
 
 /* Shimmer loading skeleton animation */
@@ -133,18 +197,26 @@
 .animate-shimmer {
   background: linear-gradient(
     90deg,
-    rgba(30, 41, 59, 0.4) 25%,
-    rgba(51, 65, 85, 0.6) 50%,
-    rgba(30, 41, 59, 0.4) 75%
+    rgba(10, 61, 36, 0.4) 25%,
+    rgba(22, 98, 58, 0.7) 50%,
+    rgba(10, 61, 36, 0.4) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
-/* Gradient text utility */
-.text-gradient-cyan-purple {
-  background: linear-gradient(135deg, #06b6d4, #a855f7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Sun ray radiating animation */
+@keyframes sun-radiate {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.animate-sun {
+  animation: sun-radiate 6s ease-in-out infinite;
 }

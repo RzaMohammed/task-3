@@ -89,31 +89,31 @@ export const TamperSimulator: React.FC<TamperSimulatorProps> = ({
   };
 
   return (
-    <div className="w-full glass-panel rounded-2xl p-5 border border-slate-800 shadow-2xl flex flex-col gap-5">
+    <div className="w-full glass-panel rounded-2xl p-5 border border-[#16623a] shadow-2xl flex flex-col gap-5">
       {/* Title & Explainer Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#16623a]/70 pb-4">
         <div className="flex items-center gap-3">
           <div className={`p-2.5 rounded-xl border ${
             isTampered
-              ? 'bg-rose-500/10 border-rose-500/30 text-rose-400'
-              : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+              ? 'bg-[#ff2a85]/20 border-[#ff2a85]/50 text-[#ff2a85]'
+              : 'bg-[#ffd60a]/15 border-[#ffd60a]/40 text-[#ffd60a]'
           }`}>
-            {isTampered ? <Flame className="w-6 h-6 animate-pulse" /> : <ShieldCheck className="w-6 h-6" />}
+            {isTampered ? <Flame className="w-6 h-6 animate-pulse text-[#ff2a85]" /> : <ShieldCheck className="w-6 h-6 text-[#ffd60a]" />}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-base font-bold text-slate-100">
+              <h3 className="text-base font-extrabold text-[#ffd60a] font-display tracking-wide">
                 Interactive Cryptographic Tamper Simulator
               </h3>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border font-bold ${
                 isTampered
-                  ? 'bg-rose-950/80 text-rose-300 border-rose-600/60'
+                  ? 'bg-[#ff2a85] text-white border-[#ff2a85]'
                   : 'bg-emerald-950/80 text-emerald-300 border-emerald-600/60'
               }`}>
                 {isTampered ? '✗ TAMPER DETECTED' : '✓ AUTHENTIC & VERIFIED'}
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-[#cbd5c5] mt-0.5">
               Simulate an adversary attempting to secretly modify off-chain post metadata after blockchain anchoring.
             </p>
           </div>
@@ -124,7 +124,7 @@ export const TamperSimulator: React.FC<TamperSimulatorProps> = ({
             <button
               type="button"
               onClick={handleRestore}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-black rounded-xl bg-[#ffd60a] hover:bg-[#ffea75] text-[#062e1a] shadow-md transition-all active:scale-95"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Restore Authentic</span>
@@ -133,7 +133,7 @@ export const TamperSimulator: React.FC<TamperSimulatorProps> = ({
             <button
               type="button"
               onClick={handleInjectTamper}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/40 transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl bg-[#ff2a85]/20 hover:bg-[#ff2a85]/30 text-[#ff66a8] border border-[#ff2a85]/50 transition-colors shadow-sm"
             >
               <Zap className="w-3.5 h-3.5" />
               <span>Simulate Attack (Inject Tamper)</span>
@@ -145,32 +145,32 @@ export const TamperSimulator: React.FC<TamperSimulatorProps> = ({
       {/* Editing Sandbox Fields */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-semibold text-slate-300 flex items-center justify-between">
+          <label className="text-xs font-semibold text-[#cbd5c5] flex items-center justify-between">
             <span className="flex items-center gap-1.5">
-              <Edit3 className="w-3.5 h-3.5 text-cyan-400" />
+              <Edit3 className="w-3.5 h-3.5 text-[#ffd60a]" />
               Candidate Post Title (Off-Chain Metadata)
             </span>
             {title !== initialTitle && (
-              <span className="text-[10px] font-mono text-rose-400">Edited</span>
+              <span className="text-[10px] font-mono text-[#ff66a8] font-bold">Edited</span>
             )}
           </label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-slate-200 focus:outline-none focus:border-cyan-400 transition-colors font-mono"
+            className="w-full px-3.5 py-2.5 rounded-xl bg-[#041f11] border border-[#16623a] text-sm text-[#fdfbf7] focus:outline-none focus:border-[#ffd60a] transition-colors font-mono"
             placeholder="Enter or alter post title..."
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-            <Lock className="w-3.5 h-3.5 text-purple-400" />
+          <label className="text-xs font-semibold text-[#cbd5c5] flex items-center gap-1.5">
+            <Lock className="w-3.5 h-3.5 text-[#ffd60a]" />
             Immutable Solana Devnet Anchor (SPL Memo)
           </label>
-          <div className="w-full px-3.5 py-2.5 rounded-xl bg-purple-950/20 border border-purple-800/40 text-xs font-mono text-purple-300 flex items-center justify-between">
+          <div className="w-full px-3.5 py-2.5 rounded-xl bg-[#041f11] border border-[#16623a] text-xs font-mono text-[#ffd60a] flex items-center justify-between">
             <span className="truncate">Tx: {onChainSignature.slice(0, 24)}...</span>
-            <span className="text-[10px] bg-purple-900/60 px-2 py-0.5 rounded border border-purple-700/60 uppercase shrink-0">
+            <span className="text-[10px] bg-[#0a3d24] px-2 py-0.5 rounded border border-[#16623a] uppercase shrink-0 font-semibold">
               Devnet Locked
             </span>
           </div>
@@ -178,15 +178,15 @@ export const TamperSimulator: React.FC<TamperSimulatorProps> = ({
       </div>
 
       {/* Live Hash Comparison Box */}
-      <div className="flex flex-col gap-3 p-4 rounded-xl bg-slate-950/80 border border-slate-800">
+      <div className="flex flex-col gap-3 p-4 rounded-xl bg-[#041f11] border border-[#16623a]">
         <div className="flex items-center justify-between text-xs">
-          <span className="font-bold text-slate-300 flex items-center gap-2">
+          <span className="font-bold text-[#ffd60a] flex items-center gap-2">
             Real-Time Cryptographic Hash Comparison
           </span>
           <button
             type="button"
             onClick={() => setShowCanonicalJson(!showCanonicalJson)}
-            className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 text-[11px]"
+            className="text-[#ffd60a] hover:text-[#ffea75] flex items-center gap-1 text-[11px] font-mono font-semibold"
           >
             <FileCode2 className="w-3.5 h-3.5" />
             <span>{showCanonicalJson ? 'Hide RFC 8785 JSON' : 'Inspect Canonical JSON'}</span>
@@ -197,13 +197,13 @@ export const TamperSimulator: React.FC<TamperSimulatorProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div className={`p-3 rounded-lg border flex flex-col gap-1 transition-all ${
             isTampered
-              ? 'bg-rose-950/30 border-rose-800/60 text-rose-300'
-              : 'bg-emerald-950/30 border-emerald-800/60 text-emerald-300'
+              ? 'bg-[#ff2a85]/15 border-[#ff2a85]/60 text-[#ff66a8]'
+              : 'bg-[#0a4629]/70 border-[#16623a] text-emerald-300'
           }`}>
             <div className="flex items-center justify-between text-[11px]">
-              <span className="font-semibold text-slate-300">Locally Recalculated SHA-256</span>
+              <span className="font-semibold text-[#cbd5c5]">Locally Recalculated SHA-256</span>
               {isTampered ? (
-                <span className="text-rose-400 font-bold flex items-center gap-1">
+                <span className="text-[#ff66a8] font-bold flex items-center gap-1">
                   <AlertTriangle className="w-3.5 h-3.5" /> MISMATCH
                 </span>
               ) : (
@@ -212,19 +212,19 @@ export const TamperSimulator: React.FC<TamperSimulatorProps> = ({
                 </span>
               )}
             </div>
-            <div className="font-mono text-[11px] p-2 rounded bg-slate-950 border border-slate-800 break-all">
+            <div className="font-mono text-[11px] p-2 rounded bg-[#062e1a] border border-[#16623a] break-all">
               {computedHash}
             </div>
           </div>
 
-          <div className="p-3 rounded-lg border bg-purple-950/20 border-purple-800/40 text-purple-300 flex flex-col gap-1">
+          <div className="p-3 rounded-lg border bg-[#062e1a] border-[#16623a] text-[#ffd60a] flex flex-col gap-1">
             <div className="flex items-center justify-between text-[11px]">
-              <span className="font-semibold text-slate-300">Solana Devnet On-Chain Hash (Immutable)</span>
-              <span className="text-purple-400 font-bold flex items-center gap-1">
+              <span className="font-semibold text-[#cbd5c5]">Solana Devnet On-Chain Hash (Immutable)</span>
+              <span className="text-[#ffd60a] font-bold flex items-center gap-1">
                 <Lock className="w-3.5 h-3.5" /> DEVNET RECORD
               </span>
             </div>
-            <div className="font-mono text-[11px] p-2 rounded bg-slate-950 border border-slate-800 break-all text-purple-300">
+            <div className="font-mono text-[11px] p-2 rounded bg-[#041f11] border border-[#16623a] break-all text-[#ffd60a]">
               {onChainHash}
             </div>
           </div>
@@ -232,26 +232,26 @@ export const TamperSimulator: React.FC<TamperSimulatorProps> = ({
 
         {/* Dynamic Explainer Alert */}
         {isTampered ? (
-          <div className="p-3 rounded-lg bg-rose-950/40 border border-rose-500/50 text-xs text-rose-200 flex items-start gap-2.5">
-            <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-xl bg-[#ff2a85]/15 border border-[#ff2a85]/50 text-xs text-rose-200 flex items-start gap-2.5">
+            <AlertTriangle className="w-4 h-4 text-[#ff2a85] shrink-0 mt-0.5" />
             <div>
-              <strong className="block text-rose-300 font-bold mb-0.5">
+              <strong className="block text-[#ff66a8] font-bold mb-0.5">
                 Cryptographic Fraud Caught by Zero-Trust Architecture
               </strong>
-              <p className="leading-relaxed">
+              <p className="leading-relaxed text-[#cbd5c5]">
                 Because SHA-256 exhibits the strict <em>avalanche effect</em>, altering metadata changes the fingerprint entirely. 
                 Even though the adversary manipulated the off-chain database, Solana Devnet’s on-chain SPL memo transaction guarantees immutable proof of what was originally recorded.
               </p>
             </div>
           </div>
         ) : (
-          <div className="p-3 rounded-lg bg-emerald-950/30 border border-emerald-500/40 text-xs text-emerald-200 flex items-start gap-2.5">
+          <div className="p-3.5 rounded-xl bg-[#0a4629]/70 border border-[#16623a] text-xs text-emerald-200 flex items-start gap-2.5">
             <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
-              <strong className="block text-emerald-300 font-bold mb-0.5">
+              <strong className="block text-[#ffd60a] font-bold mb-0.5">
                 Evidence Integrity Cryptographically Verified
               </strong>
-              <p className="leading-relaxed">
+              <p className="leading-relaxed text-[#cbd5c5]">
                 The computed hash matches the Solana Devnet blockchain record byte-for-byte. The candidate evidence package has not been tampered with or altered since recording.
               </p>
             </div>
@@ -260,11 +260,11 @@ export const TamperSimulator: React.FC<TamperSimulatorProps> = ({
 
         {/* Optional Canonical JSON Inspector */}
         {showCanonicalJson && (
-          <div className="mt-2 p-3 rounded-lg bg-slate-950 border border-slate-800 font-mono text-[11px] text-slate-300 overflow-x-auto">
-            <div className="text-[10px] uppercase text-cyan-400 font-bold mb-1">
+          <div className="mt-2 p-3.5 rounded-xl bg-[#062e1a] border border-[#16623a] font-mono text-[11px] text-[#cbd5c5] overflow-x-auto">
+            <div className="text-[10px] uppercase text-[#ffd60a] font-bold mb-1 tracking-wider">
               RFC 8785 Canonical JSON Representation (Hashed Input):
             </div>
-            <pre className="whitespace-pre-wrap">
+            <pre className="whitespace-pre-wrap text-[#fdfbf7]">
               {canonicalizeJson({
                 evidenceId: initialEvidenceId,
                 match: {
