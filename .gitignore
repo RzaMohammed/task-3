@@ -28,6 +28,15 @@ build/
 coverage/
 uploads/
 logs/
+*.onnx
+*.zip
+*.tar.gz
+ai-service/models/
+*.jpg
+*.jpeg
+*.png
+!frontend/public/*.png
+!frontend/public/*.jpg
 
 # IDE & OS Specific
 .DS_Store

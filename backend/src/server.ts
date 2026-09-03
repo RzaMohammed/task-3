@@ -21,6 +21,7 @@ app.use(cors({ origin: config.FRONTEND_URL, credentials: true }));
 app.use(express.json());
 
 // API Routes
+app.use('/', healthRoutes);
 app.use('/api', healthRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/matching', matchingRoutes);
