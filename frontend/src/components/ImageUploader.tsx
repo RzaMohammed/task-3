@@ -104,7 +104,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         onChange={handleFileChange}
         className="hidden"
         disabled={disabled}
-        id="face-image-upload"
+        aria-label="Upload face portrait file"
       />
 
       <div
