@@ -7,6 +7,10 @@ class Settings:
     
     # Model Configuration
     MODEL_NAME: str = os.getenv("FACE_MODEL_NAME", "buffalo_l")
+    MODEL_ROOT: str = os.getenv(
+        "FACE_MODEL_ROOT",
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "models"))
+    )
     DET_SIZE: tuple = (640, 640)
     PROVIDERS: List[str] = ["CPUExecutionProvider"]
     

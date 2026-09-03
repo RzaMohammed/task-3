@@ -26,7 +26,7 @@ class FaceDetectionService:
             import insightface
             from insightface.app import FaceAnalysis
             
-            cls._app = FaceAnalysis(name=settings.MODEL_NAME, providers=settings.PROVIDERS)
+            cls._app = FaceAnalysis(name=settings.MODEL_NAME, root=settings.MODEL_ROOT, providers=settings.PROVIDERS)
             cls._app.prepare(ctx_id=-1, det_size=settings.DET_SIZE)
             cls._model_loaded = True
             logger.info("[FACE] Model loaded successfully")

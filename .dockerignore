@@ -1,0 +1,23 @@
+# Root .dockerignore
+.git
+.gitignore
+.env
+.env.local
+.vscode
+.idea
+README.md
+docs/
+tests/
+node_modules/
+dist/
+build/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+.DS_Store
+Thumbs.db

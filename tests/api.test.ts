@@ -1,7 +1,7 @@
 import { config } from '../backend/src/config';
 
 describe('Express Backend Routing API Tests', () => {
-  const hostUrl = `http://localhost:${config.PORT || 5000}`;
+  const hostUrl = `http://localhost:${config.BACKEND_PORT || config.PORT || 5000}`;
 
   test('GET /api/health healthcheck endpoint verification', async () => {
     try {

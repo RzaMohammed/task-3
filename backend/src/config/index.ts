@@ -1,11 +1,26 @@
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+// Look for .env in current working directory, workspace root, or relative paths
+const envCandidates = [
+  path.resolve(process.cwd(), '.env'),
+  path.resolve(process.cwd(), '../.env'),
+  path.resolve(__dirname, '../../.env'),
+  path.resolve(__dirname, '../../../.env')
+];
+
+for (const envPath of envCandidates) {
+  if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+    break;
+  }
+}
 
 export const config = {
   NODE_ENV: process.env.NODE_ENV || 'development',
-  BACKEND_PORT: parseInt(process.env.BACKEND_PORT || '5000', 10),
+  PORT: parseInt(process.env.PORT || process.env.BACKEND_PORT || '5000', 10),
+  BACKEND_PORT: parseInt(process.env.BACKEND_PORT || process.env.PORT || '5000', 10),
   FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
   AI_SERVICE_URL: process.env.AI_SERVICE_URL || 'http://localhost:8000',
 

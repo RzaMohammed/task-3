@@ -281,6 +281,25 @@ BLOCKCHAIN_TIMEOUT_MS=15000
 
 ## 12. Running Locally
 
+### Option A: Running with Docker Compose (Recommended)
+
+Spin up all 3 services (`ai-service`, `backend`, and `frontend`) with automatic health checks, offline model caching, and network bridging:
+
+```bash
+docker compose up --build
+```
+
+- **Frontend Dashboard**: [http://localhost:5173](http://localhost:5173)
+- **Backend API & Swagger**: [http://localhost:5000](http://localhost:5000)
+- **AI Microservice**: [http://localhost:8000](http://localhost:8000)
+
+To stop all containers:
+```bash
+docker compose down
+```
+
+### Option B: Running Bare-Metal / Native
+
 Start all 3 services in separate terminals:
 
 ```bash
