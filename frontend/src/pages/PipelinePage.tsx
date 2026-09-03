@@ -388,7 +388,7 @@ export const PipelinePage: React.FC = () => {
                 type="button"
                 onClick={handleRunPipeline}
                 disabled={(!selectedFile && !previewUrlOverride) || isRunning}
-                className={`w-full py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl transition-all ${
+                className={`w-full execute-button py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl transition-all ${
                   (!selectedFile && !previewUrlOverride) || isRunning
                     ? 'bg-slate-800/80 text-slate-500 cursor-not-allowed border border-slate-700/50'
                     : 'bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-600 hover:from-cyan-300 hover:to-blue-500 text-slate-950 shadow-cyan-950/40 border border-cyan-300/40 font-extrabold hover:shadow-cyan-500/20'
