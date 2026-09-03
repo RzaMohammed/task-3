@@ -484,7 +484,9 @@ export const PipelinePage: React.FC = () => {
             <span className="font-semibold text-slate-400">
               Face Identification & Solana Devnet Blockchain Verifier
             </span>
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-cyan-400 border border-slate-700">v1.0.0</span>
           </div>
+          <div className="text-[11px] text-slate-500">© 2026 — Built for Task 3 Shortlisting</div>
           <div className="flex items-center gap-4 text-[11px] font-mono text-slate-400">
             <span>InsightFace Buffalo_L</span>
             <span>•</span>
