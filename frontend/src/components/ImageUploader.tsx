@@ -114,15 +114,15 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         onClick={() => !disabled && fileInputRef.current?.click()}
         className={`relative flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl transition-all cursor-pointer min-h-[250px] overflow-hidden ${
           isDragging
-            ? 'border-cyan-400 bg-cyan-500/10 shadow-lg shadow-cyan-950/30'
+            ? 'border-[#ffd60a] bg-[#ffd60a]/15 shadow-xl shadow-yellow-950/40'
             : displayUrl
-            ? 'border-emerald-500/40 bg-slate-900/80 shadow-md'
-            : 'border-slate-800 hover:border-slate-700 bg-slate-950/40 hover:bg-slate-900/50'
+            ? 'border-[#16623a] bg-[#0a3d24]/80 shadow-md'
+            : 'border-[#16623a] hover:border-[#ffd60a]/60 bg-[#041f11]/60 hover:bg-[#062e1a]/80'
         } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
       >
         {displayUrl ? (
           <div className="relative w-full flex flex-col items-center gap-3.5 z-10">
-            <div className="relative group w-36 h-36 rounded-2xl overflow-hidden border-2 border-slate-700 bg-slate-950 shadow-xl transition-all duration-300 hover:border-cyan-500/50 hover:shadow-cyan-950/30 hover:shadow-lg">
+            <div className="relative group w-36 h-36 rounded-2xl overflow-hidden border-2 border-[#16623a] bg-[#041f11] shadow-xl transition-all duration-300 hover:border-[#ffd60a]/60 hover:shadow-yellow-950/40 hover:shadow-lg">
               <img
                 src={displayUrl}
                 alt="Selected face portrait"
@@ -133,7 +133,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
                 onClick={handleRemove}
                 disabled={disabled}
                 title="Remove image"
-                className="absolute top-1.5 right-1.5 p-1.5 bg-slate-950/80 hover:bg-rose-600 text-white rounded-xl backdrop-blur-md transition-colors shadow-md"
+                className="absolute top-1.5 right-1.5 p-1.5 bg-[#041f11]/90 hover:bg-[#ff2a85] text-white rounded-xl backdrop-blur-md transition-colors shadow-md"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -148,24 +148,24 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
               </span>
             </div>
 
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-[#cbd5c5]">
               Click or drag another image to replace
             </p>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center text-center gap-3 z-10">
-            <div className="p-3.5 bg-slate-800/60 rounded-2xl border border-slate-700/80 text-cyan-400 shadow-inner group-hover:scale-110 transition-transform">
+            <div className="p-3.5 bg-[#ffd60a]/15 rounded-2xl border border-[#ffd60a]/30 text-[#ffd60a] shadow-inner group-hover:scale-110 transition-transform">
               <UploadCloud className="w-8 h-8" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-slate-200">
+              <p className="text-sm font-semibold text-[#fdfbf7]">
                 Upload target face portrait
               </p>
-              <p className="text-xs text-slate-400 mt-1">
-                Drag & drop or browse from local disk
+              <p className="text-xs text-[#cbd5c5] mt-1">
+                Drag &amp; drop or browse from local disk
               </p>
             </div>
-            <div className="flex items-center gap-1.5 text-[10px] font-mono text-cyan-400/80 bg-cyan-950/40 px-2.5 py-1 rounded-md border border-cyan-800/40">
+            <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#ffd60a] bg-[#ffd60a]/10 px-2.5 py-1 rounded-md border border-[#ffd60a]/30">
               <Sparkles className="w-3 h-3" />
               <span>InsightFace 512-D Embedding Ready</span>
             </div>
@@ -174,8 +174,8 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       </div>
 
       {errorMessage && (
-        <div className="flex items-center gap-2 p-2.5 text-xs text-rose-300 bg-rose-950/40 border border-rose-900/60 rounded-xl">
-          <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+        <div className="flex items-center gap-2 p-2.5 text-xs text-[#ff66a8] bg-[#ff2a85]/15 border border-[#ff2a85]/40 rounded-xl">
+          <AlertCircle className="w-4 h-4 shrink-0 text-[#ff2a85]" />
           <span>{errorMessage}</span>
         </div>
       )}

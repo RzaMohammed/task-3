@@ -101,41 +101,41 @@ export const PipelineProgress: React.FC<PipelineProgressProps> = ({
   const activeStage = STAGE_CONFIGS.find((stg) => stages[stg.key] === 'PROCESSING');
 
   return (
-    <div className="w-full glass-panel rounded-2xl p-5 border border-slate-800 shadow-xl flex flex-col gap-4">
+    <div className="w-full glass-panel rounded-2xl p-5 border border-[#16623a] shadow-xl flex flex-col gap-4">
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#16623a]/70 pb-3">
         <div className="flex items-center gap-2">
-          <Activity className="w-4 h-4 text-cyan-400" />
-          <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">
+          <Activity className="w-4 h-4 text-[#ffd60a]" />
+          <h3 className="text-xs font-bold text-[#ffd60a] uppercase tracking-wider">
             Pipeline Execution Stages ({completedCount}/{STAGE_CONFIGS.length})
           </h3>
         </div>
 
         <div className="flex items-center gap-3">
           {isRunning && activeStage && (
-            <span className="text-xs font-mono text-cyan-300 animate-pulse flex items-center gap-1.5">
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+            <span className="text-xs font-mono text-[#ffd60a] animate-pulse flex items-center gap-1.5">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#ffd60a]" />
               <span>{activeStage.activeStatusText}</span>
             </span>
           )}
 
           {timing?.totalMs !== undefined && timing.totalMs > 0 && !isRunning && (
-            <span className="text-xs font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
-              Total Time: <span className="text-cyan-400 font-bold">{timing.totalMs} ms</span>
+            <span className="text-xs font-mono text-[#cbd5c5] bg-[#041f11] px-2.5 py-1 rounded-lg border border-[#16623a]">
+              Total Time: <span className="text-[#ffd60a] font-bold">{timing.totalMs} ms</span>
             </span>
           )}
         </div>
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800/80">
+      <div className="w-full h-2 bg-[#041f11] rounded-full overflow-hidden border border-[#16623a]">
         <div
           className={`h-full transition-all duration-500 rounded-full ${
             isAnyFailed
-              ? 'bg-rose-500'
+              ? 'bg-[#ff2a85]'
               : progressPercent === 100
-              ? 'bg-gradient-to-r from-cyan-400 to-emerald-400'
-              : 'bg-gradient-to-r from-cyan-500 to-blue-500'
+              ? 'bg-gradient-to-r from-emerald-500 via-[#ffd60a] to-[#ff2a85]'
+              : 'bg-gradient-to-r from-[#ffd60a] to-emerald-400'
           }`}
           style={{ width: `${progressPercent}%` }}
         />
@@ -148,18 +148,18 @@ export const PipelineProgress: React.FC<PipelineProgressProps> = ({
           const Icon = stg.icon;
           const stageDuration = timing && stg.timingKey ? timing[stg.timingKey] : undefined;
 
-          let cardStyle = 'bg-slate-950/40 border-slate-800/70 text-slate-400';
-          let iconWrapper = 'bg-slate-900 border-slate-800 text-slate-500';
+          let cardStyle = 'bg-[#041f11]/60 border-[#16623a]/60 text-[#cbd5c5]/50';
+          let iconWrapper = 'bg-[#062e1a] border-[#16623a] text-[#cbd5c5]/60';
 
           if (status === 'COMPLETED') {
-            cardStyle = 'bg-emerald-950/20 border-emerald-800/40 text-emerald-300 shadow-sm shadow-emerald-950/20';
-            iconWrapper = 'bg-emerald-900/30 border-emerald-700/50 text-emerald-400';
+            cardStyle = 'bg-[#0a4629]/70 border-[#16623a] text-emerald-300 shadow-sm';
+            iconWrapper = 'bg-[#084d2a] border-[#16623a] text-[#ffd60a]';
           } else if (status === 'PROCESSING') {
-            cardStyle = 'bg-cyan-950/40 border-cyan-500/60 text-cyan-200 ring-1 ring-cyan-500/40 shadow-lg shadow-cyan-950/30 animate-pulse';
-            iconWrapper = 'bg-cyan-900/40 border-cyan-400/60 text-cyan-300';
+            cardStyle = 'bg-[#ffd60a]/15 border-[#ffd60a] text-[#ffd60a] ring-1 ring-[#ffd60a]/60 shadow-lg shadow-yellow-950/40 animate-pulse';
+            iconWrapper = 'bg-[#ffd60a]/25 border-[#ffd60a] text-[#ffd60a]';
           } else if (status === 'FAILED') {
-            cardStyle = 'bg-rose-950/30 border-rose-800/50 text-rose-300 shadow-sm shadow-rose-950/20';
-            iconWrapper = 'bg-rose-900/40 border-rose-700/50 text-rose-400';
+            cardStyle = 'bg-[#ff2a85]/15 border-[#ff2a85]/60 text-[#ff66a8] shadow-sm';
+            iconWrapper = 'bg-[#ff2a85]/20 border-[#ff2a85]/40 text-[#ff2a85]';
           }
 
           return (
@@ -173,29 +173,29 @@ export const PipelineProgress: React.FC<PipelineProgressProps> = ({
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-1">
-                  <span className="text-xs font-bold text-slate-200 truncate">
+                  <span className="text-xs font-bold text-[#fdfbf7] truncate">
                     {stg.number}. {stg.title}
                   </span>
                   {status === 'COMPLETED' && (
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   )}
                   {status === 'PROCESSING' && (
-                    <Loader2 className="w-4 h-4 text-cyan-400 animate-spin shrink-0" />
+                    <Loader2 className="w-4 h-4 text-[#ffd60a] animate-spin shrink-0" />
                   )}
                   {status === 'FAILED' && (
-                    <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                    <XCircle className="w-4 h-4 text-[#ff2a85] shrink-0" />
                   )}
                   {status === 'PENDING' && (
-                    <Circle className="w-3.5 h-3.5 text-slate-700 shrink-0" />
+                    <Circle className="w-3.5 h-3.5 text-[#16623a] shrink-0" />
                   )}
                 </div>
 
-                <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                <p className="text-[11px] text-[#cbd5c5] truncate mt-0.5">
                   {stg.description}
                 </p>
 
                 {stageDuration !== undefined && stageDuration > 0 && (
-                  <span className="text-[10px] font-mono text-cyan-400 font-semibold mt-1 inline-block bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
+                  <span className="text-[10px] font-mono text-[#ffd60a] font-semibold mt-1 inline-block bg-[#041f11] px-1.5 py-0.5 rounded border border-[#16623a]">
                     {stageDuration} ms
                   </span>
                 )}
