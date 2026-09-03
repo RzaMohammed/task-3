@@ -1,8 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  --primary-cyan: #06b6d4;
+  --primary-purple: #a855f7;
+}
 
-@layer base {
+.card-glow {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
   html {
     scroll-behavior: smooth;
   }
