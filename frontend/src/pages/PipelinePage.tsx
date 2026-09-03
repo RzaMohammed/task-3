@@ -257,7 +257,7 @@ export const PipelinePage: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-sm sm:text-base font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
+                <h1 className="text-sm sm:text-base font-extrabold tracking-tight text-gradient-cyan-purple flex items-center gap-2">
                   Face Identification & Blockchain Verification
                 </h1>
                 <span className="hidden md:inline-flex text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-950/60 text-cyan-300 border border-cyan-800/60 font-semibold">
