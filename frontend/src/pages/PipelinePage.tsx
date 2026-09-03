@@ -243,7 +243,7 @@ export const PipelinePage: React.FC = () => {
     : effectiveResult?.verification.currentHash || '';
 
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col bg-grid-pattern relative shadow-2xl card-glow">
+    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col bg-grid-pattern relative shadow-2xl card-glow gradient-bg">
       {/* Background ambient glow orbs */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
       <div className="absolute top-32 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -485,7 +485,7 @@ export const PipelinePage: React.FC = () => {
             <span className="font-semibold text-slate-400">
               Face Identification & Solana Devnet Blockchain Verifier
             </span>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-cyan-400 border border-slate-700">v1.0.0</span>
+            <span title="Version 1.0.0" className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-cyan-400 border border-slate-700">v1.0.0</span>
           </div>
           <div className="text-[11px] text-slate-500">© 2026 — Built for Task 3 Shortlisting</div>
           <div className="flex items-center gap-4 text-[11px] font-mono text-slate-400">
