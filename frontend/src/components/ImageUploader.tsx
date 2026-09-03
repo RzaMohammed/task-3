@@ -122,7 +122,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       >
         {displayUrl ? (
           <div className="relative w-full flex flex-col items-center gap-3.5 z-10">
-            <div className="relative group w-36 h-36 rounded-2xl overflow-hidden border-2 border-slate-700 bg-slate-950 shadow-xl">
+            <div className="relative group w-36 h-36 rounded-2xl overflow-hidden border-2 border-slate-700 bg-slate-950 shadow-xl transition-all duration-300 hover:border-cyan-500/50 hover:shadow-cyan-950/30 hover:shadow-lg">
               <img
                 src={displayUrl}
                 alt="Selected face portrait"
