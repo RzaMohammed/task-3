@@ -27,7 +27,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({ text, label, className =
       onClick={handleCopy}
       title={copied ? 'Copied to clipboard' : 'Copy to clipboard'}
       aria-label="Copy to clipboard"
-      className={`inline-flex items-center gap-1.5 px-2 py-1 text-xs font-mono rounded bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-slate-300 transition-colors ${className}`}
+      className={`inline-flex items-center gap-1.5 px-2 py-1 text-xs font-mono rounded-lg bg-[#041f11] hover:bg-[#062e1a] border border-[#16623a] hover:border-[#ffd60a]/60 text-[#cbd5c5] hover:text-[#ffd60a] transition-all ${className}`}
     >
       {copied ? (
         <>
@@ -36,7 +36,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({ text, label, className =
         </>
       ) : (
         <>
-          <Copy className="w-3.5 h-3.5 text-slate-400" />
+          <Copy className="w-3.5 h-3.5 text-[#ffd60a]" />
           {label && <span>{label}</span>}
         </>
       )}
