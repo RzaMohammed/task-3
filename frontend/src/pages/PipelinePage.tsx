@@ -388,7 +388,7 @@ export const PipelinePage: React.FC = () => {
                 <h4 className="text-xs font-bold text-amber-300">
                   Backend API unreachable (http://localhost:5000)
                 </h4>
-                <p className="text-xs text-slate-300 mt-0.5">
+                <p className="text-xs text-[#cbd5c5] mt-0.5">
                   The local FastAPI server is not currently running. You can switch to the interactive Demo Sandbox to evaluate all features.
                 </p>
               </div>
@@ -400,7 +400,7 @@ export const PipelinePage: React.FC = () => {
                 setBackendOfflinePrompt(false);
                 handleSelectPresetScenario('VERIFIED');
               }}
-              className="px-4 py-2 text-xs font-bold rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 text-slate-950 hover:brightness-110 transition-all shadow-md shrink-0 flex items-center gap-1.5"
+              className="px-4 py-2 text-xs font-bold rounded-xl bg-[#ffd60a] hover:bg-[#ffea75] text-[#062e1a] hover:brightness-105 transition-all shadow-md shadow-yellow-950/40 shrink-0 flex items-center gap-1.5"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Switch to Demo Sandbox</span>
@@ -413,10 +413,10 @@ export const PipelinePage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Column: Image Upload & Action Controls */}
           <div className="lg:col-span-5 flex flex-col gap-4">
-            <div className="glass-panel rounded-2xl p-5 border border-slate-800 shadow-xl flex flex-col gap-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h2 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                  <FileCheck2 className="w-4 h-4 text-cyan-400" />
+            <div className="glass-panel rounded-2xl p-5 border border-[#16623a] shadow-xl flex flex-col gap-4">
+              <div className="flex items-center justify-between border-b border-[#16623a]/70 pb-3">
+                <h2 className="text-xs font-bold text-[#ffd60a] uppercase tracking-wider flex items-center gap-2">
+                  <FileCheck2 className="w-4 h-4 text-[#ffd60a]" />
                   1. Input Face Portrait
                 </h2>
                 {(selectedFile || previewUrlOverride) && (
@@ -424,7 +424,7 @@ export const PipelinePage: React.FC = () => {
                     type="button"
                     onClick={handleReset}
                     disabled={isRunning}
-                    className="text-xs text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1"
+                    className="text-xs text-[#cbd5c5] hover:text-[#ffd60a] transition-colors flex items-center gap-1"
                   >
                     <RefreshCw className="w-3 h-3" /> Reset
                   </button>

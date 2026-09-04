@@ -78,13 +78,13 @@ export const VerificationCard: React.FC<VerificationCardProps> = ({
           >
             {isVerified ? 'HASHES MATCH 100%' : `MISMATCH (${matchPct}% CHAR MATCH)`}
           </span>
-          <span className="text-[11px] font-mono text-slate-400">
-            Algorithm: <strong className="text-slate-200">SHA-256 (RFC 8785)</strong>
+          <span className="text-[11px] font-mono text-[#cbd5c5]">
+            Algorithm: <strong className="text-[#ffd60a]">SHA-256 (RFC 8785)</strong>
           </span>
         </div>
       </div>
 
-      <p className="text-xs text-slate-300 mt-4 leading-relaxed">
+      <p className="text-xs text-[#cbd5c5] mt-4 leading-relaxed">
         {isVerified
           ? 'The candidate evidence package was independently canonicalized and hashed client-side. The resulting SHA-256 fingerprint matches the immutable on-chain record stored on Solana Devnet byte-for-byte.'
           : 'The calculated SHA-256 fingerprint differs from the on-chain record stored on Solana Devnet. One or more metadata attributes (title, timestamp, or platform) have been modified after blockchain anchoring.'}

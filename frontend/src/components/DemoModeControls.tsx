@@ -165,10 +165,10 @@ export const DemoModeControls: React.FC<DemoModeControlsProps> = ({
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-300 flex items-center gap-1">
-                  <XCircle className="w-3.5 h-3.5 text-slate-400" /> No Face
+                <span className="text-xs font-bold text-[#cbd5c5] flex items-center gap-1">
+                  <XCircle className="w-3.5 h-3.5 text-[#cbd5c5]" /> No Face
                 </span>
-                <span className="text-[10px] font-mono text-slate-400">0 Faces</span>
+                <span className="text-[10px] font-mono text-[#cbd5c5]">0 Faces</span>
               </div>
               <p className="text-[10px] text-[#cbd5c5] leading-tight">
                 Non-face image halts at Stage 1
