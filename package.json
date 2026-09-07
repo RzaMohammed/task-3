@@ -1,0 +1,24 @@
+{
+  "name": "face-blockchain-verifier-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo workspace for Face Recognition Blockchain Verification Pipeline",
+  "scripts": {
+    "test": "npm --prefix backend test",
+    "test:backend": "npm --prefix backend test",
+    "build": "npm --prefix frontend run build && npm --prefix backend run build",
+    "build:frontend": "npm --prefix frontend run build",
+    "build:backend": "npm --prefix backend run build",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "RzaMohammed",
+  "license": "MIT"
+}
