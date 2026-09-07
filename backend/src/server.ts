@@ -30,6 +30,17 @@ app.use('/api/blockchain', blockchainRoutes);
 app.use('/api/verification', verificationRoutes);
 app.use('/api/pipeline', pipelineRoutes);
 
+// 404 Handler for undefined routes
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    error: {
+      code: 'ROUTE_NOT_FOUND',
+      message: `Endpoint '${req.method} ${req.originalUrl}' was not found.`
+    }
+  });
+});
+
 // Global Multer & Error Middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof multer.MulterError) {
