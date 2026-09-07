@@ -9,7 +9,8 @@ import {
   Radio,
   Sparkles,
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  Keyboard
 } from 'lucide-react';
 import { ImageUploader } from '../components/ImageUploader';
 import { PipelineProgress } from '../components/PipelineProgress';
@@ -22,6 +23,7 @@ import { VerificationSummary } from '../components/VerificationSummary';
 import { ErrorState } from '../components/ErrorState';
 import { DemoModeControls } from '../components/DemoModeControls';
 import { TamperSimulator } from '../components/TamperSimulator';
+import { ShortcutModal } from '../components/ShortcutModal';
 import { apiService } from '../services/api';
 import {
   SAMPLE_FACE_PRESETS,
@@ -57,6 +59,7 @@ export const PipelinePage: React.FC = () => {
   const [isDemoMode, setIsDemoMode] = useState(true); // Default to interactive demo sandbox for instantaneous evaluation
   const [demoScenario, setDemoScenario] = useState<string>('VERIFIED');
   const [backendOfflinePrompt, setBackendOfflinePrompt] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
 
   // Simulated tamper overrides in VerificationCard
   const [simulatedAuditStatus, setSimulatedAuditStatus] = useState<{
@@ -301,6 +304,14 @@ export const PipelinePage: React.FC = () => {
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
+            <button
+              onClick={() => setShowShortcuts(true)}
+              className="p-2 rounded-full bg-[#062e1a] border border-[#16623a] text-[#ffd60a] hover:bg-[#0a3d24] transition-colors"
+              title="Keyboard Shortcuts"
+              aria-label="Keyboard Shortcuts"
+            >
+              <Keyboard className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
       </header>
@@ -566,6 +577,9 @@ export const PipelinePage: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* Keyboard Shortcuts Modal */}
+      <ShortcutModal isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
     </div>
   );
 };

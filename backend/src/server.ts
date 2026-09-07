@@ -20,6 +20,21 @@ app.use(helmet());
 app.use(cors({ origin: config.FRONTEND_URL, credentials: true }));
 app.use(express.json());
 
+// Request latency tracking header
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const startTime = Date.now();
+  res.setHeader('X-Request-Start', startTime.toString());
+  const originalEnd = res.end;
+  res.end = function (...args: any[]) {
+    const duration = Date.now() - startTime;
+    if (!res.headersSent) {
+      res.setHeader('X-Response-Time', `${duration}ms`);
+    }
+    return originalEnd.apply(this, args as any);
+  };
+  next();
+});
+
 // API Routes
 app.use('/', healthRoutes);
 app.use('/api', healthRoutes);
@@ -29,6 +44,17 @@ app.use('/api/evidence', evidenceRoutes);
 app.use('/api/blockchain', blockchainRoutes);
 app.use('/api/verification', verificationRoutes);
 app.use('/api/pipeline', pipelineRoutes);
+
+// 404 Handler for undefined routes
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    error: {
+      code: 'ROUTE_NOT_FOUND',
+      message: `Endpoint '${req.method} ${req.originalUrl}' was not found.`
+    }
+  });
+});
 
 // Global Multer & Error Middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
