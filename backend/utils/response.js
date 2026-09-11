@@ -1,34 +1,10 @@
-/**
- * Response formatter utility.
- * Provides consistent API response structure.
- */
+// Standardized API response helper
+const sendSuccess = (res, data, status = 200) => {
+  return res.status(status).json({ success: true, data });
+};
 
-function success(res, data, statusCode = 200) {
-  return res.status(statusCode).json({
-    success: true,
-    data,
-    timestamp: new Date().toISOString(),
-  });
-}
+const sendError = (res, message, status = 500) => {
+  return res.status(status).json({ success: false, error: message });
+};
 
-function created(res, data) {
-  return success(res, data, 201);
-}
-
-function paginated(res, data, { page, limit, total }) {
-  return res.status(200).json({
-    success: true,
-    data,
-    pagination: {
-      page,
-      limit,
-      total,
-      totalPages: Math.ceil(total / limit),
-      hasNext: page * limit < total,
-      hasPrev: page > 1,
-    },
-    timestamp: new Date().toISOString(),
-  });
-}
-
-module.exports = { success, created, paginated };
+module.exports = { sendSuccess, sendError };
