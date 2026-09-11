@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Project documentation: architecture overview, deployment guide, testing guide, environment variables, API reference, contributing guide
+- Backend constants modules: application constants, error codes, HTTP status codes
+- Backend middleware: global error handler, request logger, request validator
+- Backend utilities: structured logger, standardized API response helpers
+- Health check utility script
+- Updated Node.js version to v18.17.0
+
+---
+
 ## [1.0.0] - 2026-09-07
 
 ### Added
