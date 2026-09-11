@@ -1,0 +1,7 @@
+// Standard error codes
+module.exports = {
+  NOT_FOUND: 'ERR_NOT_FOUND',
+  UNAUTHORIZED: 'ERR_UNAUTHORIZED',
+  BAD_REQUEST: 'ERR_BAD_REQUEST',
+  INTERNAL: 'ERR_INTERNAL',
+};
