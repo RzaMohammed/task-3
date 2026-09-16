@@ -22,7 +22,13 @@ const SOCIAL_PLATFORMS: Record<string, string> = {
   'vk.com': 'vk',
   'tumblr.com': 'tumblr',
   'flickr.com': 'flickr',
+  'bsky.app': 'bluesky',
+  'mastodon.social': 'mastodon',
+  'snapchat.com': 'snapchat',
+  't.me': 'telegram',
+  'telegram.me': 'telegram',
 };
+
 
 /**
  * Parses URL to identify source platform domain and classify candidate result type.
