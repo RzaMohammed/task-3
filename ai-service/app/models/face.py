@@ -28,4 +28,6 @@ class HealthResponse(BaseModel):
     success: bool = True
     service: str = "ai-service"
     status: str = "running"
+    version: str = "1.0.0"
     model_loaded: bool = False
+    model_name: Optional[str] = None
