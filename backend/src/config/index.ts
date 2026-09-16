@@ -42,4 +42,28 @@ export const config = {
   SOLANA_PRIVATE_KEY: process.env.SOLANA_PRIVATE_KEY || '',
   MAX_BLOCKCHAIN_RETRIES: parseInt(process.env.MAX_BLOCKCHAIN_RETRIES || '2', 10),
   BLOCKCHAIN_TIMEOUT_MS: parseInt(process.env.BLOCKCHAIN_TIMEOUT_MS || '15000', 10),
+
+  // Logging
+  LOG_LEVEL: process.env.LOG_LEVEL || 'info',
 };
+
+// Validate critical environment variables on startup (non-test only)
+if (process.env.NODE_ENV !== 'test') {
+  const warnings: string[] = [];
+
+  if (!config.SOLANA_PRIVATE_KEY) {
+    warnings.push('SOLANA_PRIVATE_KEY is not set — blockchain anchoring will fail.');
+  }
+  if (!config.SEARCH_API_KEY) {
+    warnings.push('SEARCH_API_KEY is not set — visual web search will fail.');
+  }
+  if (config.MATCH_THRESHOLD < 0 || config.MATCH_THRESHOLD > 1) {
+    warnings.push(`MATCH_THRESHOLD (${config.MATCH_THRESHOLD}) is outside valid range [0, 1].`);
+  }
+
+  if (warnings.length > 0) {
+    console.warn('\n⚠ Configuration Warnings:');
+    warnings.forEach(w => console.warn(`  → ${w}`));
+    console.warn('');
+  }
+}

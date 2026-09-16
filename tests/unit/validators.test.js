@@ -1,4 +1,12 @@
-const { isValidEmail, isValidUUID, sanitizeString, isValidFileSize } = require('../../backend/utils/validators');
+const {
+  isValidEmail,
+  isValidUUID,
+  sanitizeString,
+  isValidFileSize,
+  isValidUrl,
+  isValidSHA256,
+  escapeHtml
+} = require('../../backend/utils/validators');
 
 describe('Validators', () => {
   describe('isValidEmail', () => {
@@ -50,6 +58,48 @@ describe('Validators', () => {
       expect(isValidFileSize(0)).toBe(false);
       expect(isValidFileSize(-1)).toBe(false);
       expect(isValidFileSize(51 * 1024 * 1024)).toBe(false);
+    });
+  });
+
+  describe('isValidUrl', () => {
+    test('accepts valid http and https URLs', () => {
+      expect(isValidUrl('https://example.com')).toBe(true);
+      expect(isValidUrl('http://localhost:5000/api/health')).toBe(true);
+      expect(isValidUrl('https://sub.domain.org/path?param=value#hash')).toBe(true);
+    });
+
+    test('rejects invalid or non-http URLs', () => {
+      expect(isValidUrl('ftp://example.com')).toBe(false);
+      expect(isValidUrl('javascript:alert(1)')).toBe(false);
+      expect(isValidUrl('not-a-url')).toBe(false);
+      expect(isValidUrl('')).toBe(false);
+    });
+  });
+
+  describe('isValidSHA256', () => {
+    test('accepts 64-character hex strings', () => {
+      expect(isValidSHA256('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')).toBe(true);
+      expect(isValidSHA256('E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855')).toBe(true);
+    });
+
+    test('rejects invalid hashes', () => {
+      expect(isValidSHA256('e3b0c44298fc1c149afbf4c8996fb924')).toBe(false); // too short
+      expect(isValidSHA256('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')).toBe(false); // non-hex
+      expect(isValidSHA256(null)).toBe(false);
+      expect(isValidSHA256('')).toBe(false);
+    });
+  });
+
+  describe('escapeHtml', () => {
+    test('escapes HTML special characters', () => {
+      expect(escapeHtml('<script>alert("xss & \'fun\'")</script>'))
+        .toBe('&lt;script&gt;alert(&quot;xss &amp; &#039;fun&#039;&quot;)&lt;/script&gt;');
+    });
+
+    test('handles non-string inputs safely', () => {
+      expect(escapeHtml(null)).toBe('');
+      expect(escapeHtml(undefined)).toBe('');
+      expect(escapeHtml(12345)).toBe('');
     });
   });
 });

@@ -98,7 +98,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 // Start listener (only in non-test mode)
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     console.log(`Backend server running on http://localhost:${port}`);
     console.log(`Health check: http://localhost:${port}/api/health`);
     console.log(`Visual search: http://localhost:${port}/api/search/image`);
@@ -108,6 +108,24 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(`Verification: http://localhost:${port}/api/verification/verify`);
     console.log(`Full Pipeline: http://localhost:${port}/api/pipeline/run`);
   });
+
+  // Graceful shutdown handler for containerized deployments
+  const gracefulShutdown = (signal: string) => {
+    console.log(`\n[SHUTDOWN] Received ${signal}. Closing HTTP server gracefully...`);
+    server.close(() => {
+      console.log('[SHUTDOWN] All connections drained. Exiting process.');
+      process.exit(0);
+    });
+
+    // Force exit after 10 seconds if connections are not drained
+    setTimeout(() => {
+      console.error('[SHUTDOWN] Forceful shutdown after timeout (10s).');
+      process.exit(1);
+    }, 10000).unref();
+  };
+
+  process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+  process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 }
 
 export default app;

@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from app.config import settings
 from app.models.face import HealthResponse
 from app.services.face_detection import FaceDetectionService
 
@@ -11,5 +12,7 @@ def get_health():
         success=True,
         service="ai-service",
         status="running",
-        model_loaded=FaceDetectionService.is_loaded()
+        version=settings.VERSION,
+        model_loaded=FaceDetectionService.is_loaded(),
+        model_name=settings.MODEL_NAME
     )

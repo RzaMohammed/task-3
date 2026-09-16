@@ -31,6 +31,18 @@ class UnauthorizedError extends AppError {
   }
 }
 
+class ForbiddenError extends AppError {
+  constructor(message = 'Access forbidden') {
+    super(message, 403, 'FORBIDDEN');
+  }
+}
+
+class ConflictError extends AppError {
+  constructor(message = 'Resource conflict') {
+    super(message, 409, 'CONFLICT');
+  }
+}
+
 function errorHandler(err, req, res, _next) {
   const statusCode = err.statusCode || 500;
   const response = {
@@ -39,6 +51,7 @@ function errorHandler(err, req, res, _next) {
       code: err.code || 'INTERNAL_ERROR',
       message: err.isOperational ? err.message : 'An unexpected error occurred',
     },
+    timestamp: new Date().toISOString(),
   };
 
   if (process.env.NODE_ENV === 'development') {
@@ -53,5 +66,7 @@ module.exports = {
   NotFoundError,
   ValidationError,
   UnauthorizedError,
+  ForbiddenError,
+  ConflictError,
   errorHandler,
 };

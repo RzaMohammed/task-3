@@ -12,6 +12,8 @@ function rateLimit({ windowMs = 60000, maxRequests = 100 } = {}) {
 
     if (!rateLimitStore.has(key)) {
       rateLimitStore.set(key, { count: 1, resetTime: now + windowMs });
+      res.setHeader('X-RateLimit-Limit', maxRequests);
+      res.setHeader('X-RateLimit-Remaining', maxRequests - 1);
       return next();
     }
 
@@ -20,16 +22,24 @@ function rateLimit({ windowMs = 60000, maxRequests = 100 } = {}) {
     if (now > record.resetTime) {
       record.count = 1;
       record.resetTime = now + windowMs;
+      res.setHeader('X-RateLimit-Limit', maxRequests);
+      res.setHeader('X-RateLimit-Remaining', maxRequests - 1);
       return next();
     }
 
+    const remaining = Math.max(0, maxRequests - record.count);
+    res.setHeader('X-RateLimit-Limit', maxRequests);
+    res.setHeader('X-RateLimit-Remaining', remaining);
+
     if (record.count >= maxRequests) {
+      const retryAfter = Math.ceil((record.resetTime - now) / 1000);
+      res.setHeader('Retry-After', retryAfter);
       return res.status(429).json({
         success: false,
         error: {
           code: 'RATE_LIMIT_EXCEEDED',
           message: 'Too many requests. Please try again later.',
-          retryAfter: Math.ceil((record.resetTime - now) / 1000),
+          retryAfter,
         },
       });
     }
