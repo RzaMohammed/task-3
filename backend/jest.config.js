@@ -2,7 +2,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: ['<rootDir>/../tests'],
-  testMatch: ['**/*.test.ts'],
+  testMatch: ['**/*.test.[jt]s'],
   moduleDirectories: ['node_modules', '<rootDir>/node_modules'],
   moduleNameMapper: {
     '^uuid$': require.resolve('uuid')

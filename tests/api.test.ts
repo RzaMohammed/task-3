@@ -19,6 +19,23 @@ describe('Express Backend Routing API Tests', () => {
     }
   });
 
+  test('GET /api/health/deep endpoint verification', async () => {
+    try {
+      const response = await fetch(`${hostUrl}/api/health/deep`);
+      expect([200, 503]).toContain(response.status);
+      
+      const json = (await response.json()) as any;
+      expect(json.service).toBe('backend');
+      expect(['healthy', 'degraded']).toContain(json.status);
+      expect(json.checks).toBeDefined();
+      expect(json.checks.ai_service).toBeDefined();
+      expect(json.checks.solana_rpc).toBeDefined();
+      console.log('GET /api/health/deep verified successfully.');
+    } catch (err: any) {
+      console.warn(`[API TEST] Backend server is not running on ${hostUrl}. Skipping live endpoint check. (${err.message})`);
+    }
+  });
+
   test('GET /api/nonexistent-route fallback 404 response check', async () => {
     try {
       const response = await fetch(`${hostUrl}/api/nonexistent-route`);

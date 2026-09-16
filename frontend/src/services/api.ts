@@ -45,5 +45,29 @@ export const apiService = {
     } catch (error: any) {
       return { success: false, error: error.message };
     }
+  },
+
+  /**
+   * Basic backend health check.
+   */
+  checkHealth: async () => {
+    try {
+      const response = await apiClient.get('/api/health');
+      return response.data;
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  },
+
+  /**
+   * Deep health check checking backend, AI service, and Solana RPC.
+   */
+  checkDeepHealth: async () => {
+    try {
+      const response = await apiClient.get('/api/health/deep');
+      return response.data;
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
   }
 };

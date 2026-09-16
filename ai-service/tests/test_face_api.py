@@ -44,13 +44,15 @@ def create_test_face_image() -> bytes:
     return buf.getvalue()
 
 def test_health_endpoint():
-    """Verify GET /health returns running status."""
+    """Verify GET /health returns running status and metadata."""
     response = client.get("/health")
     assert response.status_code == 200
     data = response.json()
     assert data["success"] is True
     assert data["service"] == "ai-service"
     assert data["status"] == "running"
+    assert "version" in data
+    assert "model_name" in data
     assert "model_loaded" in data
 
 def test_no_face_detected():

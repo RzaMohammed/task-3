@@ -13,3 +13,5 @@ trim_trailing_whitespace = false
 
 [*.{py,sh,ps1}]
 indent_size = 4
+
+# End of editor configuration
