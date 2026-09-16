@@ -52,3 +52,21 @@ export class NoSearchResultsError extends AppError {
     super(404, 'NO_SEARCH_RESULTS', message);
   }
 }
+
+export class BlockchainWalletError extends AppError {
+  constructor(message: string = 'Solana wallet is not configured or inaccessible.') {
+    super(500, 'BLOCKCHAIN_WALLET_NOT_CONFIGURED', message);
+  }
+}
+
+export class BlockchainInsufficientFundsError extends AppError {
+  constructor(walletAddress: string, balance: number) {
+    super(400, 'BLOCKCHAIN_INSUFFICIENT_FUNDS', `Wallet ${walletAddress} has insufficient Devnet SOL (${balance} SOL).`);
+  }
+}
+
+export class BlockchainTransactionError extends AppError {
+  constructor(message: string = 'Failed to record evidence hash on Solana Devnet.') {
+    super(500, 'BLOCKCHAIN_TRANSACTION_FAILED', message);
+  }
+}
