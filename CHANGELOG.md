@@ -8,12 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Project documentation: architecture overview, deployment guide, testing guide, environment variables, API reference, contributing guide
-- Backend constants modules: application constants, error codes, HTTP status codes
-- Backend middleware: global error handler, request logger, request validator
-- Backend utilities: structured logger, standardized API response helpers
-- Health check utility script
-- Updated Node.js version to v18.17.0
+- **Backend Infrastructure & Reliability**:
+  - ESLint configuration (`.eslintrc.json`) for backend TypeScript linting.
+  - Graceful shutdown signal handling (SIGINT/SIGTERM) for clean HTTP connection draining.
+  - Request timeout middleware (`requestTimeout.js`) to protect against long-running requests.
+  - RFC 6585 compliant `X-RateLimit-*` and `Retry-After` headers in rate-limiting middleware.
+  - Startup environment variable validation warnings for critical Solana, search, and port configurations.
+  - Deep dependency health check (`/api/health/deep`) probing AI service and Solana RPC endpoints with latency metrics.
+  - Enhanced logger with ISO timestamps, configurable log levels (`LOG_LEVEL`), and contextual child loggers.
+  - Expanded social platform classifier with support for Bluesky, Mastodon, Snapchat, and Telegram.
+  - Missing HTTP and domain error classes (`ForbiddenError`, `ConflictError`, `BlockchainWalletError`, `BlockchainFundsError`, `BlockchainTransactionError`).
+  - Shared TypeScript interfaces for API envelopes, pagination, and service health checks.
+  - Input validation helpers: `isValidUrl`, `isValidSHA256`, and `escapeHtml`.
+- **AI Service**:
+  - Model metadata (`model_name`) and application version reporting in `/health` endpoint.
+- **Frontend**:
+  - API client methods `checkHealth` and `checkDeepHealth` in `apiService`.
+- **Docker & Deployment**:
+  - Backend health check configuration in `docker-compose.yml` for automated dependency ordering.
+- **Testing & Quality Assurance**:
+  - Jest configuration updated to discover both TypeScript (`.test.ts`) and JavaScript (`.test.js`) suites.
+  - Integration test suite for deep health check endpoint in `tests/api.test.ts`.
+  - Comprehensive unit test suites for `isValidUrl`, `isValidSHA256`, and `escapeHtml` in `tests/unit/validators.test.js`.
+  - Automated test coverage for AI service health metadata in `tests/test_face_api.py`.
 
 ---
 
