@@ -39,3 +39,28 @@ jobs:
       - name: Build Frontend Application
         working-directory: frontend
         run: npm run build
+
+  ai-service:
+    name: AI Service Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: ai-service/requirements.txt
+
+      - name: Install Dependencies
+        working-directory: ai-service
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest httpx
+
+      - name: Run AI Service Tests
+        working-directory: ai-service
+        run: pytest
