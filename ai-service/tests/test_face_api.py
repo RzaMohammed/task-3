@@ -55,6 +55,16 @@ def test_health_endpoint():
     assert "model_name" in data
     assert "model_loaded" in data
 
+def test_readiness_endpoint():
+    """Verify GET /ready returns ready status and model readiness."""
+    response = client.get("/ready")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["ready"] is True
+    assert data["service"] == "ai-service"
+    assert "model_loaded" in data
+
+
 def test_no_face_detected():
     """Test 2 — Image with no face returns NO_FACE_DETECTED."""
     blank_bytes = create_blank_image()
