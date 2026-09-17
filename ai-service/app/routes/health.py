@@ -16,3 +16,12 @@ def get_health():
         model_loaded=FaceDetectionService.is_loaded(),
         model_name=settings.MODEL_NAME
     )
+
+@router.get("/ready")
+def get_readiness():
+    """Readiness probe endpoint for container orchestrators."""
+    return {
+        "ready": True,
+        "service": "ai-service",
+        "model_loaded": FaceDetectionService.is_loaded()
+    }

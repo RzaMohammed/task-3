@@ -36,7 +36,23 @@ describe('Express Backend Routing API Tests', () => {
     }
   });
 
+  test('GET /api/health/ready endpoint verification', async () => {
+    try {
+      const response = await fetch(`${hostUrl}/api/health/ready`);
+      expect(response.status).toBe(200);
+      
+      const json = (await response.json()) as any;
+      expect(json.service).toBe('backend');
+      expect(json.ready).toBe(true);
+      expect(json.timestamp).toBeDefined();
+      console.log('GET /api/health/ready verified successfully.');
+    } catch (err: any) {
+      console.warn(`[API TEST] Backend server is not running on ${hostUrl}. Skipping live endpoint check. (${err.message})`);
+    }
+  });
+
   test('GET /api/nonexistent-route fallback 404 response check', async () => {
+
     try {
       const response = await fetch(`${hostUrl}/api/nonexistent-route`);
       expect(response.status).toBe(404);

@@ -69,5 +69,55 @@ export const apiService = {
     } catch (error: any) {
       return { success: false, error: error.message };
     }
+  },
+
+  /**
+   * Generates a canonical JSON evidence package and SHA-256 fingerprint from match data.
+   */
+  createEvidence: async (match: any, threshold: number = 0.85) => {
+    try {
+      const response = await apiClient.post('/api/evidence/create', { match, threshold });
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || error.message
+      };
+    }
+  },
+
+  /**
+   * Verifies an off-chain evidence package against its claimed SHA-256 hash.
+   */
+  verifyEvidence: async (evidencePackage: any) => {
+    try {
+      const response = await apiClient.post('/api/evidence/verify', { evidencePackage });
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || error.message
+      };
+    }
+  },
+
+  /**
+   * Verifies off-chain evidence against the Solana blockchain ledger transaction.
+   */
+  verifyOnChain: async (transactionSignature: string, evidence: any, evidenceId?: string) => {
+    try {
+      const response = await apiClient.post('/api/verification/verify', {
+        transactionSignature,
+        evidence,
+        evidenceId
+      });
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || error.message
+      };
+    }
   }
 };
+

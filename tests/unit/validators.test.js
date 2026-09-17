@@ -5,8 +5,11 @@ const {
   isValidFileSize,
   isValidUrl,
   isValidSHA256,
-  escapeHtml
+  escapeHtml,
+  slugify,
+  sanitizeFilename
 } = require('../../backend/utils/validators');
+
 
 describe('Validators', () => {
   describe('isValidEmail', () => {
@@ -102,4 +105,33 @@ describe('Validators', () => {
       expect(escapeHtml(12345)).toBe('');
     });
   });
+
+  describe('slugify', () => {
+    test('converts strings into clean url-friendly slugs', () => {
+      expect(slugify('Hello World! How Are You?')).toBe('hello-world-how-are-you');
+      expect(slugify('  Multiple   Spaces  And---Dashes  ')).toBe('multiple-spaces-and-dashes');
+      expect(slugify('Face & Evidence #123')).toBe('face-evidence-123');
+    });
+
+    test('handles empty or non-string inputs safely', () => {
+      expect(slugify('')).toBe('');
+      expect(slugify(null)).toBe('');
+      expect(slugify(undefined)).toBe('');
+    });
+  });
+
+  describe('sanitizeFilename', () => {
+    test('strips dangerous path characters from filenames', () => {
+      expect(sanitizeFilename('../../../etc/passwd')).toBe('etcpasswd');
+      expect(sanitizeFilename('user<name>:photo?.jpg')).toBe('usernamephoto.jpg');
+      expect(sanitizeFilename('normal_photo-2026.png')).toBe('normal_photo-2026.png');
+    });
+
+    test('handles empty or non-string inputs safely', () => {
+      expect(sanitizeFilename('')).toBe('');
+      expect(sanitizeFilename(null)).toBe('');
+      expect(sanitizeFilename(123)).toBe('');
+    });
+  });
 });
+

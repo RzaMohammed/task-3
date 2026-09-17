@@ -57,6 +57,31 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
+/**
+ * Converts a text string into a URL-friendly slug.
+ */
+function slugify(text) {
+  if (typeof text !== 'string') return '';
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/**
+ * Sanitizes a filename to prevent path traversal and remove dangerous characters.
+ */
+function sanitizeFilename(filename) {
+  if (typeof filename !== 'string') return '';
+  return filename
+    .replace(/[/\\?%*:|"<>]/g, '')
+    .replace(/\.\.+/g, '')
+    .replace(/^\.+/, '')
+    .trim();
+}
+
 module.exports = {
   isValidEmail,
   isValidUUID,
@@ -66,4 +91,6 @@ module.exports = {
   isValidUrl,
   isValidSHA256,
   escapeHtml,
+  slugify,
+  sanitizeFilename,
 };

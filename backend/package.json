@@ -7,8 +7,11 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "jest --runInBand --detectOpenHandles"
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:unit": "jest --runInBand --detectOpenHandles tests/unit",
+    "test:integration": "jest --runInBand --detectOpenHandles --testPathIgnorePatterns=tests/unit"
   },
+
   "dependencies": {
     "@solana/web3.js": "^1.98.4",
     "axios": "^1.6.8",
