@@ -77,7 +77,8 @@ function sanitizeFilename(filename) {
   if (typeof filename !== 'string') return '';
   return filename
     .replace(/[/\\?%*:|"<>]/g, '')
-    .replace(/\.\.+/g, '.')
+    .replace(/\.\.+/g, '')
+    .replace(/^\.+/, '')
     .trim();
 }
 
