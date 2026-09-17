@@ -82,4 +82,18 @@ export class HealthController {
       checks
     });
   }
+
+  /**
+   * GET /api/health/ready
+   * Readiness probe for container orchestrators (Kubernetes/Docker).
+   */
+  public static ready(req: Request, res: Response) {
+    res.status(200).json({
+      success: true,
+      service: 'backend',
+      ready: true,
+      timestamp: new Date().toISOString()
+    });
+  }
 }
+
