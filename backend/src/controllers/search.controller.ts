@@ -19,11 +19,13 @@ export class SearchController {
       }
 
       const overrideProvider = req.query.provider as string | undefined;
+      const bypassCache = req.query.bypassCache === 'true' || req.headers['x-bypass-cache'] === 'true';
 
       const payload = await SearchService.searchByImage({
         imageBuffer: req.file.buffer,
         filename: req.file.originalname,
-        mimeType: req.file.mimetype
+        mimeType: req.file.mimetype,
+        bypassCache
       }, overrideProvider);
 
       return res.status(200).json(payload);

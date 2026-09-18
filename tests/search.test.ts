@@ -123,4 +123,34 @@ describe('Module 3 — Visual Web Search Test Suite', () => {
       resultType: 'image'
     });
   });
+
+  test('Test 7 — Search caching caches response and honors bypassCache flag', async () => {
+    const uniqueBuffer = Buffer.from(`cache-test-buffer-${Date.now()}`);
+
+    // First request - should not be cached
+    const res1 = await request(app)
+      .post('/api/search/image?provider=mock')
+      .attach('image', uniqueBuffer, 'cache-test.jpg');
+
+    expect(res1.status).toBe(200);
+    expect(res1.body.cached).toBe(false);
+    expect(typeof res1.body.cacheKey).toBe('string');
+
+    // Second request with same buffer - should be cached
+    const res2 = await request(app)
+      .post('/api/search/image?provider=mock')
+      .attach('image', uniqueBuffer, 'cache-test.jpg');
+
+    expect(res2.status).toBe(200);
+    expect(res2.body.cached).toBe(true);
+    expect(res2.body.cacheKey).toBe(res1.body.cacheKey);
+
+    // Third request with bypassCache=true - should bypass cache
+    const res3 = await request(app)
+      .post('/api/search/image?provider=mock&bypassCache=true')
+      .attach('image', uniqueBuffer, 'cache-test.jpg');
+
+    expect(res3.status).toBe(200);
+    expect(res3.body.cached).toBe(false);
+  });
 });

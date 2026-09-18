@@ -4,6 +4,7 @@ export interface SearchImageInput {
   imageBuffer: Buffer;
   filename?: string;
   mimeType?: string;
+  bypassCache?: boolean;
 }
 
 export interface RawSearchResult {
@@ -35,4 +36,6 @@ export interface SearchResponsePayload {
   query_type: string;
   result_count: number;
   results: SearchResult[];
+  cached?: boolean;
+  cacheKey?: string;
 }
