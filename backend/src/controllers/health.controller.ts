@@ -79,7 +79,17 @@ export class HealthController {
       service: 'backend',
       status: allHealthy ? 'healthy' : 'degraded',
       timestamp: new Date().toISOString(),
-      checks
+      checks,
+      system: {
+        uptime: Math.floor(process.uptime()),
+        memory: {
+          rssMb: Math.round(process.memoryUsage().rss / (1024 * 1024)),
+          heapUsedMb: Math.round(process.memoryUsage().heapUsed / (1024 * 1024)),
+          heapTotalMb: Math.round(process.memoryUsage().heapTotal / (1024 * 1024))
+        },
+        nodeVersion: process.version,
+        platform: process.platform
+      }
     });
   }
 

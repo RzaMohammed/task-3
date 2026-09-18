@@ -82,6 +82,37 @@ function sanitizeFilename(filename) {
     .trim();
 }
 
+/**
+ * Truncates a string to a specified length and appends a suffix.
+ */
+function truncateString(str, maxLength = 100, suffix = '...') {
+  if (typeof str !== 'string') return '';
+  if (str.length <= maxLength) return str;
+  return str.slice(0, maxLength) + suffix;
+}
+
+/**
+ * Checks whether the input is an array with at least one element.
+ */
+function isNonEmptyArray(arr) {
+  return Array.isArray(arr) && arr.length > 0;
+}
+
+/**
+ * Sanitizes an object by picking only allowed keys and trimming string values.
+ */
+function sanitizeObject(obj, allowedKeys) {
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return {};
+  const result = {};
+  for (const key of allowedKeys) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const val = obj[key];
+      result[key] = typeof val === 'string' ? val.trim() : val;
+    }
+  }
+  return result;
+}
+
 module.exports = {
   isValidEmail,
   isValidUUID,
@@ -93,4 +124,8 @@ module.exports = {
   escapeHtml,
   slugify,
   sanitizeFilename,
+  truncateString,
+  isNonEmptyArray,
+  sanitizeObject,
 };
+

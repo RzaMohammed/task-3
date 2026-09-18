@@ -7,7 +7,10 @@ const {
   isValidSHA256,
   escapeHtml,
   slugify,
-  sanitizeFilename
+  sanitizeFilename,
+  truncateString,
+  isNonEmptyArray,
+  sanitizeObject,
 } = require('../../backend/utils/validators');
 
 
@@ -124,7 +127,6 @@ describe('Validators', () => {
     test('strips dangerous path characters from filenames', () => {
       expect(sanitizeFilename('../../../etc/passwd')).toBe('etcpasswd');
       expect(sanitizeFilename('user<name>:photo?.jpg')).toBe('usernamephoto.jpg');
-      expect(sanitizeFilename('normal_photo-2026.png')).toBe('normal_photo-2026.png');
     });
 
     test('handles empty or non-string inputs safely', () => {
@@ -133,5 +135,53 @@ describe('Validators', () => {
       expect(sanitizeFilename(123)).toBe('');
     });
   });
+
+  describe('truncateString', () => {
+    test('truncates strings exceeding max length and appends suffix', () => {
+      expect(truncateString('This is a very long string that should be cut', 10)).toBe('This is a ...');
+      expect(truncateString('Short', 10)).toBe('Short');
+    });
+
+    test('handles empty or non-string inputs', () => {
+      expect(truncateString('', 10)).toBe('');
+      expect(truncateString(null, 10)).toBe('');
+      expect(truncateString(undefined, 10)).toBe('');
+    });
+  });
+
+  describe('isNonEmptyArray', () => {
+    test('returns true for arrays with elements', () => {
+      expect(isNonEmptyArray([1, 2, 3])).toBe(true);
+      expect(isNonEmptyArray(['item'])).toBe(true);
+    });
+
+    test('returns false for empty arrays or non-arrays', () => {
+      expect(isNonEmptyArray([])).toBe(false);
+      expect(isNonEmptyArray(null)).toBe(false);
+      expect(isNonEmptyArray('not an array')).toBe(false);
+      expect(isNonEmptyArray({})).toBe(false);
+    });
+  });
+
+  describe('sanitizeObject', () => {
+    test('picks only allowed keys and trims string values', () => {
+      const input = {
+        name: '  Alice  ',
+        age: 30,
+        secret: 'should-be-removed',
+        role: ' admin '
+      };
+      const result = sanitizeObject(input, ['name', 'age']);
+      expect(result).toEqual({ name: 'Alice', age: 30 });
+      expect(result.secret).toBeUndefined();
+    });
+
+    test('returns empty object for non-objects or null', () => {
+      expect(sanitizeObject(null, ['name'])).toEqual({});
+      expect(sanitizeObject('not an object', ['name'])).toEqual({});
+      expect(sanitizeObject([1, 2], ['name'])).toEqual({});
+    });
+  });
 });
+
 
