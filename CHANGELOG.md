@@ -9,46 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Backend Infrastructure & Reliability**:
-  - ESLint configuration (`.eslintrc.json`) for backend TypeScript linting.
-  - Graceful shutdown signal handling (SIGINT/SIGTERM) for clean HTTP connection draining.
-  - Request timeout middleware (`requestTimeout.js`) to protect against long-running requests.
-  - RFC 6585 compliant `X-RateLimit-*` and `Retry-After` headers in rate-limiting middleware.
-  - Startup environment variable validation warnings for critical Solana, search, and port configurations.
-  - Deep dependency health check (`/api/health/deep`) probing AI service and Solana RPC endpoints with latency metrics.
-  - Enhanced logger with ISO timestamps, configurable log levels (`LOG_LEVEL`), and contextual child loggers.
-  - Expanded social platform classifier with support for Bluesky, Mastodon, Snapchat, and Telegram.
-  - Missing HTTP and domain error classes (`ForbiddenError`, `ConflictError`, `BlockchainWalletError`, `BlockchainFundsError`, `BlockchainTransactionError`).
-  - Shared TypeScript interfaces for API envelopes, pagination, and service health checks.
-  - Input validation helpers: `isValidUrl`, `isValidSHA256`, and `escapeHtml`.
-  - Input sanitizers: `slugify` and path-traversal-safe `sanitizeFilename`.
-  - Readiness probe endpoint `/api/health/ready` for container orchestrator readiness checks.
-  - Barrel export for backend core services in `backend/src/services/index.ts`.
+  - Memory usage metrics (RSS, heapUsed, heapTotal) and runtime platform metadata added to `GET /api/health/deep`.
+  - Standardized HTTP status codes (e.g. `REQUEST_TIMEOUT`, `CONFLICT`, `TOO_MANY_REQUESTS`, `SERVICE_UNAVAILABLE`) in `backend/constants/httpStatus.js`.
+  - Comprehensive application error code definitions in `backend/constants/errorCodes.js`.
+  - Input validation utilities: `truncateString`, `isNonEmptyArray`, and object key sanitizer `sanitizeObject`.
 - **AI Service**:
-  - Model metadata (`model_name`) and application version reporting in `/health` endpoint.
-  - Container readiness probe endpoint `/ready` reporting model load status.
-- **Frontend**:
-  - API client methods `checkHealth` and `checkDeepHealth` in `apiService`.
-  - API client methods `createEvidence`, `verifyEvidence`, and `verifyOnChain`.
-  - TypeScript interfaces for health checks and blockchain status in `types/health.ts`.
-  - Centralized barrel export in `frontend/src/types/index.ts`.
-- **Docker & Deployment**:
-  - Backend health check configuration in `docker-compose.yml` for automated dependency ordering.
+  - Execution latency measurement ASGI middleware attaching `X-Process-Time` HTTP header to all responses.
+  - Test coverage for `X-Process-Time` latency header verification in `test_face_api.py`.
+- **Frontend Architecture**:
+  - TypeScript definitions for visual search items, similarity matches, and provider responses in `frontend/src/types/search.ts`.
+  - Centralized barrel re-export for search types in `frontend/src/types/index.ts`.
+  - API client methods `searchFaces` and `getEvidenceById` in `frontend/src/services/api.ts`.
+  - Formatter utilities (`formatBytes`, `formatPercentage`, `truncateHash`, `formatDuration`) in `frontend/src/utils/formatters.ts`.
+- **Developer Tooling & Scripts**:
+  - Safe cache cleanup utility (`scripts/clear-cache.js`) supporting `--dry-run` and `--force` flags.
+  - Performance benchmark tool (`scripts/benchmark-hashing.js`) measuring canonicalization and SHA-256 throughput.
+  - NPM convenience scripts `cache:clean` and `bench:hashing` in root `package.json`.
 - **Testing & Quality Assurance**:
-  - Jest configuration updated to discover both TypeScript (`.test.ts`) and JavaScript (`.test.js`) suites.
-  - Integration test suite for deep health check endpoint in `tests/api.test.ts`.
-  - Integration test suite for readiness probe endpoint in `tests/api.test.ts`.
-  - Comprehensive unit test suites for `isValidUrl`, `isValidSHA256`, `escapeHtml`, `slugify`, and `sanitizeFilename` in `tests/unit/validators.test.js`.
-  - Unit test suite for response formatting utilities in `tests/unit/response.test.js`.
-  - Unit test suite for logger formatting and log levels in `tests/unit/logger.test.js`.
-  - Unit test suite for request ID middleware in `tests/unit/requestId.test.js`.
-  - Unit test suite for schema validation middleware in `tests/unit/validateRequest.test.js`.
-  - Unit test suite for request timeout middleware in `tests/unit/requestTimeout.test.js`.
-  - Automated test coverage for AI service health metadata and readiness in `tests/test_face_api.py`.
-  - New granular test scripts `test:unit` and `test:integration` in workspace and backend `package.json`.
-- **CI/CD & Documentation**:
-  - Python AI service automated test step added to GitHub Actions workflow (`.github/workflows/ci.yml`).
-  - Comprehensive API reference guide covering health, evidence, and verification endpoints in `docs/api.md`.
-  - Updated `TODO.md` roadmap with completed milestones.
+  - System metrics validation assertions in deep health check integration test (`tests/api.test.ts`).
+  - Unit tests for `truncateString`, `isNonEmptyArray`, and `sanitizeObject` in `tests/unit/validators.test.js`.
+  - Unit test suite for frontend formatters in `tests/unit/formatters.test.ts`.
+- **Documentation**:
+  - Enhanced Solana verification guide (`docs/solana-verification.md`) with SPL Memo v2 program ID, fee estimates, and CLI queries.
+  - Comprehensive production environment variables matrix and secret management guide in `docs/ENV_REFERENCE.md`.
+  - Updated milestone tracker and roadmap in `TODO.md`.
 
 
 ---
