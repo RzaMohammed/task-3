@@ -18,11 +18,17 @@
   - Standardized JSON error envelope with timestamp, error code, and HTTP status codes.
   - System memory and uptime metrics in `/api/health/deep`.
   - Centralized constants for HTTP status codes (`backend/constants/httpStatus.js`) and error codes (`backend/constants/errorCodes.js`).
+- [x] **Visual search caching & event-driven pipeline architecture**
+  - In-memory deterministic LRU search cache (`SearchCache`) with configurable TTL and hit ratio tracking.
+  - Integration into `SearchService` and `SearchController` with `bypassCache` query param and `X-Bypass-Cache` header support.
+  - Event-driven stage telemetry bus (`PipelineEventEmitter`) with bounded event history for real-time WebSocket progress updates.
+  - Decentralized IPFS evidence storage client (`IpfsService`) with deterministic CIDv1 generation and tamper verification.
+  - Architectural documentation in `docs/SEARCH_CACHE_AND_IPFS.md`.
 
 ## Upcoming Roadmap
 
-- [ ] Add Redis caching layer for reverse image search results
-- [ ] Implement WebSocket real-time progress updates for pipeline stages
-- [ ] Support IPFS decentralized storage for persistent evidence package retention
+- [ ] Support Redis cluster backend for distributed search caching
+- [ ] Connect WebSocket server to `PipelineEventEmitter` for frontend streaming
 - [ ] Implement rate-limit burst protection via sliding-window Redis counter
+- [ ] Zero-Knowledge Proof (zk-SNARKs) privacy layer for biometric verification
 
