@@ -53,3 +53,36 @@ FACE_VERIFY:v1:ev_e3a5338722a056d5:e3a5338722a056d51c9b3121ae80c1e0e41127e494b48
    ```
 3. Inspect the **Instructions** table — find the `Memo (SPL Memo Program)` entry.
 4. Compare the 64-character hex hash against the evidence package fingerprint.
+
+## Technical Specifications
+
+### Program Reference
+- **Program Name**: SPL Memo Program v2
+- **Program ID**: `MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr`
+- **Network**: Solana Devnet (`https://api.devnet.solana.com`)
+- **Commitment Level**: `confirmed` (for pipeline throughput) / `finalized` (for immutable audit proof)
+
+### Transaction Fees & Keypair Management
+- Each anchoring transaction incurs a network fee of approximately **5,000 lamports** (0.000005 SOL).
+- Development wallets can be topped up using the Solana CLI faucet:
+  ```bash
+  solana airdrop 1 <PUBLIC_KEY> --url https://api.devnet.solana.com
+  ```
+
+### Verification via JSON-RPC CLI
+You can query and inspect the anchored transaction directly via `curl`:
+
+```bash
+curl -X POST https://api.devnet.solana.com \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "getTransaction",
+    "params": [
+      "<TRANSACTION_SIGNATURE>",
+      { "encoding": "jsonParsed", "maxSupportedTransactionVersion": 0 }
+    ]
+  }'
+```
+
