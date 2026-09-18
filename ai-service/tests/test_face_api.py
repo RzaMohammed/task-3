@@ -47,6 +47,7 @@ def test_health_endpoint():
     """Verify GET /health returns running status and metadata."""
     response = client.get("/health")
     assert response.status_code == 200
+    assert "x-process-time" in response.headers
     data = response.json()
     assert data["success"] is True
     assert data["service"] == "ai-service"
@@ -59,6 +60,7 @@ def test_readiness_endpoint():
     """Verify GET /ready returns ready status and model readiness."""
     response = client.get("/ready")
     assert response.status_code == 200
+    assert "x-process-time" in response.headers
     data = response.json()
     assert data["ready"] is True
     assert data["service"] == "ai-service"
