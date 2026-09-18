@@ -8,6 +8,8 @@
     "test:backend": "npm --prefix backend test",
     "test:unit": "npm --prefix backend run test:unit",
     "test:integration": "npm --prefix backend run test:integration",
+    "cache:clean": "node scripts/clear-cache.js",
+    "bench:hashing": "node scripts/benchmark-hashing.js",
     "build": "npm --prefix frontend run build && npm --prefix backend run build",
 
     "build:frontend": "npm --prefix frontend run build",
