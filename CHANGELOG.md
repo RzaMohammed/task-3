@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Standardized HTTP status codes (e.g. `REQUEST_TIMEOUT`, `CONFLICT`, `TOO_MANY_REQUESTS`, `SERVICE_UNAVAILABLE`) in `backend/constants/httpStatus.js`.
   - Comprehensive application error code definitions in `backend/constants/errorCodes.js`.
   - Input validation utilities: `truncateString`, `isNonEmptyArray`, and object key sanitizer `sanitizeObject`.
+  - In-memory deterministic LRU search cache (`SearchCache`) with configurable TTL and hit ratio tracking in `backend/src/services/search/search.cache.ts`.
+  - Integration of caching layer into `SearchService.searchByImage` and `SearchController` with `bypassCache` option.
+  - Event-driven stage telemetry bus (`PipelineEventEmitter`) with bounded event history in `backend/src/services/pipeline/pipeline.events.ts`.
+  - Decentralized IPFS storage client (`IpfsService`) with deterministic CIDv1 generation and tamper verification in `backend/src/services/storage/ipfs.service.ts`.
 - **AI Service**:
   - Execution latency measurement ASGI middleware attaching `X-Process-Time` HTTP header to all responses.
   - Test coverage for `X-Process-Time` latency header verification in `test_face_api.py`.
@@ -29,9 +33,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - System metrics validation assertions in deep health check integration test (`tests/api.test.ts`).
   - Unit tests for `truncateString`, `isNonEmptyArray`, and `sanitizeObject` in `tests/unit/validators.test.js`.
   - Unit test suite for frontend formatters in `tests/unit/formatters.test.ts`.
+  - Unit test suite for `SearchCache` covering TTL, LRU eviction, and hit ratios in `tests/unit/searchCache.test.ts`.
+  - Unit test suite for `PipelineEventEmitter` stage telemetry in `tests/unit/pipelineEvents.test.ts`.
+  - Unit test suite for `IpfsService` CID generation and tamper verification in `tests/unit/ipfsStorage.test.ts`.
 - **Documentation**:
   - Enhanced Solana verification guide (`docs/solana-verification.md`) with SPL Memo v2 program ID, fee estimates, and CLI queries.
   - Comprehensive production environment variables matrix and secret management guide in `docs/ENV_REFERENCE.md`.
+  - Comprehensive architecture design guide for search caching and IPFS evidence persistence in `docs/SEARCH_CACHE_AND_IPFS.md`.
   - Updated milestone tracker and roadmap in `TODO.md`.
 
 

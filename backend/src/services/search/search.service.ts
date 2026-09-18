@@ -1,5 +1,6 @@
 import { SearchFactory } from './search.factory';
 import { SearchImageInput, SearchResult, SearchResponsePayload } from './search.types';
+import { searchCache, SearchCache } from './search.cache';
 import { getSourcePlatform } from '../../utils/platform';
 import { config } from '../../config';
 import { logger } from '../../utils/logger';
@@ -12,6 +13,22 @@ export class SearchService {
    */
   public static async searchByImage(input: SearchImageInput, overrideProvider?: string): Promise<SearchResponsePayload> {
     logger.info('[SEARCH] Image search requested');
+
+    const cacheKey = SearchCache.computeKey(input.imageBuffer) + (overrideProvider ? `:${overrideProvider}` : '');
+
+    // Check cache unless explicitly bypassed
+    if (!input.bypassCache) {
+      const cached = searchCache.get(cacheKey);
+      if (cached) {
+        logger.info(`[SEARCH] Returning cached search results for key: ${cacheKey}`);
+        return {
+          ...cached,
+          cached: true,
+          cacheKey
+        };
+      }
+    }
+
     const provider = SearchFactory.getProvider(overrideProvider);
 
     const rawResults = await provider.searchByImage(input);
@@ -75,11 +92,17 @@ export class SearchService {
     logger.info(`[SEARCH] Web candidates: ${webCount}`);
     logger.info(`[SEARCH] Search completed with ${validResults.length} normalized candidates`);
 
-    return {
+    const payload: SearchResponsePayload = {
       success: true,
       query_type: 'visual_image_search',
       result_count: validResults.length,
-      results: validResults
+      results: validResults,
+      cached: false,
+      cacheKey
     };
+
+    searchCache.set(cacheKey, payload);
+
+    return payload;
   }
 }
