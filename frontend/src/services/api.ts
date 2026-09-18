@@ -118,6 +118,38 @@ export const apiService = {
         error: error.response?.data?.error || error.message
       };
     }
+  },
+
+  /**
+   * Searches the web for visually matching faces.
+   */
+  searchFaces: async (formData: FormData) => {
+    try {
+      const response = await apiClient.post('/api/search', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || error.message
+      };
+    }
+  },
+
+  /**
+   * Retrieves an evidence package by its deterministic evidence ID.
+   */
+  getEvidenceById: async (evidenceId: string) => {
+    try {
+      const response = await apiClient.get(`/api/evidence/${encodeURIComponent(evidenceId)}`);
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || error.message
+      };
+    }
   }
 };
 
