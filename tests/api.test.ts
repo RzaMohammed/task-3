@@ -30,6 +30,10 @@ describe('Express Backend Routing API Tests', () => {
       expect(json.checks).toBeDefined();
       expect(json.checks.ai_service).toBeDefined();
       expect(json.checks.solana_rpc).toBeDefined();
+      expect(json.system).toBeDefined();
+      expect(typeof json.system.uptime).toBe('number');
+      expect(typeof json.system.memory.rssMb).toBe('number');
+      expect(typeof json.system.nodeVersion).toBe('string');
       console.log('GET /api/health/deep verified successfully.');
     } catch (err: any) {
       console.warn(`[API TEST] Backend server is not running on ${hostUrl}. Skipping live endpoint check. (${err.message})`);
