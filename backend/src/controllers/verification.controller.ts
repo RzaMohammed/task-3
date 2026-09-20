@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { VerificationService } from '../services/verification/verification.service';
+import { MerkleTree, MerkleProof } from '../services/verification/merkle.service';
 import { AppError } from '../utils/errors';
 import { logger } from '../utils/logger';
 
@@ -51,4 +52,44 @@ export class VerificationController {
       });
     }
   }
+
+  /**
+   * POST /api/verification/merkle
+   * Cryptographically verifies a Merkle inclusion proof against a root.
+   */
+  public static async verifyMerkleProof(req: Request, res: Response, next: NextFunction) {
+    try {
+      const proof: MerkleProof = req.body.proof;
+
+      if (!proof || typeof proof.root !== 'string' || typeof proof.leaf !== 'string' || !Array.isArray(proof.proof)) {
+        return res.status(400).json({
+          success: false,
+          error: {
+            code: 'INVALID_MERKLE_PROOF',
+            message: 'A valid Merkle proof object containing root, leaf, leafIndex, and proof array is required.'
+          }
+        });
+      }
+
+      const verified = MerkleTree.verifyProof(proof);
+
+      return res.status(200).json({
+        success: true,
+        verified,
+        root: proof.root,
+        leaf: proof.leaf,
+        leafIndex: proof.leafIndex
+      });
+    } catch (error: any) {
+      logger.error(`[VERIFY] Merkle verification error: ${error.message}`);
+      return res.status(500).json({
+        success: false,
+        error: {
+          code: 'MERKLE_VERIFICATION_FAILED',
+          message: error.message || 'An error occurred during Merkle proof verification.'
+        }
+      });
+    }
+  }
 }
+

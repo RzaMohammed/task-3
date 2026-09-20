@@ -9,4 +9,10 @@ router.post('/create', EvidenceController.createEvidence);
 // POST /api/evidence/verify
 router.post('/verify', EvidenceController.verifyEvidence);
 
+// POST /api/evidence/bundle/export
+router.post('/bundle/export', EvidenceController.exportBundle);
+
+// POST /api/evidence/bundle/verify
+router.post('/bundle/verify', EvidenceController.verifyBundle);
+
 export default router;
