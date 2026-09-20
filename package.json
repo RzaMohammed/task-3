@@ -10,6 +10,7 @@
     "test:integration": "npm --prefix backend run test:integration",
     "cache:clean": "node scripts/clear-cache.js",
     "bench:hashing": "node scripts/benchmark-hashing.js",
+    "verify:bundle": "node scripts/verify-bundle.js",
     "build": "npm --prefix frontend run build && npm --prefix backend run build",
 
     "build:frontend": "npm --prefix frontend run build",

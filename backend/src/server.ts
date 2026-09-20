@@ -9,6 +9,8 @@ import evidenceRoutes from './routes/evidence.routes';
 import blockchainRoutes from './routes/blockchain.routes';
 import verificationRoutes from './routes/verification.routes';
 import pipelineRoutes from './routes/pipeline.routes';
+import streamRoutes from './routes/stream.routes';
+import { createSlidingWindowLimiter } from './middleware/rate-limiter';
 import { config } from './config';
 import { AppError } from './utils/errors';
 
@@ -19,6 +21,15 @@ const port = config.BACKEND_PORT || 5000;
 app.use(helmet());
 app.use(cors({ origin: config.FRONTEND_URL, credentials: true }));
 app.use(express.json());
+
+// Sliding-window burst-protected rate limiter (skips health endpoints and test environments)
+const apiRateLimiter = createSlidingWindowLimiter({
+  windowMs: 60_000,
+  maxRequests: 300,
+  burstLimit: 120,
+  skip: (req: Request) => req.path.includes('/health') || process.env.NODE_ENV === 'test'
+});
+app.use('/api', apiRateLimiter);
 
 // Request latency tracking header
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -44,6 +55,7 @@ app.use('/api/evidence', evidenceRoutes);
 app.use('/api/blockchain', blockchainRoutes);
 app.use('/api/verification', verificationRoutes);
 app.use('/api/pipeline', pipelineRoutes);
+app.use('/api/stream', streamRoutes);
 
 // 404 Handler for undefined routes
 app.use((req: Request, res: Response) => {
