@@ -4,9 +4,10 @@ import { logger } from '../utils/logger';
 
 export class StreamController {
   public static streamPipelineEvents(req: Request, res: Response): void {
-    const { pipelineId } = req.params;
+    const rawId = req.params.pipelineId;
+    const pipelineId = typeof rawId === 'string' ? rawId.trim() : '';
 
-    if (!pipelineId || typeof pipelineId !== 'string') {
+    if (!pipelineId) {
       res.status(400).json({
         success: false,
         error: {
