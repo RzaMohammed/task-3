@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Integration of caching layer into `SearchService.searchByImage` and `SearchController` with `bypassCache` option.
   - Event-driven stage telemetry bus (`PipelineEventEmitter`) with bounded event history in `backend/src/services/pipeline/pipeline.events.ts`.
   - Decentralized IPFS storage client (`IpfsService`) with deterministic CIDv1 generation and tamper verification in `backend/src/services/storage/ipfs.service.ts`.
+  - Sliding-window rate limiter middleware (`SlidingWindowRateLimiter`) with dual-window burst protection, retry headers, and whitelist support in `backend/src/middleware/rate-limiter.ts`.
+  - Real-time Server-Sent Events (SSE) stream endpoint `GET /api/stream/pipeline/:pipelineId` in `backend/src/controllers/stream.controller.ts` and `backend/src/routes/stream.routes.ts`.
+  - Cryptographic Merkle tree verification engine (`MerkleTree`) with domain separation (`0x00`/`0x01`), balanced binary trees, and selective inclusion proofs in `backend/src/services/verification/merkle.service.ts`.
+  - Evidence audit bundle exporter and integrity verifier (`EvidenceBundleService`) in `backend/src/services/hashing/evidence-bundle.service.ts`.
 - **AI Service**:
   - Execution latency measurement ASGI middleware attaching `X-Process-Time` HTTP header to all responses.
   - Test coverage for `X-Process-Time` latency header verification in `test_face_api.py`.
@@ -28,7 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Developer Tooling & Scripts**:
   - Safe cache cleanup utility (`scripts/clear-cache.js`) supporting `--dry-run` and `--force` flags.
   - Performance benchmark tool (`scripts/benchmark-hashing.js`) measuring canonicalization and SHA-256 throughput.
-  - NPM convenience scripts `cache:clean` and `bench:hashing` in root `package.json`.
+  - Offline evidence audit bundle verification CLI tool (`scripts/verify-bundle.js`).
+  - NPM convenience scripts `cache:clean`, `bench:hashing`, and `verify:bundle` in root `package.json`.
 - **Testing & Quality Assurance**:
   - System metrics validation assertions in deep health check integration test (`tests/api.test.ts`).
   - Unit tests for `truncateString`, `isNonEmptyArray`, and `sanitizeObject` in `tests/unit/validators.test.js`.
@@ -36,10 +41,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Unit test suite for `SearchCache` covering TTL, LRU eviction, and hit ratios in `tests/unit/searchCache.test.ts`.
   - Unit test suite for `PipelineEventEmitter` stage telemetry in `tests/unit/pipelineEvents.test.ts`.
   - Unit test suite for `IpfsService` CID generation and tamper verification in `tests/unit/ipfsStorage.test.ts`.
+  - Unit test suite for `SlidingWindowRateLimiter` covering tokens, bursts, and resets in `tests/unit/rateLimiter.test.ts`.
+  - Unit test suite for `MerkleTree` covering roots, sibling proofs, and selective disclosure in `tests/unit/merkle.test.ts`.
+  - Unit test suite for `EvidenceBundleService` covering bundle integrity and tamper detection in `tests/unit/evidenceBundle.test.ts`.
+  - Integration test suite for real-time SSE streaming in `tests/stream.test.ts`.
 - **Documentation**:
   - Enhanced Solana verification guide (`docs/solana-verification.md`) with SPL Memo v2 program ID, fee estimates, and CLI queries.
   - Comprehensive production environment variables matrix and secret management guide in `docs/ENV_REFERENCE.md`.
   - Comprehensive architecture design guide for search caching and IPFS evidence persistence in `docs/SEARCH_CACHE_AND_IPFS.md`.
+  - Comprehensive architecture design guide for real-time streaming and Merkle audit trees in `docs/STREAMING_AND_MERKLE_AUDIT.md`.
   - Updated milestone tracker and roadmap in `TODO.md`.
 
 
