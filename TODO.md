@@ -31,10 +31,19 @@
   - Cryptographic Merkle Tree verification service (`MerkleTree`) with domain separation (`0x00`/`0x01`) and selective inclusion proofs.
   - Evidence Audit Bundle exporter (`EvidenceBundleService`) encapsulating manifest checksums, on-chain anchors, and Merkle proofs.
   - Comprehensive architectural documentation in `docs/STREAMING_AND_MERKLE_AUDIT.md`.
+- [x] **Frontend SSE streaming hook & cryptographic verification client**
+  - React hook `usePipelineStream` connecting directly to Server-Sent Events endpoint with stage progress transitions, auto-reconnect, and history buffering.
+  - REST endpoints for audit bundle export (`POST /api/evidence/bundle/export`) and offline tamper verification (`POST /api/evidence/bundle/verify`).
+  - Cryptographic Merkle proof verification endpoint (`POST /api/verification/merkle`).
+  - Full frontend client integration in `apiService` (`getPipelineStreamUrl`, `exportEvidenceBundle`, `verifyEvidenceBundle`, `verifyMerkleProof`).
+- [x] **Distributed cache store adapter with Redis cluster & resilient fallback**
+  - Unified `ICacheStore` interface providing async key-value caching with TTL, LRU eviction, and hit ratio tracking.
+  - Generic `MemoryCacheStore` and `DistributedCacheService` supporting standalone Redis and Redis Cluster with zero-downtime memory fallback.
+  - Integration test suite for bundle & Merkle endpoints (`tests/bundle-verification-api.test.ts`) and unit test suite for distributed cache store (`tests/unit/distributedCache.test.ts`).
 
 ## Upcoming Roadmap
 
-- [ ] Support Redis cluster backend for distributed search caching & rate-limit synchronization
 - [ ] Implement Circom / SnarkJS zk-SNARK circuit for private biometric embedding cosine distance verification
-- [ ] Connect React frontend `usePipelineStream` hook directly to SSE streaming endpoint
 - [ ] Decentralized relayer network for subsidized Solana evidence gas fees
+- [ ] Implement WebSocket fallback transport alongside Server-Sent Events
+
