@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Real-time Server-Sent Events (SSE) stream endpoint `GET /api/stream/pipeline/:pipelineId` in `backend/src/controllers/stream.controller.ts` and `backend/src/routes/stream.routes.ts`.
   - Cryptographic Merkle tree verification engine (`MerkleTree`) with domain separation (`0x00`/`0x01`), balanced binary trees, and selective inclusion proofs in `backend/src/services/verification/merkle.service.ts`.
   - Evidence audit bundle exporter and integrity verifier (`EvidenceBundleService`) in `backend/src/services/hashing/evidence-bundle.service.ts`.
+  - REST endpoints for audit bundle export (`POST /api/evidence/bundle/export`) and integrity verification (`POST /api/evidence/bundle/verify`) in `EvidenceController` and `evidence.routes.ts`.
+  - Cryptographic Merkle inclusion proof verification endpoint (`POST /api/verification/merkle`) in `VerificationController` and `verification.routes.ts`.
+  - Distributed cache storage subsystem (`ICacheStore`, `MemoryCacheStore`, `DistributedCacheService`) with Redis / Redis Cluster configuration and resilient memory fallback in `backend/src/services/cache/`.
 - **AI Service**:
   - Execution latency measurement ASGI middleware attaching `X-Process-Time` HTTP header to all responses.
   - Test coverage for `X-Process-Time` latency header verification in `test_face_api.py`.
@@ -29,6 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Centralized barrel re-export for search types in `frontend/src/types/index.ts`.
   - API client methods `searchFaces` and `getEvidenceById` in `frontend/src/services/api.ts`.
   - Formatter utilities (`formatBytes`, `formatPercentage`, `truncateHash`, `formatDuration`) in `frontend/src/utils/formatters.ts`.
+  - React hook `usePipelineStream` in `frontend/src/hooks/usePipelineStream.ts` for real-time Server-Sent Events lifecycle and stage progress tracking.
+  - API client methods `getPipelineStreamUrl`, `exportEvidenceBundle`, `verifyEvidenceBundle`, and `verifyMerkleProof` in `frontend/src/services/api.ts`.
+  - Streaming event, Merkle proof, and audit bundle type definitions in `frontend/src/types/pipeline.ts`.
 - **Developer Tooling & Scripts**:
   - Safe cache cleanup utility (`scripts/clear-cache.js`) supporting `--dry-run` and `--force` flags.
   - Performance benchmark tool (`scripts/benchmark-hashing.js`) measuring canonicalization and SHA-256 throughput.
@@ -45,6 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Unit test suite for `MerkleTree` covering roots, sibling proofs, and selective disclosure in `tests/unit/merkle.test.ts`.
   - Unit test suite for `EvidenceBundleService` covering bundle integrity and tamper detection in `tests/unit/evidenceBundle.test.ts`.
   - Integration test suite for real-time SSE streaming in `tests/stream.test.ts`.
+  - API test suite for audit bundle export, bundle verification, and Merkle proofs in `tests/bundle-verification-api.test.ts`.
+  - Unit test suite for distributed cache store and in-memory fallback in `tests/unit/distributedCache.test.ts`.
 - **Documentation**:
   - Enhanced Solana verification guide (`docs/solana-verification.md`) with SPL Memo v2 program ID, fee estimates, and CLI queries.
   - Comprehensive production environment variables matrix and secret management guide in `docs/ENV_REFERENCE.md`.

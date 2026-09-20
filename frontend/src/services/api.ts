@@ -150,6 +150,62 @@ export const apiService = {
         error: error.response?.data?.error || error.message
       };
     }
+  },
+
+  /**
+   * Returns the Server-Sent Events URL for a given pipelineId.
+   */
+  getPipelineStreamUrl: (pipelineId: string): string => {
+    return `${API_BASE_URL}/api/stream/pipeline/${encodeURIComponent(pipelineId)}`;
+  },
+
+  /**
+   * Exports an offline tamper-evident EvidenceAuditBundle.
+   */
+  exportEvidenceBundle: async (evidencePackage: any, anchors?: any) => {
+    try {
+      const response = await apiClient.post('/api/evidence/bundle/export', {
+        evidencePackage,
+        anchors
+      });
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error?.message || error.message
+      };
+    }
+  },
+
+  /**
+   * Verifies an offline EvidenceAuditBundle.
+   */
+  verifyEvidenceBundle: async (bundle: any) => {
+    try {
+      const response = await apiClient.post('/api/evidence/bundle/verify', { bundle });
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error?.message || error.message
+      };
+    }
+  },
+
+  /**
+   * Cryptographically verifies a Merkle inclusion proof.
+   */
+  verifyMerkleProof: async (proof: any) => {
+    try {
+      const response = await apiClient.post('/api/verification/merkle', { proof });
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error?.message || error.message
+      };
+    }
   }
 };
+
 
