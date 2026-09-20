@@ -85,3 +85,69 @@ export interface PipelineFailureResponse {
 }
 
 export type PipelineResponse = PipelineSuccessResponse | PipelineFailureResponse;
+
+export interface MerkleProofStep {
+  position: 'left' | 'right';
+  hash: string;
+}
+
+export interface MerkleProof {
+  leaf: string;
+  leafIndex: number;
+  proof: MerkleProofStep[];
+  root: string;
+}
+
+export interface EvidenceAnchorInfo {
+  network: 'solana-devnet' | 'solana-mainnet' | 'ipfs';
+  txSignature?: string;
+  memo?: string;
+  cid?: string;
+  timestamp: string;
+}
+
+export interface EvidenceBundleManifest {
+  bundleVersion: '1.0';
+  bundleId: string;
+  createdAt: string;
+  evidenceId: string;
+  evidenceFingerprint: string;
+  merkleRoot: string;
+  checksums: {
+    evidenceSha256: string;
+    merkleProofSha256: string;
+  };
+  anchors: EvidenceAnchorInfo[];
+}
+
+export interface EvidenceAuditBundle {
+  manifest: EvidenceBundleManifest;
+  evidence: any;
+  merkleProof: MerkleProof;
+  bundleChecksum: string;
+}
+
+export type PipelineEventType =
+  | 'connected'
+  | 'stage:replay'
+  | 'stage:start'
+  | 'stage:progress'
+  | 'stage:complete'
+  | 'stage:error'
+  | 'pipeline:complete';
+
+export interface StageEventPayload {
+  pipelineId: string;
+  stage: keyof PipelineStages;
+  status: PipelineStageStatus;
+  progressPercent?: number;
+  message?: string;
+  durationMs?: number;
+  error?: string;
+  timestamp: string;
+}
+
+export interface PipelineStreamEvent {
+  event: string;
+  data: any;
+}
