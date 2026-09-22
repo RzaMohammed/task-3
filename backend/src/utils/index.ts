@@ -6,6 +6,8 @@ export * from './cryptoUtils';
 export * from './urlValidator';
 export * from './encodingUtils';
 export * from './retryUtils';
+export * from './metricsCollector';
+
 
 
 
