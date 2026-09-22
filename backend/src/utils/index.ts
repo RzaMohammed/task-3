@@ -4,5 +4,7 @@ export * from './platform';
 export * from './mime-validator';
 export * from './cryptoUtils';
 export * from './urlValidator';
+export * from './encodingUtils';
+
 
 
