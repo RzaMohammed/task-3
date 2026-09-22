@@ -11,6 +11,7 @@
     "cache:clean": "node scripts/clear-cache.js",
     "bench:hashing": "node scripts/benchmark-hashing.js",
     "verify:bundle": "node scripts/verify-bundle.js",
+    "mock:evidence": "node scripts/generate-mock-evidence.js",
     "env:check": "node scripts/check-env.js",
     "build": "npm --prefix frontend run build && npm --prefix backend run build",
 
