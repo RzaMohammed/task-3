@@ -40,6 +40,19 @@
   - Unified `ICacheStore` interface providing async key-value caching with TTL, LRU eviction, and hit ratio tracking.
   - Generic `MemoryCacheStore` and `DistributedCacheService` supporting standalone Redis and Redis Cluster with zero-downtime memory fallback.
   - Integration test suite for bundle & Merkle endpoints (`tests/bundle-verification-api.test.ts`) and unit test suite for distributed cache store (`tests/unit/distributedCache.test.ts`).
+- [x] **Security hardening, system observability & network utilities**
+  - Solana network cluster definitions and explorer URL builders (`CLUSTERS`, `buildExplorerUrl`) in `backend/constants/networks.js`.
+  - SSRF guard and URL validation engine (`isSafeUrl`, `assertSafeUrl`) blocking loopback, private RFC 1918 subnets, and cloud metadata.
+  - Security response headers middleware (`securityHeaders`) enforcing HSTS, X-Content-Type-Options, X-Frame-Options, and Permissions-Policy.
+  - Cryptographic nonce, salt, constant-time compare, and HMAC-SHA256 signature helpers in `backend/src/utils/cryptoUtils.ts`.
+  - Base58 and Base64 encoding/decoding and validation utilities in `backend/src/utils/encodingUtils.ts`.
+  - Resilient RPC exponential backoff retry utility with jitter (`retryWithBackoff`) in `backend/src/utils/retryUtils.ts`.
+  - In-memory metrics collector (`MetricsCollector`) with p50/p90/p99 latency quantiles in `backend/src/utils/metricsCollector.ts`.
+  - Prometheus plain-text and structured JSON metrics endpoints (`GET /metrics`, `GET /api/metrics`, `GET /api/metrics/json`).
+  - Automated environment verification CLI (`scripts/check-env.js` / `npm run env:check`).
+  - Mock canonical JSON evidence generator with CLI flags (`scripts/generate-mock-evidence.js` / `npm run mock:evidence`).
+  - Comprehensive architectural documentation in `docs/SECURITY_AND_METRICS.md`.
+  - Unit test suites for networks, cryptoUtils, urlValidator, encodingUtils, securityHeaders, retryUtils, and metricsCollector.
 
 ## Upcoming Roadmap
 

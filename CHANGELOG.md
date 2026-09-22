@@ -24,6 +24,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - REST endpoints for audit bundle export (`POST /api/evidence/bundle/export`) and integrity verification (`POST /api/evidence/bundle/verify`) in `EvidenceController` and `evidence.routes.ts`.
   - Cryptographic Merkle inclusion proof verification endpoint (`POST /api/verification/merkle`) in `VerificationController` and `verification.routes.ts`.
   - Distributed cache storage subsystem (`ICacheStore`, `MemoryCacheStore`, `DistributedCacheService`) with Redis / Redis Cluster configuration and resilient memory fallback in `backend/src/services/cache/`.
+  - Solana network cluster definitions and explorer URL builders (`CLUSTERS`, `buildExplorerUrl`) in `backend/constants/networks.js`.
+  - SSRF guard and URL validation engine (`isSafeUrl`, `assertSafeUrl`) blocking loopback, private subnets, and cloud metadata in `backend/src/utils/urlValidator.ts`.
+  - Security response headers middleware (`securityHeaders`) enforcing HSTS, X-Content-Type-Options, and X-Frame-Options in `backend/middleware/securityHeaders.js`.
+  - Cryptographic nonce, salt, constant-time compare, and HMAC-SHA256 signature helpers in `backend/src/utils/cryptoUtils.ts`.
+  - Base58 and Base64 encoding/decoding and validation utilities in `backend/src/utils/encodingUtils.ts`.
+  - Resilient RPC exponential backoff retry utility with jitter (`retryWithBackoff`) in `backend/src/utils/retryUtils.ts`.
+  - In-memory metrics collector (`MetricsCollector`) with p50/p90/p99 latency quantiles in `backend/src/utils/metricsCollector.ts`.
+  - Prometheus plain-text and structured JSON metrics endpoints (`GET /metrics`, `GET /api/metrics`, `GET /api/metrics/json`) in `backend/src/routes/metrics.routes.ts`.
+  - Automated environment verification CLI (`scripts/check-env.js` / `npm run env:check`).
+  - Mock canonical JSON evidence generator with CLI flags (`scripts/generate-mock-evidence.js` / `npm run mock:evidence`).
+  - Comprehensive architectural documentation in `docs/SECURITY_AND_METRICS.md`.
 - **AI Service**:
   - Execution latency measurement ASGI middleware attaching `X-Process-Time` HTTP header to all responses.
   - Test coverage for `X-Process-Time` latency header verification in `test_face_api.py`.
