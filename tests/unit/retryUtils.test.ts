@@ -1,7 +1,8 @@
 import {
   retryWithBackoff,
   calculateBackoffDelay,
-} = require('../../backend/src/utils/retryUtils');
+} from '../../backend/src/utils/retryUtils';
+
 
 describe('Exponential Backoff Retry Utility Unit Tests', () => {
   describe('calculateBackoffDelay', () => {

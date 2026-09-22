@@ -7,7 +7,8 @@ import {
   isValidBase64,
   encodeBase64,
   decodeBase64,
-} = require('../../backend/src/utils/encodingUtils');
+} from '../../backend/src/utils/encodingUtils';
+
 
 describe('Base58 & Base64 Encoding Utilities Unit Tests', () => {
   describe('Base58 Encoding & Decoding', () => {

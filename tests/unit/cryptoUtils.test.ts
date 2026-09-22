@@ -5,7 +5,8 @@ import {
   constantTimeCompare,
   createHmacSignature,
   verifyHmacSignature,
-} = require('../../backend/src/utils/cryptoUtils');
+} from '../../backend/src/utils/cryptoUtils';
+
 
 describe('Cryptographic Utilities Unit Test Suite', () => {
   describe('generateRandomBytes', () => {
