@@ -41,3 +41,6 @@ export interface ServiceHealthStatus {
   lastChecked: string;
   details?: Record<string, unknown>;
 }
+
+export * from './pipelineStatus';
+
