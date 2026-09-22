@@ -10,6 +10,7 @@ import blockchainRoutes from './routes/blockchain.routes';
 import verificationRoutes from './routes/verification.routes';
 import pipelineRoutes from './routes/pipeline.routes';
 import streamRoutes from './routes/stream.routes';
+import metricsRoutes from './routes/metrics.routes';
 import { createSlidingWindowLimiter } from './middleware/rate-limiter';
 import { config } from './config';
 import { AppError } from './utils/errors';
@@ -27,7 +28,7 @@ const apiRateLimiter = createSlidingWindowLimiter({
   windowMs: 60_000,
   maxRequests: 300,
   burstLimit: 120,
-  skip: (req: Request) => req.path.includes('/health') || process.env.NODE_ENV === 'test'
+  skip: (req: Request) => req.path.includes('/health') || req.path.includes('/metrics') || process.env.NODE_ENV === 'test'
 });
 app.use('/api', apiRateLimiter);
 
@@ -49,6 +50,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // API Routes
 app.use('/', healthRoutes);
 app.use('/api', healthRoutes);
+app.use('/metrics', metricsRoutes);
+app.use('/api/metrics', metricsRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/matching', matchingRoutes);
 app.use('/api/evidence', evidenceRoutes);
@@ -56,6 +59,7 @@ app.use('/api/blockchain', blockchainRoutes);
 app.use('/api/verification', verificationRoutes);
 app.use('/api/pipeline', pipelineRoutes);
 app.use('/api/stream', streamRoutes);
+
 
 // 404 Handler for undefined routes
 app.use((req: Request, res: Response) => {
