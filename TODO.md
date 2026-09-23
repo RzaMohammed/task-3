@@ -54,9 +54,22 @@
   - Comprehensive architectural documentation in `docs/SECURITY_AND_METRICS.md`.
   - Unit test suites for networks, cryptoUtils, urlValidator, encodingUtils, securityHeaders, retryUtils, and metricsCollector.
 
+- [x] **Audit trails, distributed tracing, biometric math & Solana relayer**
+  - Solana dynamic transaction fee and gas estimator (`estimateTotalTransactionCost`, `estimateRentExemptBalance`, `estimatePriorityFee`) in `backend/src/utils/feeEstimator.ts`.
+  - Vector similarity, cosine distance, Euclidean norm, and biometric match classification in `backend/src/utils/vectorMath.ts`.
+  - Cryptographic hash-chained audit trail ledger (`AuditTrailService`) with deterministic genesis block and tamper localization in `backend/src/services/audit/audit-trail.service.ts`.
+  - W3C TraceContext distributed tracing parser, validator, and generator in `backend/src/utils/traceUtils.ts`.
+  - Distributed tracing middleware (`tracingMiddleware`) injecting `traceparent` and `x-trace-id` headers in both TypeScript and CommonJS runtimes.
+  - Image content validator and magic byte sniffer (`validateUploadContent`, `sanitizeUploadFilename`) blocking disguised scripts and path traversals in `backend/src/utils/fileSanitizer.ts`.
+  - Cryptographic HMAC-SHA256 signed webhook dispatcher with anti-replay timestamp verification in `backend/src/services/webhook/webhook.service.ts`.
+  - Forensic evidence bundle differential comparison CLI (`scripts/diff-bundles.js` / `npm run bundle:diff`).
+  - Subsidized Solana transaction gas relayer (`RelayerService`) with anti-abuse client quotas and program whitelisting in `backend/src/services/blockchain/relayer.service.ts`.
+  - Architectural documentation in `docs/AUDIT_TRACING_AND_RELAYER.md`.
+  - Comprehensive unit test suites expanding total unit test count to 31 suites and 276 passing tests.
+
 ## Upcoming Roadmap
 
 - [ ] Implement Circom / SnarkJS zk-SNARK circuit for private biometric embedding cosine distance verification
-- [ ] Decentralized relayer network for subsidized Solana evidence gas fees
 - [ ] Implement WebSocket fallback transport alongside Server-Sent Events
+- [ ] Dynamic database adapter for persistent audit trail archiving
 

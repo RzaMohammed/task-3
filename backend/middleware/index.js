@@ -7,6 +7,7 @@ const rateLimit = require('./rateLimit');
 const corsMiddleware = require('./cors');
 const requestId = require('./requestId');
 const securityHeaders = require('./securityHeaders');
+const tracingMiddleware = require('./tracing');
 
 module.exports = {
   ...errorHandler,
@@ -14,5 +15,6 @@ module.exports = {
   corsMiddleware,
   requestId,
   securityHeaders,
+  tracingMiddleware,
 };
 
