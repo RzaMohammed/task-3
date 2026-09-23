@@ -7,3 +7,4 @@ export { MatchingService } from './matching/matching.service';
 export { PipelineService } from './pipeline/pipeline.service';
 export { SearchService } from './search/search.service';
 export { VerificationService } from './verification/verification.service';
+export * from './audit';
