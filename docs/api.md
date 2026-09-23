@@ -120,3 +120,11 @@ Performs cryptographic verification of off-chain evidence against the recorded m
   "evidenceId": "optional-id"
 }
 ```
+
+### Distributed Tracing Headers
+Every HTTP response now includes W3C TraceContext headers:
+- `traceparent`: `00-{traceId}-{spanId}-{flags}` (e.g. `00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01`)
+- `x-trace-id`: 32-character hexadecimal correlation trace identifier.
+
+### Solana Relayer Gas Station
+Subsidized evidence anchoring is enabled via `RelayerService`. Sponsoring keypairs co-sign transactions as fee-payers within client rate quotas. See [AUDIT_TRACING_AND_RELAYER.md](./AUDIT_TRACING_AND_RELAYER.md) for detailed specifications.
