@@ -8,6 +8,7 @@ export * from './encodingUtils';
 export * from './retryUtils';
 export * from './metricsCollector';
 export * from './feeEstimator';
+export * from './vectorMath';
 
 
 
