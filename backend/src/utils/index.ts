@@ -10,6 +10,7 @@ export * from './metricsCollector';
 export * from './feeEstimator';
 export * from './vectorMath';
 export * from './traceUtils';
+export * from './fileSanitizer';
 
 
 
