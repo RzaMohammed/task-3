@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Audit Trails, Tracing, Biometrics & Solana Relayer**:
+  - Solana gas and dynamic transaction fee estimator (`estimateTotalTransactionCost`, `estimateRentExemptBalance`, `estimatePriorityFee`) in `backend/src/utils/feeEstimator.ts`.
+  - Vector mathematics, cosine distance, Euclidean norm, and biometric match classification utilities in `backend/src/utils/vectorMath.ts`.
+  - Tamper-evident cryptographic chained audit trail ledger (`AuditTrailService`) with deterministic genesis block and tamper localization in `backend/src/services/audit/audit-trail.service.ts`.
+  - W3C TraceContext distributed tracing parser, validator, and generator in `backend/src/utils/traceUtils.ts`.
+  - Distributed tracing middleware (`tracingMiddleware`) injecting `traceparent` and `x-trace-id` headers across TypeScript and CommonJS runtimes.
+  - Image upload content sanitizer and magic byte security validator (`validateUploadContent`, `sanitizeUploadFilename`) in `backend/src/utils/fileSanitizer.ts`.
+  - HMAC-SHA256 signed webhook dispatcher with anti-replay timestamp verification in `backend/src/services/webhook/webhook.service.ts`.
+  - Forensic evidence bundle differential comparison CLI (`scripts/diff-bundles.js` / `npm run bundle:diff`).
+  - Subsidized Solana transaction gas relayer (`RelayerService`) with anti-abuse client quotas and program whitelisting in `backend/src/services/blockchain/relayer.service.ts`.
+  - Comprehensive architectural documentation in `docs/AUDIT_TRACING_AND_RELAYER.md`.
+  - 8 new unit test suites bringing total unit test coverage to 31 suites and 276 tests.
 - **Backend Infrastructure & Reliability**:
   - Memory usage metrics (RSS, heapUsed, heapTotal) and runtime platform metadata added to `GET /api/health/deep`.
   - Standardized HTTP status codes (e.g. `REQUEST_TIMEOUT`, `CONFLICT`, `TOO_MANY_REQUESTS`, `SERVICE_UNAVAILABLE`) in `backend/constants/httpStatus.js`.
