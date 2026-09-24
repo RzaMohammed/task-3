@@ -11,8 +11,7 @@ export * from './feeEstimator';
 export * from './vectorMath';
 export * from './traceUtils';
 export * from './fileSanitizer';
-
-
-
-
+export * from './jwsUtils';
+export * from './cidUtils';
+export * from './vectorQuantizer';
 
