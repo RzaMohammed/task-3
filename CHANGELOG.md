@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **JWS Compact Tokens, IPFS CIDv1 Parsing, Vector Quantization & Forensic Report Generation**:
+  - Compact JWS / JWT-style signing and constant-time verification utility (`createCompactJws`, `verifyCompactJws`, `decodeCompactJws`) in `backend/src/utils/jwsUtils.ts`.
+  - IPFS Content Identifier (CIDv0 & CIDv1 base32) validator, parser, and gateway formatter (`isValidCid`, `parseCid`, `formatIpfsGatewayUrl`) in `backend/src/utils/cidUtils.ts`.
+  - 8-bit scalar vector quantization and dequantization engine (`quantizeVector`, `dequantizeVector`, `quantizedCosineDistance`, `calculateQuantizationError`) for compressed biometric embedding storage in `backend/src/utils/vectorQuantizer.ts`.
+  - Forensic evidence audit report generator CLI and export module (`generateAuditReport`, `scripts/export-verification-report.js` / `npm run report:generate`).
+  - Barrel export aggregation for new utilities in `backend/src/utils/index.ts`.
+  - 4 comprehensive unit test suites (`jwsUtils.test.ts`, `cidUtils.test.ts`, `vectorQuantizer.test.ts`, `exportVerificationReport.test.ts`) expanding test coverage to 35 test suites and 374 tests.
 - **Audit Trails, Tracing, Biometrics & Solana Relayer**:
   - Solana gas and dynamic transaction fee estimator (`estimateTotalTransactionCost`, `estimateRentExemptBalance`, `estimatePriorityFee`) in `backend/src/utils/feeEstimator.ts`.
   - Vector mathematics, cosine distance, Euclidean norm, and biometric match classification utilities in `backend/src/utils/vectorMath.ts`.

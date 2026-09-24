@@ -13,6 +13,7 @@
     "verify:bundle": "node scripts/verify-bundle.js",
     "mock:evidence": "node scripts/generate-mock-evidence.js",
     "bundle:diff": "node scripts/diff-bundles.js",
+    "report:generate": "node scripts/export-verification-report.js",
     "env:check": "node scripts/check-env.js",
     "build": "npm --prefix frontend run build && npm --prefix backend run build",
 

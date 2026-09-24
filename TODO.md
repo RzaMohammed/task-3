@@ -67,6 +67,13 @@
   - Architectural documentation in `docs/AUDIT_TRACING_AND_RELAYER.md`.
   - Comprehensive unit test suites expanding total unit test count to 31 suites and 276 passing tests.
 
+- [x] **JWS compact tokens, IPFS CIDv1 parsing, 8-bit vector quantization & forensic report generator**
+  - Compact JWS token utility with HMAC-SHA256 and expiration validation (`backend/src/utils/jwsUtils.ts`).
+  - IPFS CIDv0/CIDv1 base32 validator and multicodec parser (`backend/src/utils/cidUtils.ts`).
+  - 8-bit scalar vector quantizer compressing embeddings with <0.01 max error (`backend/src/utils/vectorQuantizer.ts`).
+  - Forensic audit report generator CLI (`scripts/export-verification-report.js` / `npm run report:generate`).
+  - Unit test suites expanding coverage to 35 suites and 374 passing tests.
+
 ## Upcoming Roadmap
 
 - [ ] Implement Circom / SnarkJS zk-SNARK circuit for private biometric embedding cosine distance verification
