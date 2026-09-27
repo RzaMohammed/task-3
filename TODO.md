@@ -73,10 +73,22 @@
   - 8-bit scalar vector quantizer compressing embeddings with <0.01 max error (`backend/src/utils/vectorQuantizer.ts`).
   - Forensic audit report generator CLI (`scripts/export-verification-report.js` / `npm run report:generate`).
   - Unit test suites expanding coverage to 35 suites and 374 passing tests.
+- [x] **Biometric liveness, Pedersen commitments, ZK range proofs, quorum multisig & circuit breaker resilience**
+  - ISO/IEC 30107-3 compliant facial liveness and anti-spoofing heuristic evaluator (`assessFaceLiveness`, `calculateTextureScore`, `detectBlink`, `detectHeadMotion`) in `backend/src/utils/livenessScore.ts`.
+  - Hierarchical Deterministic (HD) key derivation adhering to SLIP-0010 / BIP-44 Solana paths (`m/44'/501'/0'/0'`), address validation, and zeroing sensitive memory buffers in `backend/src/utils/keyDerivation.ts`.
+  - Optimal space-efficient counting-free Bloom filter (`BloomFilter`) implementing Kirsch-Mitzenmacher double-hashing with Base64 serialization in `backend/src/utils/bloomFilter.ts`.
+  - Pedersen commitment and zero-knowledge range proof engine (`createPedersenCommitment`, `generateRangeProof`, `verifyRangeProof`) over RFC 3526 MODP-1536 group in `backend/src/utils/rangeProof.ts`.
+  - M-of-N threshold multi-signature witness quorum service (`MultisigQuorumService`) with anti-replay nonces and canonical message signing in `backend/src/services/verification/multisig.service.ts`.
+  - Resilient 3-state Circuit Breaker (`CircuitBreaker`) protecting RPC and AI microservices against cascade failures in `backend/src/utils/circuitBreaker.ts`.
+  - Cryptographic Proof of Existence (PoE) receipt generator and tamper verification service (`ProofOfExistenceService`) in `backend/src/services/blockchain/proof-of-existence.service.ts`.
+  - Biometric embedding similarity and quantization benchmark CLI (`scripts/benchmark-embeddings.js` / `npm run bench:embeddings`) verifying >400k ops/sec throughput.
+  - Comprehensive architectural documentation in `docs/CRYPTOGRAPHY_AND_RESILIENCE.md` and updated API reference in `docs/api.md`.
+  - 8 new unit test suites expanding total test coverage to 53 suites and 449 passing tests.
 
 ## Upcoming Roadmap
 
 - [ ] Implement Circom / SnarkJS zk-SNARK circuit for private biometric embedding cosine distance verification
 - [ ] Implement WebSocket fallback transport alongside Server-Sent Events
 - [ ] Dynamic database adapter for persistent audit trail archiving
+
 

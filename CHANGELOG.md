@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Biometric Liveness, Pedersen Commitments, ZK Range Proofs, Quorum Multisig & Resilience**:
+  - Biometric face liveness and presentation attack detection (PAD) assessment utility (`assessFaceLiveness`, `calculateTextureScore`, `detectBlink`, `detectHeadMotion`) conforming to ISO/IEC 30107-3 in `backend/src/utils/livenessScore.ts`.
+  - Hierarchical Deterministic (HD) key derivation (`deriveChildKey`, `parseDerivationPath`, `getMasterKeyFromSeed`) conforming to SLIP-0010/BIP-44, Base58 address validation, key fingerprinting, and zero-memory clearing in `backend/src/utils/keyDerivation.ts`.
+  - Optimal space-efficient counting-free Bloom filter (`BloomFilter`) implementing Kirsch-Mitzenmacher double-hashing with Base64 serialization in `backend/src/utils/bloomFilter.ts`.
+  - Cryptographic Pedersen commitment and non-interactive zero-knowledge range proof engine (`createPedersenCommitment`, `generateRangeProof`, `verifyRangeProof`) over RFC 3526 MODP-1536 group in `backend/src/utils/rangeProof.ts`.
+  - M-of-N threshold multi-signature quorum witness service (`MultisigQuorumService`) with anti-replay nonces and canonical message signing in `backend/src/services/verification/multisig.service.ts`.
+  - Resilient 3-state Circuit Breaker (`CircuitBreaker`) with automated fail-fast, cool-off half-open probing, and fallback execution in `backend/src/utils/circuitBreaker.ts`.
+  - Cryptographic Proof of Existence (PoE) receipt generator and tamper verification service (`ProofOfExistenceService`) in `backend/src/services/blockchain/proof-of-existence.service.ts`.
+  - Biometric embedding similarity and quantization benchmark CLI (`scripts/benchmark-embeddings.js` / `npm run bench:embeddings`) verifying >400k ops/sec throughput.
+  - Architectural documentation in `docs/CRYPTOGRAPHY_AND_RESILIENCE.md` and API reference updates in `docs/api.md`.
+  - 8 new unit test suites expanding total test coverage to 53 suites and 449 passing tests.
 - **JWS Compact Tokens, IPFS CIDv1 Parsing, Vector Quantization & Forensic Report Generation**:
   - Compact JWS / JWT-style signing and constant-time verification utility (`createCompactJws`, `verifyCompactJws`, `decodeCompactJws`) in `backend/src/utils/jwsUtils.ts`.
   - IPFS Content Identifier (CIDv0 & CIDv1 base32) validator, parser, and gateway formatter (`isValidCid`, `parseCid`, `formatIpfsGatewayUrl`) in `backend/src/utils/cidUtils.ts`.
