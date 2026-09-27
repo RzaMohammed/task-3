@@ -126,5 +126,24 @@ Every HTTP response now includes W3C TraceContext headers:
 - `traceparent`: `00-{traceId}-{spanId}-{flags}` (e.g. `00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01`)
 - `x-trace-id`: 32-character hexadecimal correlation trace identifier.
 
+### Proof of Existence (PoE) & Cryptographic Receipts
+Binds pipeline verification evidence, Merkle roots, IPFS CIDv1 storage locators, and Solana transaction signatures into an immutable receipt:
+- Schema: `ProofOfExistenceReceipt` (`version: 1.0.0`)
+- Verification Algorithm: `ProofOfExistenceService.verifyReceipt(receipt)` ensures zero-tamper guarantee via canonical SHA-256 integrity hash across all components.
+
+### Threshold Multi-Signature Quorum
+High-assurance operations (identity revocation, biometric credential anchoring) require $M$-of-$N$ threshold consensus via `MultisigQuorumService`:
+- Anti-replay cryptographic nonces on proposals.
+- Signed HMAC attestations across `proposalId:actionType:targetHash:nonce`.
+- Automatic pruning of expired proposals via `pruneExpired()`.
+
+### Biometric Liveness & Anti-Spoofing Engine
+Evaluates multi-frame capture streams according to ISO/IEC 30107-3 PAD standards:
+- Detection of eye blink cycles (EAR transitions).
+- 3D head pose angular velocity tracking.
+- High-frequency Laplacian texture variance analysis.
+- Hardware screen moiré and specular reflection filtering.
+
 ### Solana Relayer Gas Station
-Subsidized evidence anchoring is enabled via `RelayerService`. Sponsoring keypairs co-sign transactions as fee-payers within client rate quotas. See [AUDIT_TRACING_AND_RELAYER.md](./AUDIT_TRACING_AND_RELAYER.md) for detailed specifications.
+Subsidized evidence anchoring is enabled via `RelayerService`. Sponsoring keypairs co-sign transactions as fee-payers within client rate quotas. See [AUDIT_TRACING_AND_RELAYER.md](./AUDIT_TRACING_AND_RELAYER.md) and [CRYPTOGRAPHY_AND_RESILIENCE.md](./CRYPTOGRAPHY_AND_RESILIENCE.md) for detailed specifications.
+
