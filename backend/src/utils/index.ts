@@ -14,4 +14,8 @@ export * from './fileSanitizer';
 export * from './jwsUtils';
 export * from './cidUtils';
 export * from './vectorQuantizer';
-
+export * from './livenessScore';
+export * from './keyDerivation';
+export * from './bloomFilter';
+export * from './rangeProof';
+export * from './circuitBreaker';
