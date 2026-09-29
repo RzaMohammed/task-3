@@ -21,3 +21,4 @@ export * from './rangeProof';
 export * from './circuitBreaker';
 export * from './bioHashing';
 export * from './zkBiometricProof';
+export * from './tokenBucket';
