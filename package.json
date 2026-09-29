@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "face-blockchain-verifier-workspace",
   "version": "1.0.0",
   "private": true,
@@ -11,13 +11,13 @@
     "cache:clean": "node scripts/clear-cache.js",
     "bench:hashing": "node scripts/benchmark-hashing.js",
     "bench:embeddings": "node scripts/benchmark-embeddings.js",
+    "bench:crypto": "node scripts/benchmark-crypto.js",
     "verify:bundle": "node scripts/verify-bundle.js",
     "mock:evidence": "node scripts/generate-mock-evidence.js",
     "bundle:diff": "node scripts/diff-bundles.js",
     "report:generate": "node scripts/export-verification-report.js",
     "env:check": "node scripts/check-env.js",
     "build": "npm --prefix frontend run build && npm --prefix backend run build",
-
     "build:frontend": "npm --prefix frontend run build",
     "build:backend": "npm --prefix backend run build",
     "dev:backend": "npm --prefix backend run dev",
