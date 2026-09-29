@@ -12,3 +12,4 @@ export { VerificationService } from './verification/verification.service';
 export { MultisigQuorumService, WitnessOracle, QuorumProposal, OracleAttestation } from './verification/multisig.service';
 export * from './audit';
 export * from './webhook';
+export { SolanaRpcPool, RpcEndpointConfig, EndpointHealth, RpcPoolOptions } from './blockchain/rpc-pool.service';

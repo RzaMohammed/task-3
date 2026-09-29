@@ -85,10 +85,17 @@
   - Comprehensive architectural documentation in `docs/CRYPTOGRAPHY_AND_RESILIENCE.md` and updated API reference in `docs/api.md`.
   - 8 new unit test suites expanding total test coverage to 53 suites and 449 passing tests.
 
+- [x] **Zero-knowledge biometric distance proofs, BioHashing & persistent audit storage**
+  - Cancelable biometrics and BioHashing random projection transform (`generateBioHash`, `verifyBioMatch`) in `backend/src/utils/bioHashing.ts`.
+  - Non-interactive zero-knowledge biometric distance proof and threshold verification engine (`createZkDistanceProof`, `verifyZkDistanceProof`) over RFC 3526 MODP-1536 group in `backend/src/utils/zkBiometricProof.ts`.
+  - Cryptographic audit trail persistence engine (`IAuditStorageAdapter`, `RollingFileAuditStorageAdapter`) with rolling JSONL rotation and tamper detection in `backend/src/services/audit/storage-adapter.ts`.
+  - Token Bucket rate limiter with adaptive penalty backoff (`TokenBucketRateLimiter`) in `backend/src/utils/tokenBucket.ts`.
+  - Multi-cluster Solana RPC connection pool with automated failover and CircuitBreaker health tracking in `backend/src/services/blockchain/rpc-pool.service.ts`.
+  - Cryptographic benchmark CLI (`scripts/benchmark-crypto.js` / `npm run bench:crypto`).
+  - Architectural documentation in `docs/PERSISTENCE_AND_ZERO_KNOWLEDGE.md`.
+  - 6 new unit test suites with 100% pass rate.
+
 ## Upcoming Roadmap
 
-- [ ] Implement Circom / SnarkJS zk-SNARK circuit for private biometric embedding cosine distance verification
 - [ ] Implement WebSocket fallback transport alongside Server-Sent Events
-- [ ] Dynamic database adapter for persistent audit trail archiving
-
-
+- [ ] SQLite / Postgres persistent database dialect adapters for audit storage

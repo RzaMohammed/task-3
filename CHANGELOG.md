@@ -5,7 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## [Unreleased]
+
+### Added
+- **Zero-Knowledge Distance Proofs, BioHashing, Persistent Audit Storage & RPC Pool**:
+  - Cancelable biometrics and BioHashing random projection transform (`generateOrthonormalBasis`, `generateBioHash`, `computeHammingDistance`, `verifyBioMatch`) conforming to ISO/IEC 24745 in `backend/src/utils/bioHashing.ts`.
+  - Zero-knowledge biometric distance proof and threshold verification engine (`createZkDistanceProof`, `verifyZkDistanceProof`, `serializeZkProof`) over RFC 3526 MODP-1536 group in `backend/src/utils/zkBiometricProof.ts`.
+  - Cryptographic audit trail persistence engine (`IAuditStorageAdapter`, `MemoryAuditStorageAdapter`, `RollingFileAuditStorageAdapter`) with rolling JSONL rotation, checksum verification, and tamper detection in `backend/src/services/audit/storage-adapter.ts`.
+  - Token Bucket rate limiter with adaptive penalty cooldown backoff (`TokenBucketRateLimiter`) in `backend/src/utils/tokenBucket.ts`.
+  - Multi-cluster Solana RPC connection pool and failover manager (`SolanaRpcPool`) with CircuitBreaker isolation in `backend/src/services/blockchain/rpc-pool.service.ts`.
+  - Advanced Cryptography & Resilience Performance Benchmark CLI (`scripts/benchmark-crypto.js` / `npm run bench:crypto`).
+  - Architectural documentation in `docs/PERSISTENCE_AND_ZERO_KNOWLEDGE.md`.
+  - 5 comprehensive unit test suites (`bioHashing.test.ts`, `zkBiometricProof.test.ts`, `auditStorage.test.ts`, `tokenBucket.test.ts`, `rpcPool.test.ts`, `benchmarkCrypto.test.ts`) expanding test coverage.
 
 ### Added
 - **Biometric Liveness, Pedersen Commitments, ZK Range Proofs, Quorum Multisig & Resilience**:
