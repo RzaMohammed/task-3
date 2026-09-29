@@ -147,3 +147,18 @@ Evaluates multi-frame capture streams according to ISO/IEC 30107-3 PAD standards
 ### Solana Relayer Gas Station
 Subsidized evidence anchoring is enabled via `RelayerService`. Sponsoring keypairs co-sign transactions as fee-payers within client rate quotas. See [AUDIT_TRACING_AND_RELAYER.md](./AUDIT_TRACING_AND_RELAYER.md) and [CRYPTOGRAPHY_AND_RESILIENCE.md](./CRYPTOGRAPHY_AND_RESILIENCE.md) for detailed specifications.
 
+
+### Zero-Knowledge Biometric Distance Attestation
+Enables privacy-preserving threshold verification without revealing probe facial embeddings:
+- `createZkDistanceProof(anchorVector, candidateVector, maxDistanceThresholdBp)`: Generates NIZK Schnorr-Sigma proof over RFC 3526 MODP-1536 group with Fiat-Shamir transformation.
+- `verifyZkDistanceProof(proof, expectedAnchor)`: Validates homomorphic commitments and algebraic integrity relations.
+
+### Cancelable Biometrics & BioHashing (ISO/IEC 24745)
+- `generateBioHash(embedding, tokenSeed)`: Generates revocable biometric bitstring via seed-derived Gram-Schmidt orthonormal random projection.
+- `verifyBioMatch(bitsA, bitsB, threshold)`: Computes normalized Hamming distance similarity.
+
+### Persistent Audit Storage Engine
+- `RollingFileAuditStorageAdapter`: Append-only JSONL storage engine with automatic rolling rotation and SHA-256 chain integrity verification.
+
+### Multi-Endpoint Solana RPC Pool
+- `SolanaRpcPool`: Resilient RPC client with CircuitBreaker isolation, automatic failover, and latency-based node routing.
